@@ -1,46 +1,45 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Other/File.java to edit this template
  */
 package Model;
 
 /**
  *
- * @author nguye
+ * @author
  */
 public class User {
-
-    private int id;
-    private String userName;
-    private String password;
-    private Role roleID;
-    private Status statusID;
+    private int accountID;
+    private String username;
+    private String password; 
+    private Status status;
+    private Role role; 
 
     public User() {
     }
 
-    public User(int id, String userName, String password, Role roleID, Status statusID) {
-        this.id = id;
-        this.userName = userName;
+    public User(int accountID, String username, String password, Status status, Role role) {
+        this.accountID = accountID;
+        this.username = username;
         this.password = password;
-        this.roleID = roleID;
-        this.statusID = statusID;
+        this.status = status;
+        this.role = role;
     }
 
-    public int getId() {
-        return id;
+    public int getAccountID() {
+        return accountID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setAccountID(int accountID) {
+        this.accountID = accountID;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -51,20 +50,20 @@ public class User {
         this.password = password;
     }
 
-    public Role getRoleID() {
-        return roleID;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setRoleID(Role roleID) {
-        this.roleID = roleID;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
-    public Status getStatusID() {
-        return statusID;
+    public Role getRole() {
+        return role;
     }
 
-    public void setStatusID(Status statusID) {
-        this.statusID = statusID;
+    public void setRole(Role role) {
+        this.role = role;
     }
-
+    
 }

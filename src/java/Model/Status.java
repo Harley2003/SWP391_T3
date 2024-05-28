@@ -6,35 +6,40 @@ package Model;
 
 /**
  *
- * @author nguye
+ * @author ADMIN
  */
 public class Status {
-
-    private int id;
-    private String name;
+    private int statusID;
+    private String statusName;
 
     public Status() {
     }
 
-    public Status(int id, String name) {
-        this.id = id;
-        this.name = name;
+    public Status(int statusID) {
+        this.statusID = statusID;
     }
 
-    public int getId() {
-        return id;
+    
+    public Status(int statusID, String statusName) {
+        this.statusID = statusID;
+        this.statusName = statusName;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getStatusID() {
+        return statusID;
     }
 
-    public String getName() {
-        return name;
+    public void setStatusID(int statusID) {
+        this.statusID = statusID;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getStatusName() {
+        return statusName;
     }
 
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
+    }
+    
+    
 }

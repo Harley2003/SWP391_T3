@@ -5,18 +5,21 @@
 
 package Controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+import DAL.UserDAO;
+import Model.User;
+import java.io.IOException; 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
- * @author nguye
+ * @author ADMIN
  */
-public class NewServlet extends HttpServlet {
+public class Login extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -24,25 +27,12 @@ public class NewServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     */
+     */  
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet NewServlet</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet NewServlet at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+    throws ServletException, IOException { 
     } 
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 
      * Handles the HTTP <code>GET</code> method.
      * @param request servlet request
@@ -53,7 +43,7 @@ public class NewServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        request.getRequestDispatcher("View/Login.jsp").forward(request, response);
     } 
 
     /** 
@@ -65,8 +55,37 @@ public class NewServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        processRequest(request, response);
+    throws ServletException, IOException {  
+        UserDAO dao = new UserDAO();
+        String user = request.getParameter("input-user");
+        String pass = request.getParameter("input-pass");
+        String rememberMe = request.getParameter("rememberMe");   
+        User acc = dao.login(user, pass);
+        Cookie username = new Cookie("username", user);
+        Cookie password = new Cookie("password", pass);
+        Cookie remember = new Cookie("rememberMe", rememberMe);
+        if (rememberMe != null) {
+            username.setMaxAge(2592000);
+            password.setMaxAge(2592000);
+            remember.setMaxAge(2592000);
+        } else {
+            username.setMaxAge(0);
+            password.setMaxAge(0);
+            remember.setMaxAge(0);
+        }
+        response.addCookie(username);
+        response.addCookie(password);
+        response.addCookie(remember);
+        if(acc != null){
+            HttpSession session = request.getSession(); 
+            session.setAttribute("account", acc); 
+            response.sendRedirect(acc.getRole().getRoleID() == 1 ? "dashboard":"sale");
+        }
+        else{ 
+            request.setAttribute("message", "Thông tin tài khoản hoặc mật khẩu không chính xác!");
+            request.getRequestDispatcher("View/Login.jsp").forward(request, response);
+        }
+        
     }
 
     /** 
