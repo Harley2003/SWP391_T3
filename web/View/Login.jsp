@@ -13,7 +13,7 @@
     <body>
         <div class="login-container">
             <div class="login-box"> 
-                <h2>Đăng nhập</h2>
+                <h2 onclick="location.href='login'">Đăng nhập</h2>
                 <form action="login" method="post"> 
                     <div class="input-group">
                         <input value="${cookie.username.value}" type="text" name="input-user" placeholder="Tên đăng nhập" required />

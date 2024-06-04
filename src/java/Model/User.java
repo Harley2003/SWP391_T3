@@ -9,29 +9,47 @@ package Model;
  * @author
  */
 public class User {
-    private int accountID;
+    private int userID;
     private String username;
     private String password; 
-    private Status status;
+    private int status; 
     private Role role; 
+    private UserInfo info;
 
     public User() {
     }
 
-    public User(int accountID, String username, String password, Status status, Role role) {
-        this.accountID = accountID;
+    public User(int userID, String username, String password, Role role) {
+        this.userID = userID;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
+    public User(int userID, String username, String password, int status, Role role, UserInfo info) {
+        this.userID = userID;
+        this.username = username;
+        this.password = password;
+        this.status = status;
+        this.role = role;
+        this.info = info;
+    }
+    
+    
+    public User(int userID, String username, String password, int status, Role role) {
+        this.userID = userID;
         this.username = username;
         this.password = password;
         this.status = status;
         this.role = role;
     }
 
-    public int getAccountID() {
-        return accountID;
+    public int getUserID() {
+        return userID;
     }
 
-    public void setAccountID(int accountID) {
-        this.accountID = accountID;
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
     public String getUsername() {
@@ -50,11 +68,11 @@ public class User {
         this.password = password;
     }
 
-    public Status getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -65,5 +83,15 @@ public class User {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    public UserInfo getInfo() {
+        return info;
+    }
+
+    public void setInfo(UserInfo info) {
+        this.info = info;
+    }
     
+    
+ 
 }

@@ -1,7 +1,7 @@
 <%-- 
-    Document   : Staff
-    Created on : May 20, 2024, 11:04:50 PM
-    Author     : nguye
+    Document   : Product
+    Created on : May 30, 2024, 11:08:00 AM
+    Author     : ADMIN
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>STAFF</title>
+        <title>JSP Page</title>
     </head>
     <body>
         <h1>Hello World!</h1>

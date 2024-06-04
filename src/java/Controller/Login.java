@@ -5,6 +5,7 @@
 
 package Controller;
 
+import utils.Encode;
 import DAL.UserDAO;
 import Model.User;
 import java.io.IOException; 
@@ -57,14 +58,16 @@ public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {  
         UserDAO dao = new UserDAO();
+        HttpSession session = request.getSession(); 
+        Encode encode = new Encode();
         String user = request.getParameter("input-user");
         String pass = request.getParameter("input-pass");
         String rememberMe = request.getParameter("rememberMe");   
-        User acc = dao.login(user, pass);
+        User acc = dao.login(user,  encode.EncodePassword(pass));
         Cookie username = new Cookie("username", user);
         Cookie password = new Cookie("password", pass);
         Cookie remember = new Cookie("rememberMe", rememberMe);
-        if (rememberMe != null) {
+        if (rememberMe != null) { 
             username.setMaxAge(2592000);
             password.setMaxAge(2592000);
             remember.setMaxAge(2592000);
@@ -76,16 +79,20 @@ public class Login extends HttpServlet {
         response.addCookie(username);
         response.addCookie(password);
         response.addCookie(remember);
-        if(acc != null){
-            HttpSession session = request.getSession(); 
-            session.setAttribute("account", acc); 
-            response.sendRedirect(acc.getRole().getRoleID() == 1 ? "dashboard":"sale");
-        }
-        else{ 
+        if(acc == null){
             request.setAttribute("message", "Thông tin tài khoản hoặc mật khẩu không chính xác!");
             request.getRequestDispatcher("View/Login.jsp").forward(request, response);
+            return;
         }
-        
+        if(acc.getStatus() == 2){
+            session.setAttribute("active", acc);
+            response.sendRedirect("changepassword"); 
+            return;
+        }
+        if(acc.getStatus() == 1){ 
+            session.setAttribute("account", acc); 
+            response.sendRedirect(acc.getRole().getRoleID() == 1 ? "dashboard":"sale");
+        } 
     }
 
     /** 

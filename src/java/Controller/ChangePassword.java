@@ -1,19 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
-
 package Controller;
 
 import DAL.UserDAO;
 import Model.User;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import utils.Encode;
 
 /**
  *
@@ -56,16 +51,20 @@ public class ChangePassword extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        Encode encode = new Encode();
         String newPass = request.getParameter("password");
         HttpSession session = request.getSession();
         UserDAO dao = new UserDAO();
-        User acc = (User)session.getAttribute("authenEmail");
+        User acc = (User)session.getAttribute("active"); 
         if(acc == null){
             request.getRequestDispatcher("View/ChangePassword.jsp").forward(request, response);
             return;
         }  
-        dao.changePassword(acc.getAccountID(), newPass);
-        response.sendRedirect(acc.getRole().getRoleID() == 1 ? "dashboard":"sale");
+        if(dao.changePassword(acc.getUserID(), encode.EncodePassword(newPass))){
+            dao.activeAccount(acc.getUserID());
+            session.removeAttribute("active");
+        }
+        response.sendRedirect("login");
     }
 
     /** 

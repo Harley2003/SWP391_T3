@@ -13,12 +13,7 @@ public class Role {
     private String roleName;
 
     public Role() {
-    }
-
-    public Role(int roleID) {
-        this.roleID = roleID;
-    }
-
+    } 
     
     public Role(int roleID, String roleName) {
         this.roleID = roleID;

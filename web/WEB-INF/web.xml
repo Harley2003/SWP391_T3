@@ -8,6 +8,10 @@
         <filter-name>LoginFilter</filter-name>
         <url-pattern>/sale</url-pattern>
         <url-pattern>/dashboard</url-pattern>
+        <url-pattern>/forgetpassword</url-pattern>
+        <url-pattern>/addstaff</url-pattern>
+        <url-pattern>/staffmanager</url-pattern>
+        <url-pattern>/authentication</url-pattern> 
     </filter-mapping>
     <servlet>
         <servlet-name>Login</servlet-name>
@@ -31,11 +35,19 @@
     </servlet>
     <servlet>
         <servlet-name>Dashboard</servlet-name>
-        <servlet-class>Controller.Dashboard</servlet-class>
+        <servlet-class>Controller.Admin.Dashboard</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Logout</servlet-name>
         <servlet-class>Controller.Logout</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Staff</servlet-name>
+        <servlet-class>Controller.Admin.Staff</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddStaff</servlet-name>
+        <servlet-class>Controller.Admin.AddStaff</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
@@ -65,4 +77,15 @@
         <servlet-name>Logout</servlet-name>
         <url-pattern>/Logout</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Staff</servlet-name>
+        <url-pattern>/staffmanager</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddStaff</servlet-name>
+        <url-pattern>/addstaff</url-pattern>
+    </servlet-mapping>
+    <welcome-file-list>
+        <welcome-file>login</welcome-file>
+    </welcome-file-list>
 </web-app>
