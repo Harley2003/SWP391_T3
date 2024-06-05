@@ -3,9 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Controller;
+package Controller.Admin;
 
-import DAL.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -17,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author ADMIN
  */
-public class HomeSale extends HttpServlet {
+public class Customer extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -26,9 +25,9 @@ public class HomeSale extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    ProductDAO dao;
+    Customer dao;
     public void init(){
-        dao = new ProductDAO();
+        dao = new Customer();
     }
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException { 
@@ -45,8 +44,7 @@ public class HomeSale extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.setAttribute("listProduct", dao.getProduct());
-        request.getRequestDispatcher("View/HomeSale.jsp").forward(request, response);
+        request.getRequestDispatcher("View/Admin/CustomerManager.jsp").forward(request, response);
     } 
 
     /** 

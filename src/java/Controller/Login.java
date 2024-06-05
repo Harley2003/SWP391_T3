@@ -83,16 +83,9 @@ public class Login extends HttpServlet {
             request.setAttribute("message", "Thông tin tài khoản hoặc mật khẩu không chính xác!");
             request.getRequestDispatcher("View/Login.jsp").forward(request, response);
             return;
-        }
-        if(acc.getStatus() == 2){
-            session.setAttribute("active", acc);
-            response.sendRedirect("changepassword"); 
-            return;
-        }
-        if(acc.getStatus() == 1){ 
-            session.setAttribute("account", acc); 
-            response.sendRedirect(acc.getRole().getRoleID() == 1 ? "dashboard":"sale");
         } 
+        session.setAttribute("account", acc); 
+        response.sendRedirect(acc.getStatus() == 2 ? "changepassword":(acc.getRole().getRoleID() == 1 ? "dashboard":"sale"));
     }
 
     /** 

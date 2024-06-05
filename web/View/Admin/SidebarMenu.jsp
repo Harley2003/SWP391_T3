@@ -43,7 +43,7 @@
                     </a>
                 </li>  
                 <li>
-                    <a class="app-menu__item" href="customer" data-menu="customer"><i class='app-menu__icon bx bxs-user-detail'></i>
+                    <a class="app-menu__item" href="customermanager" data-menu="customer"><i class='app-menu__icon bx bxs-user-detail'></i>
                         <span class="app-menu__label">
                             Quản lý khách hàng
                         </span>

@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Controller;
+package Controller.Admin;
 
 import DAL.ProductDAO;
 import java.io.IOException;
@@ -17,8 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author ADMIN
  */
-public class HomeSale extends HttpServlet {
-   
+public class AddProduct extends HttpServlet { 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -30,6 +29,7 @@ public class HomeSale extends HttpServlet {
     public void init(){
         dao = new ProductDAO();
     }
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException { 
     } 
@@ -45,8 +45,8 @@ public class HomeSale extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.setAttribute("listProduct", dao.getProduct());
-        request.getRequestDispatcher("View/HomeSale.jsp").forward(request, response);
+        request.setAttribute("listCategory", dao.getCategory());
+        request.getRequestDispatcher("View/Admin/AddProduct.jsp").forward(request, response);
     } 
 
     /** 
@@ -59,7 +59,27 @@ public class HomeSale extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        String type = request.getParameter("type");
+        String message = "";
+        switch (type) {
+            case "category" -> {
+                String categoryName = request.getParameter("categoryName");
+                if(dao.addCategory(categoryName)) message = "Thêm danh mục thành công!";
+                else message = "Lỗi thêm danh mục!";
+            }
+            case "product" -> {
+                String productName = request.getParameter("name");
+                float price = Float.parseFloat(request.getParameter("price"));
+                float salePrice = Float.parseFloat(request.getParameter("salePrice"));
+                int categoryID = Integer.parseInt(request.getParameter("category"));
+                if(dao.addProduct(productName, price, salePrice, categoryID))
+                    message = "Thêm sản phẩm thành công !";
+                else message = "Thêm sản phẩm thất bại !";
+            }
+            default -> throw new AssertionError();
+        }
+        request.setAttribute("message", message);
+        doGet(request, response);
     }
 
     /** 

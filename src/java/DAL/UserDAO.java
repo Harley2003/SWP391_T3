@@ -132,6 +132,7 @@ public class UserDAO extends DBContext {
         }
         return false;
     }
+    
     public int getInsertedID(){
         String sql = "SELECT TOP 1 * FROM Users ORDER BY Users.id DESC";
         try {

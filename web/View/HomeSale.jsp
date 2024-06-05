@@ -1,3 +1,5 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -6,7 +8,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico"> 
-        <title>UI STAFF</title>
+        <title>Trang bán hàng</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
         <link rel="stylesheet" href="View/CSS/staff.css">
     </head>
@@ -39,9 +41,10 @@
         <div class="main">
             <div class="main-left">
                 <div class="scroll-item">
+                    <c:forEach items="${listProduct}" var="p"> 
                     <div class="list-item">
                         <div class="item-left">
-                            <sapn>1</sapn>
+                            <sapn></sapn>
                             <a href>
                                 <i class="fa-regular fa-trash-can"></i>
                             </a> 
@@ -49,12 +52,12 @@
                                 <div class="item-container">
                                     <div class="item-info">
                                         <div class="item-info-top">
-                                            <span>SP00001</span>
-                                            <span>Thuốc lá 555 nội</span>
+                                            <span>${p.getProductID()}</span>
+                                            <span>${p.getProductName()}</span>
                                         </div>
                                         <div class="item-info-botto">
                                             <div class="quantity">
-                                                <div class="quantity-item-minus">-</div>
+                                                <div class="quantity-item-minus" >-</div>
                                                 <div class="quantity-item-number">1</div>
                                                 <div class="quantity-item-plus">+</div>
                                             </div>
@@ -65,7 +68,7 @@
                                                     <hr>
                                                 </div>
                                                 <div class="item-change-price">
-                                                    <span>10.000đ</span>
+                                                    <span><fmt:formatNumber>${p.getPrice()}</fmt:formatNumber></span>
                                                     <hr>
                                                 </div>
                                             </div>
@@ -74,15 +77,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="item-action">
+<!--                        <div class="item-action">
                             <a href>
                                 <i class="fa-solid fa-plus"></i>
                             </a>
                             <a href>
                                 <i class="fa-solid fa-ellipsis-vertical"></i>
                             </a>
-                        </div>
+                        </div>-->
                     </div>
+                    </c:forEach>
                 </div>
                 <div class="main-left-note">
                     <input type="text" name id placeholder="Ghi chú đơn hàng">
@@ -95,7 +99,7 @@
             <div class="main-right">
                 <div class="main-right-container">
                     <div class="cart-header-control">
-                        <p>Staff 1</p>
+                        <p></p>
                         <div class="getDate">date</div>
                     </div>
                     <hr class="hr">

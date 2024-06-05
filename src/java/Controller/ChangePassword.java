@@ -55,16 +55,17 @@ public class ChangePassword extends HttpServlet {
         String newPass = request.getParameter("password");
         HttpSession session = request.getSession();
         UserDAO dao = new UserDAO();
-        User acc = (User)session.getAttribute("active"); 
+        User acc = (User)session.getAttribute("account"); 
         if(acc == null){
             request.getRequestDispatcher("View/ChangePassword.jsp").forward(request, response);
             return;
-        }  
+        } 
         if(dao.changePassword(acc.getUserID(), encode.EncodePassword(newPass))){
-            dao.activeAccount(acc.getUserID());
-            session.removeAttribute("active");
+            if(acc.getStatus() == 2){
+                dao.activeAccount(acc.getUserID()); 
+            } 
         }
-        response.sendRedirect("login");
+        response.sendRedirect(acc.getRole().getRoleID() == 1 ? "dashboard":"sale");
     }
 
     /** 

@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Controller;
+package Controller.Admin;
 
 import DAL.ProductDAO;
 import java.io.IOException;
@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author ADMIN
  */
-public class HomeSale extends HttpServlet {
+public class Inventory extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -31,7 +31,20 @@ public class HomeSale extends HttpServlet {
         dao = new ProductDAO();
     }
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException { 
+    throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet Inventory</title>");  
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet Inventory at " + request.getContextPath () + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -45,8 +58,8 @@ public class HomeSale extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.setAttribute("listProduct", dao.getProduct());
-        request.getRequestDispatcher("View/HomeSale.jsp").forward(request, response);
+        request.setAttribute("inventoryProduct", dao.getProductInventory());
+        request.getRequestDispatcher("View/Admin/Inventory.jsp").forward(request, response);
     } 
 
     /** 

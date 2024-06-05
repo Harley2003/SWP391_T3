@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Quản Lí Nhân Viên</title>
+        <title>Quản Lí Khách Hàng</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1"> 
@@ -40,7 +40,7 @@
         <main class="app-content">
             <div class="app-title">
                 <ul class="app-breadcrumb breadcrumb side">
-                    <li class="breadcrumb-item active"><a href="#"><b>Danh sách nhân viên</b></a></li>
+                    <li class="breadcrumb-item active"><a href="#"><b>Danh sách khách hàng</b></a></li>
                 </ul> 
             </div>  
             <div class="row">
@@ -57,12 +57,7 @@
                 <div class="col-md-12">
                     <div class="tile">
                         <div class="tile-body">
-                            <div class="row element-button">
-                                <div class="col-sm-2"> 
-                                    <a class="btn btn-add btn-sm" href="addstaff" title="Thêm"><i class="fas fa-plus"></i>
-                                        Tạo mới nhân viên
-                                    </a>
-                                </div>
+                            <div class="row element-button"> 
                                 <div class="col-sm-2">
                                     <a class="btn btn-add btn-sm" href title="In"><i class="fas fa-file-excel"></i> 
                                         Xuất Excel
@@ -74,104 +69,62 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Username</th>
-                                        <th>Họ tên</th>
-                                        <th>Ngày sinh</th>
-                                        <th>Giới tính</th>
-                                        <th>Địa chỉ</th>
-                                        <th>Số điện thoại</th> 
-                                        <th>Email</th>
-                                        <th>Trạng thái</th>
+                                        <th>Tên Khách Hàng</th>
+                                        <th>Số Điện Thoại</th>
+                                        <th>Điểm Tích Lũy</th> 
                                         <th>Thao tác</th>  
                                     </tr>
                                 </thead>
                                 <tbody> 
-                                    <c:forEach items="${userList}" var="u">
+                                    <c:forEach items="${listProduct}" var="p">
                                         <tr>
-                                            <td>${u.getUserID()}</td>
-                                            <td>${u.getUsername()}</td>
-                                            <td>${u.getInfo().getName()}</td>
-                                            <td>${u.getInfo().getDate()}</td>
-                                            <td>${u.getInfo().getGender() == 1 ? "Nam":"Nữ"}</td>
-                                            <td>${u.getInfo().getAddress()}</td>
-                                            <td>${u.getInfo().getPhone()}</td> 
-                                            <td>${u.getInfo().getEmail()}</td> 
-                                            <td>${u.getStatus() == 1 ? "Activated":"UnActivated"}</td>
+                                            <td>${p.getProductID()}</td>
+                                            <td>${p.getProductName()}</td>
+                                            <td>${p.getPrice()}</td>
+                                            <td>${p.getSale_price()}</td>
+                                            <td>${p.getCategory().getCategoryName()}</td> 
                                             <td>
                                                 <form id="dialogForm" method="post"> 
                                                 <button class="btn btn-primary btn-sm edit" type="button"
-                                                        data-toggle="modal" data-target="#Edit${u.getUserID()}"> 
+                                                        data-toggle="modal" data-target="#Edit${p.getProductID()}"> 
                                                 <i class="fa-solid fa-pen-to-square"></i>
                                                 </button>   
                                                 <button 
-                                                    class="btn btn-primary btn-sm trash" onclick="showConfirmDialog('${u.getUserID()}', '${u.getUsername()}')" type="button"> <i class='fas fa-trash'></i>
+                                                    class="btn btn-primary btn-sm trash" onclick="showConfirmDialog('${p.getProductID()}', '${p.getProductName()}')" type="button"> <i class='fas fa-trash'></i>
                                                 </button>  
                                                 </form>
                                             </td>
                                         </tr> 
                                         <!--Modal Edit-->
-                                        <div class="modal fade" id="Edit${u.getUserID()}">
+                                        <div class="modal fade" id="Edit${p.getProductID()}">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">  
-                                                    <form method="POST" action="staffmanager?action=edit&uID=${u.getUserID()}">
+                                                    <form method="POST" action="staffmanager?action=edit&uID=${p.getProductID()}">
                                                         <div class="modal-body">
-                                                            <h3 style="margin: 15px 0 15px 0; text-align: center" class="tile-title">Chỉnh Sửa Thông Tin Nhân Viên</h3> 
-                                                            <div class="form-group col-md-6"> 
-                                                                <label class="control-label">Họ</label>
-                                                                <input class="form-control" name="firstname" type="text" value="${u.getInfo().getName().split(" ")[0]}">  
-                                                            </div>
-                                                            <div class="form-group col-md-6">
-                                                                <label class="control-label">Tên</label>
-                                                                <input class="form-control" name="lastname" type="text" value="${u.getInfo().getName().split(" ")[1]}"> 
+                                                            <h3 style="margin: 15px 0 15px 0; text-align: center" class="tile-title">Chỉnh Sửa Sản Phẩm</h3> 
+                                                            <div class="form-group col-md-12"> 
+                                                                <label class="control-label">Tên sản phẩm</label>
+                                                                <input class="form-control" name="firstname" type="text" value="${p.getProductName()}">  
+                                                            </div>  
+                                                            <div class="form-group  col-md-6">
+                                                                <label class="control-label">Giá gốc</label>
+                                                                <input class="form-control" name="email" type="text" value="${p.getPrice()}">
                                                             </div>
                                                             <div class="form-group  col-md-6">
-                                                                <label class="control-label">Password</label>
-                                                                <input class="form-control" name="password" type="password" value="${u.getPassword()}"> 
+                                                                <label class="control-label">Giá bán</label>
+                                                                <input class="form-control" name="email" type="text" value="${p.getSale_price()}">
                                                             </div>
                                                             <div class="form-group  col-md-6">
-                                                                 <label class="control-label">Ngày Sinh</label>
-                                                                 <input class="form-control" name="date" type="date" value="${u.getInfo().getDate()}">
-                                                            </div> 
-                                                             
-                                                            <div class="form-group col-md-6">
-                                                                <label class="control-label">Giới tính</label>
-                                                                <select class="form-control" name="gender">
-                                                                    <option ${u.getInfo().getGender() == 1 ? "selected":""} value="1">Nam</option>
-                                                                    <option ${u.getInfo().getGender() == 0 ? "selected":""} value="0">Nữ</option>
-                                                                </select>   
-                                                            </div>
-                                                            <div class="form-group  col-md-6">
-                                                                <label class="control-label">Số điện thoại</label>
-                                                                <input class="form-control" name="phone" type="text" value="${u.getInfo().getPhone()}"> 
-                                                            </div>
-                                                            <div class="form-group  col-md-6">
-                                                                <label class="control-label">Địa chỉ</label>
-                                                                <input class="form-control" name="address" type="text" value="${u.getInfo().getAddress()}">
-                                                            </div>
-                                                            <div class="form-group  col-md-6">
-                                                                <label class="control-label">Email</label>
-                                                                <input class="form-control" name="email" type="text" value="${u.getInfo().getEmail()}">
-                                                            </div>
-                                                            <div class="form-group  col-md-6">
-                                                                <label class="control-label">Trạng thái</label>
+                                                                <label class="control-label">Danh mục</label>
                                                                 <select class="form-control" name="status">
-                                                                    <option ${u.getStatus() == 1 ? "selected":""} value="1">Activated</option>
-                                                                    <option ${u.getStatus() == 2 ? "selected":""} value="2">UnActivated</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="form-group  col-md-6">
-                                                                <label class="control-label">Role</label> 
-                                                                <select class="form-control" name="role">
-                                                                    <c:forEach items="${listRole}" var="r">
-                                                                        <c:if test="${r.getRoleID() != 1}">
-                                                                            <option ${r.getRoleID() == 3 ? "selected":""} value="${r.getRoleID()}">${r.getRoleName()}</option>
-                                                                        </c:if>
+                                                                    <c:forEach items="${listCategory}" var="c">
+                                                                        <option value="${c.getCategoryID()}">${c.getCategoryName()}</option>
                                                                     </c:forEach> 
-                                                            </select>
+                                                                </select>
                                                             </div> 
-                                                            <div class="form-group  col-md-6">
+                                                            <div class="form-group  col-md-6" >
                                                                 <button class="btn btn-save" type="submit">Update</button>
-                                                                <a class="btn btn-cancel"  href="staffmanager">Hủy bỏ</a> 
+                                                                <a class="btn btn-cancel"  href="productmanager">Hủy bỏ</a> 
                                                             </div>
                                                         </div>
                                                     </form>  
