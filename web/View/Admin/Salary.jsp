@@ -1,7 +1,7 @@
 <%-- 
-    Document   : AdminDashBord
-    Created on : May 20, 2024, 11:02:53 PM
-    Author     : nguye
+    Document   : Salary
+    Created on : Jun 5, 2024, 1:57:16 AM
+    Author     : ADMIN
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -12,6 +12,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello Admin</h1>
+        <h1>Hello Staff</h1>
     </body>
 </html>

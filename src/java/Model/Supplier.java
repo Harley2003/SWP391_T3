@@ -6,10 +6,9 @@ package Model;
 
 /**
  *
- * @author nguye
+ * @author ADMIN
  */
 public class Supplier {
-
     private int id;
     private String name;
     private String phone;
@@ -19,6 +18,11 @@ public class Supplier {
     public Supplier() {
     }
 
+    public Supplier(String name) { 
+        this.name = name;
+    }
+ 
+    
     public Supplier(int id, String name, String phone, String address, String email) {
         this.id = id;
         this.name = name;
@@ -66,5 +70,6 @@ public class Supplier {
     public void setEmail(String email) {
         this.email = email;
     }
-
+    
+    
 }
