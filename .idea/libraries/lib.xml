@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/web/lib/jakarta.servlet.jsp.jstl-api-2.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/lib/javax.mail-1.6.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/lib/jaxb-api-2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/lib/activation-1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/lib/sqljdbc42.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/lib/jakarta.servlet.jsp.jstl-2.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
