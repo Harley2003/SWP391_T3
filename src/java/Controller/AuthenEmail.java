@@ -71,6 +71,7 @@ public class AuthenEmail extends HttpServlet {
         String otpInput = request.getParameter("otpInput"); 
         HttpSession session = request.getSession();
         Object otpObj = session.getAttribute("otp"); 
+        
         if (otpObj == null) {
             request.setAttribute("message","OTP not found or invalid");
             request.getRequestDispatcher("View/AuthenEmail.jsp").forward(request, response);
