@@ -17,7 +17,7 @@
             <hr>
             <ul class="app-menu">
                 <li>  
-                    <a class="app-menu__item active" href="dashboard" data-menu="control"><i class="app-menu__icon bx bxs-dashboard"></i></i>
+                    <a class="app-menu__item active" href="dashboard" data-menu="control"><i class="app-menu__icon bx bxs-dashboard"></i>
                         <span class="app-menu__label">
                             Bảng điều khiển
                         </span>

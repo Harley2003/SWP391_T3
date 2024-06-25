@@ -2,7 +2,7 @@
 <%@page import="java.util.List" %>
 <%@page import="Model.Supplier" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
     <head>
         <title>Quản Lí Nhà Cung Cấp</title>
         <meta charset="utf-8">
@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/CSS/main.css">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/CSS/supplier.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -38,7 +38,7 @@
         %>
         <header class="app-header">
             <a class="app-sidebar__toggle" data-toggle="sidebar" aria-label="Hide Sidebar">
-                <i class="bx bx-menu"></i>
+                <i class="bi bi-list"></i>
             </a>
             <ul class="app-nav">
                 <li><a class="app-nav__item" href="logout"><i class="fas fa-sign-out-alt"></i></a></li>
@@ -52,28 +52,19 @@
                 </ul>
                 <div id="clock"></div>
             </div>
-            <div></div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="tile">
                         <div class="tile-body">
-                            <div class="row element-button">
+                            <div class="row element-button mb-4">
                                 <div class="col-sm-2">
-                                    <a class="btn btn-add btn-sm" href="addsupplier" title="Thêm"><i class="fas fa-plus"></i> Thêm nhà cung cấp</a>
+                                    <a class="btn btn-success btn-block" href="addsupplier" title="Thêm"><i class="fas fa-plus"></i> Thêm nhà cung cấp</a>
                                 </div>
-                                <!--                                <div class="col-sm-2">
-                                                                    <a class="btn btn-excel btn-sm"  title="Xuất" onclick="myFunction(this)"><i class="fas fa-file-excel"></i> Xuất Excel</a>
-                                                                </div>
-                                                                <div class="col-sm-2">
-                                                                    <a class="btn btn-excel btn-sm" type="button" title="Nhập" onclick="myFunction(this)"><i class="fas fa-file-excel"></i> Nhập tệp Excel</a>
-                                                                </div>-->
-                            </div>
-                            <div class="search-container">
-                                <input type="search" name="name" class="form-control" placeholder="Tìm theo tên nhà cung cấp" oninput="searchTable()">
                             </div>
                             <table class="table table-hover table-bordered" id="sampleTable">
                                 <thead>
                                     <tr>
+                                        <th>Mã nhà cung cấp</th>
                                         <th>Tên nhà cung cấp</th>
                                         <th>Số điện thoại</th>
                                         <th>Địa Chỉ</th>
@@ -88,29 +79,35 @@
                                             for (Supplier s : suppliers) { 
                                     %>
                                     <tr>
+                                        <td><%= s.getId() %></td>
                                         <td><%= s.getName() %></td>
                                         <td><%= s.getPhone() %></td>
                                         <td><%= s.getAddress() %></td>
                                         <td><%= (s.getEmail() != null && !s.getEmail().isEmpty() ? s.getEmail() : "Không có Email") %></td>
                                         <td>
-                                            <button class="btn btn-primary btn-sm eye" type="button" title="Chi tiết" onclick="location.href = 'viewsupplier?viewsupplier=<%= s.getId() %>'"><i class="fa fa-eye"></i></button>
-                                            <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" data-toggle="modal" data-target="#editModal<%= s.getId() %>"><i class="fa fa-edit"></i></button>
-                                            <button class="btn btn-primary btn-sm trash" type="button" title="Xóa" onclick="confirmDelete('<%= s.getId() %>', '<%= s.getName() %>');"><i class="fas fa-trash-alt"></i></button>
+                                            <button class="btn btn-primary btn-sm eye" type="button" title="Chi tiết" onclick="location.href = 'suppliermanager?type=detail&viewsupplier=<%= s.getId() %>'">
+                                                <i class="fa fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-warning btn-sm edit" type="button" title="Sửa" data-toggle="modal" data-target="#editModal<%= s.getId() %>">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-danger btn-sm trash" type="button" title="Xóa" onclick="confirmDelete('<%= s.getId() %>', '<%= s.getName() %>');">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
                                         </td>
                                     </tr>
-
                                     <!-- Modal for Editing Supplier -->
                                 <div class="modal fade" id="editModal<%= s.getId() %>" tabindex="-1" role="dialog" aria-labelledby="editModalCenterTitle" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="editModalLongTitle" style="color: black">Chỉnh sửa nhà cung cấp</h5>
-                                                <!--                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                                    <span aria-hidden="true">&times;</span>
-                                                                                                </button>-->
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
                                             </div>
                                             <div class="modal-body">
-                                                <form action="editsupplier" method="post">
+                                                <form action="suppliermanager?type=edit" method="post">
                                                     <input type="hidden" name="idEdit" value="<%= s.getId() %>">
                                                     <div class="form-group">
                                                         <label for="name">Tên nhà cung cấp</label>
@@ -129,8 +126,8 @@
                                                         <input type="email" class="form-control" id="email" name="emailEdit" value="<%= s.getEmail() %>">
                                                     </div>
                                                     <div class="btn-action">
-                                                        <button class="btn btn-save" type="submit">Lưu thay đổi</button>
-                                                        <button class="btn btn-cancel" type="button" data-dismiss="modal">Hủy bỏ</button>
+                                                        <button class="btn btn-primary" type="submit">Lưu thay đổi</button>
+                                                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy bỏ</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -143,13 +140,18 @@
                                 %>
                                 </tbody>
                             </table>
-                            <div class="pagination">
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </main>
+        <script src="https://cdn.jsdelivr.net/npm/jquery-table2excel@1.1.0/dist/jquery.table2excel.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+        <script src="${pageContext.request.contextPath}/View/Admin/js/main.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+        <script type="text/javascript">$('#sampleTable').DataTable();</script>
         <script>
             function confirmDelete(supplierId, supplierName) {
                 Swal.fire({
@@ -163,32 +165,9 @@
                     cancelButtonText: 'Hủy bỏ'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = 'deletesupplier?deletesupplier=' + supplierId;
+                        window.location.href = 'suppliermanager?type=delete&deleteSupplier=' + supplierId;
                     }
                 });
-            }
-        </script>
-
-        <script>
-            function searchTable() {
-                let input, filter, table, tr, td, i, txtValue;
-                input = document.querySelector('.search-container input');
-                filter = input.value.toUpperCase();
-                table = document.getElementById('sampleTable');
-                tr = table.getElementsByTagName('tr');
-
-                for (i = 0; i < tr.length; i++) {
-                    td = tr[i].getElementsByTagName('td')[0];
-
-                    if (td) {
-                        txtValue = td.textContent || td.innerText;
-                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                            tr[i].style.display = '';
-                        } else {
-                            tr[i].style.display = 'none';
-                        }
-                    }
-                }
             }
         </script>
     </body>

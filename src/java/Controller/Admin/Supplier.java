@@ -33,7 +33,7 @@ public class Supplier extends HttpServlet {
 //        processRequest(request, response);
         response.setContentType("text/html;charset=UTF-8");
         SupplierDAO dao = new SupplierDAO();
-        List<Model.Supplier> suppliers = dao.getAllInfoSupplier();
+        List<Model.Supplier> suppliers = dao.getInfoSupplier();
         request.setAttribute("listSuppliers", suppliers);
         request.getRequestDispatcher("View/Admin/Supplier.jsp").forward(request, response);
     }

@@ -18,7 +18,7 @@
         <url-pattern>/authentication</url-pattern>
         <url-pattern>/supplier</url-pattern>
         <url-pattern>/addsupplier</url-pattern>
-        <url-pattern>/editsupplier</url-pattern>
+        <url-pattern>/suppliermanager</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>Login</servlet-name>
@@ -85,12 +85,8 @@
         <servlet-class>Controller.Admin.AddSupplier</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>EditSupplier</servlet-name>
-        <servlet-class>Controller.Admin.EditSupplier</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>DeleteSupplier</servlet-name>
-        <servlet-class>Controller.Admin.DeleteSupplier</servlet-class>
+        <servlet-name>SupplierManager</servlet-name>
+        <servlet-class>Controller.Admin.SupplierManager</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
@@ -157,12 +153,8 @@
         <url-pattern>/addsupplier</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>EditSupplier</servlet-name>
-        <url-pattern>/editsupplier</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>DeleteSupplier</servlet-name>
-        <url-pattern>/deletesupplier</url-pattern>
+        <servlet-name>SupplierManager</servlet-name>
+        <url-pattern>/suppliermanager</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>login</welcome-file>

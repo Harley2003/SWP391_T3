@@ -60,12 +60,12 @@ public class AddSupplier extends HttpServlet {
                 dao.addInfoSupplier(newSupplier);
                 message = "Thêm nhà cung cấp thành công";
             }
-        } catch (Exception e) {
+        } catch (ServletException | IOException e) {
             System.out.println(e);
         }
 
         try {
-            List<Supplier> suppliers = dao.getAllInfoSupplier();
+            List<Supplier> suppliers = dao.getInfoSupplier();
             request.setAttribute("listSuppliers", suppliers);
         } catch (Exception e) {
             System.out.println(e);
