@@ -8,43 +8,34 @@ import java.util.Date;
 
 /**
  *
- * @author nguye
+ * @author ADMIN
  */
-public class Inventory {
-
-    private int id;
-    private Product productID;
+public class Inventory { 
+    private Product product;
     private int quantity;
     private Date receiveDate;
-    private Date dataExpired;
-    private Supplier supplierID;
+    private Date expiredDate;
+    private Supplier supplier;
+    private int status;
 
     public Inventory() {
     }
 
-    public Inventory(int id, Product productID, int quantity, Date receiveDate, Date dataExpired, Supplier supplierID) {
-        this.id = id;
-        this.productID = productID;
+    public Inventory(Product product, int quantity, Date receiveDate, Date expiredDate, Supplier supplier, int status) {
+        this.product = product;
         this.quantity = quantity;
         this.receiveDate = receiveDate;
-        this.dataExpired = dataExpired;
-        this.supplierID = supplierID;
+        this.expiredDate = expiredDate;
+        this.supplier = supplier;
+        this.status = status;
+    }
+    
+    public Product getProduct() {
+        return product;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Product getProductID() {
-        return productID;
-    }
-
-    public void setProductID(Product productID) {
-        this.productID = productID;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public int getQuantity() {
@@ -63,20 +54,29 @@ public class Inventory {
         this.receiveDate = receiveDate;
     }
 
-    public Date getDataExpired() {
-        return dataExpired;
+    public Date getExpiredDate() {
+        return expiredDate;
     }
 
-    public void setDataExpired(Date dataExpired) {
-        this.dataExpired = dataExpired;
+    public void setExpiredDate(Date expiredDate) {
+        this.expiredDate = expiredDate;
     }
 
-    public Supplier getSupplierID() {
-        return supplierID;
+    public Supplier getSupplier() {
+        return supplier;
     }
 
-    public void setSupplierID(Supplier supplierID) {
-        this.supplierID = supplierID;
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+    
+    
 }

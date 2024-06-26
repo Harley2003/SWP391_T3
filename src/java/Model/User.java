@@ -1,46 +1,70 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Other/File.java to edit this template
  */
 package Model;
 
 /**
  *
- * @author nguye
+ * @author
  */
 public class User {
-
-    private int id;
-    private String userName;
-    private String password;
-    private Role roleID;
-    private Status statusID;
+    private int userID;
+    private String username;
+    private String password; 
+    private int status; 
+    private Role role; 
+    private UserInfo info;
 
     public User() {
     }
 
-    public User(int id, String userName, String password, Role roleID, Status statusID) {
-        this.id = id;
-        this.userName = userName;
+    public User(int userID, String username, String password, Role role) {
+        this.userID = userID;
+        this.username = username;
         this.password = password;
-        this.roleID = roleID;
-        this.statusID = statusID;
+        this.role = role;
     }
 
-    public int getId() {
-        return id;
+    public User(int userID, String username, String password, int status, Role role, UserInfo info) {
+        this.userID = userID;
+        this.username = username;
+        this.password = password;
+        this.status = status;
+        this.role = role;
+        this.info = info;
+    }
+    public User(int userID, String username, String password, int status) {
+        this.userID = userID;
+        this.username = username;
+        this.password = password;
+        this.status = status;
+        
+    }
+    
+    
+    public User(int userID, String username, String password, int status, Role role) {
+        this.userID = userID;
+        this.username = username;
+        this.password = password;
+        this.status = status;
+        this.role = role;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getUserID() {
+        return userID;
     }
 
-    public String getUserName() {
-        return userName;
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -51,20 +75,30 @@ public class User {
         this.password = password;
     }
 
-    public Role getRoleID() {
-        return roleID;
+    public int getStatus() {
+        return status;
     }
 
-    public void setRoleID(Role roleID) {
-        this.roleID = roleID;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
-    public Status getStatusID() {
-        return statusID;
+    public Role getRole() {
+        return role;
     }
 
-    public void setStatusID(Status statusID) {
-        this.statusID = statusID;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
+    public UserInfo getInfo() {
+        return info;
+    }
+
+    public void setInfo(UserInfo info) {
+        this.info = info;
+    }
+    
+    
+ 
 }
