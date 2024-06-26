@@ -1,11 +1,12 @@
 package Controller.Admin;
 
-import DAL.CategoryDAO;
+//import DAL.CategoryDAO;
 import DAL.ProductDAO;
 import DAL.SupplierDAO;
+import Model.OrderSupplier;
 //import Model.OrderSupplier;
 import Model.Supplier;
-import Model.Category;
+//import Model.Category;
 import Model.Product;
 import Model.OrderSupplierDetail;
 import java.io.IOException;
@@ -14,6 +15,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.sql.SQLException;
+import java.util.Date;
 //import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Random;
@@ -40,9 +44,9 @@ public class SupplierManager extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        HttpSession sessionName = request.getSession();
         SupplierDAO dao = new SupplierDAO();
         ProductDAO dao2 = new ProductDAO();
-        CategoryDAO dao3 = new CategoryDAO();
         String type = request.getParameter("type");
 
         if (type == null) {
@@ -62,11 +66,10 @@ public class SupplierManager extends HttpServlet {
                     String supplierName = dao.getNameSupplierById(idOrderSupplier);
                     List<OrderSupplierDetail> listOrderSupplierDetail = dao.getOrderSupplierDetailsBySupplierId(idOrderSupplier);
                     List<Product> listProduct = dao2.getNameProduct();
-                    List<Category> listCategory = dao3.getNameCategory();
                     request.setAttribute("supplierName", supplierName);
+                    sessionName.setAttribute("supplierName", supplierName);
                     request.setAttribute("listOrderSupplierDetail", listOrderSupplierDetail);
                     request.setAttribute("listProduct", listProduct);
-                    request.setAttribute("listCategory", listCategory);
                     request.getRequestDispatcher("View/Admin/DetailSupplier.jsp").forward(request, response);
                 }
                 case "delete" -> {
@@ -107,10 +110,11 @@ public class SupplierManager extends HttpServlet {
 //        processRequest(request, response);
         response.setContentType("text/html;charset=UTF-8");
         String type = request.getParameter("type");
+        HttpSession sessionName = request.getSession();
         SupplierDAO dao = new SupplierDAO();
+        ProductDAO dao2 = new ProductDAO();
         switch (type) {
             case "edit" -> {
-//                HttpSession sessionEdit = request.getSession();
                 String idEdit = request.getParameter("idEdit");
                 String nameEdit = request.getParameter("nameEdit");
                 String phoneEdit = request.getParameter("phoneEdit");
@@ -140,6 +144,48 @@ public class SupplierManager extends HttpServlet {
             }
 
             case "history" -> {
+                String nameSupplier = (String) sessionName.getAttribute("supplierName");
+                int idSupplier = dao.getIdbyNameSupplier(nameSupplier);
+                String productId = request.getParameter("productNameSelect");
+                int quantity = Integer.parseInt(request.getParameter("quantity"));
+                int price = Integer.parseInt(request.getParameter("price"));
+                Date date = java.sql.Date.valueOf(request.getParameter("date"));
+                int orderSupplierId = dao.getLastIdOrderSupplier() + 1;
+                Supplier supplier = new Supplier();
+                supplier.setId(idSupplier);
+
+                OrderSupplier orderSupplier = new OrderSupplier();
+                orderSupplier.setId(orderSupplierId);
+                orderSupplier.setSupplierId(supplier);
+                orderSupplier.setDate(date);
+
+                Product product = new Product();
+                product.setProductID(productId);
+
+                OrderSupplierDetail orderSupplierDetail = new OrderSupplierDetail();
+                orderSupplierDetail.setOrderSupplierId(orderSupplier);
+                orderSupplierDetail.setProductId(product);
+                orderSupplierDetail.setQuantity(quantity);
+                orderSupplierDetail.setPrice(price);
+
+                try {
+                    dao.addHistoryOrderSupplier(orderSupplier);
+                    orderSupplierDetail.setOrderSupplierId(orderSupplier);
+
+                    dao.addHistoryOrderSupplierDetail(orderSupplierDetail);
+
+                    String supplierName = dao.getNameSupplierById(idSupplier);
+                    List<OrderSupplierDetail> listOrderSupplierDetail = dao.getOrderSupplierDetailsBySupplierId(idSupplier);
+                    List<Product> listProduct = dao2.getNameProduct();
+                    request.setAttribute("supplierName", supplierName);
+                    request.setAttribute("listOrderSupplierDetail", listOrderSupplierDetail);
+                    request.setAttribute("listProduct", listProduct);
+                    response.sendRedirect(request.getContextPath() + "/suppliermanager?type=detail&viewsupplier=" + idSupplier);
+                } catch (IOException e) {
+                    System.out.println(e);
+                } catch (NumberFormatException e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
             }
 
             default ->

@@ -98,21 +98,22 @@ public class SupplierDAO extends DBContext {
         return exitSupplier;
     }
 
-//    public int getIdbyNameSupplier(String name) {
-//        int idSupplier = - 1;
-//        String sql = "SELECT [id] FROM Supplier WHERE [name] = ?";
-//        try (PreparedStatement ps = connection.prepareStatement(sql);) {
-//            ps.setString(1, name);
-//            try (ResultSet rs = ps.executeQuery()) {
-//                if (rs.next()) {
-//                    idSupplier = rs.getInt("id");
-//                }
-//            }
-//        } catch (SQLException e) {
-//            System.out.println(e);
-//        }
-//        return idSupplier;
-//    }
+    public int getIdbyNameSupplier(String name) {
+        int idSupplier = - 1;
+        String sql = "SELECT [id] FROM Supplier WHERE [name] = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql);) {
+            ps.setString(1, name);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    idSupplier = rs.getInt("id");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return idSupplier;
+    }
+
     public void editSupplier(Supplier supplier) {
         String sql = "UPDATE Supplier SET [name] = ?, [phone] = ?, [address] = ?, [email] = ? WHERE [id] = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -221,6 +222,59 @@ public class SupplierDAO extends DBContext {
         }
     }
 
+    public void addHistoryOrderSupplier(OrderSupplier orderSupplier) {
+        String sql = "INSERT INTO Order_Supplier (supplier_id, [date]) VALUES (?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, orderSupplier.getSupplierId().getId());
+            ps.setDate(2, new java.sql.Date(orderSupplier.getDate().getTime()));
+            int executeSuccess = ps.executeUpdate();
+            if (executeSuccess > 0) {
+                System.out.println("Order Supplier added successfully");
+                try (ResultSet rs = ps.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        orderSupplier.setId(rs.getInt(1));
+                    }
+                }
+            } else {
+                System.out.println("Failed to add order supplier");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public void addHistoryOrderSupplierDetail(OrderSupplierDetail orderSupplierDetail) {
+        String sql = "INSERT INTO Order_Supplier_Detail (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, orderSupplierDetail.getOrderSupplierId().getId());
+            ps.setString(2, orderSupplierDetail.getProductId().getProductID());
+            ps.setInt(3, orderSupplierDetail.getQuantity());
+            ps.setInt(4, orderSupplierDetail.getPrice());
+            int executeSuccess = ps.executeUpdate();
+            if (executeSuccess > 0) {
+                System.out.println("Order Supplier Detail added successfully");
+            } else {
+                System.out.println("Failed to add order supplier detail");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public int getLastIdOrderSupplier() {
+        int maxId = 0;
+        String sql = "SELECT MAX(id) AS last_id FROM Order_Supplier";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery();) {
+            if (rs.next()) {
+                maxId = rs.getInt("last_id");
+            }
+        } catch (Exception e) {
+            System.out.println("Error while fetching max ID from Order_Supplier: " + e.getMessage());
+        }
+        return maxId;
+    }
+
     public static void main(String[] args) {
         SupplierDAO supplierDAO = new SupplierDAO();
         /*
@@ -288,9 +342,9 @@ public class SupplierDAO extends DBContext {
             System.out.println("---------------------------------");
         }
          */
+ /*
         List<OrderSupplierDetail> orderSupplierDetails = supplierDAO.getOrderSupplierDetailsBySupplierId(1);
 
-        // In ra các chi tiết đơn đặt hàng
         System.out.println("Order Supplier Details for Supplier ID " + 1 + ":");
         for (OrderSupplierDetail detail : orderSupplierDetails) {
             System.out.println("Order Detail ID: " + detail.getId());
@@ -309,5 +363,29 @@ public class SupplierDAO extends DBContext {
         } else {
             System.out.println("Supplier not found with ID: " + 1);
         }
+         */
+        OrderSupplier orderSupplier = new OrderSupplier();
+        if (orderSupplier != null) {
+            orderSupplier.setId(1);
+            orderSupplier.setDate(new java.sql.Date(System.currentTimeMillis()));
+        } else {
+            System.out.println("err");
+        }
+
+        OrderSupplierDetail orderSupplierDetail = new OrderSupplierDetail();
+        if (orderSupplierDetail != null && orderSupplier != null) {
+            Product product = new Product("P123");
+            if (product != null) {
+                orderSupplierDetail.setOrderSupplierId(orderSupplier);
+                orderSupplierDetail.setProductId(product);
+                orderSupplierDetail.setQuantity(10);
+                orderSupplierDetail.setPrice(100);
+            } else {
+                System.out.println("err1");
+            }
+        } else {
+            System.out.println("err2");
+        }
+
     }
 }
