@@ -11,6 +11,10 @@ public class Supplier {
     public Supplier() {
     }
 
+    public Supplier(int id) {
+        this.id = id;
+    }
+
     public Supplier(String name) {
         this.name = name;
     }

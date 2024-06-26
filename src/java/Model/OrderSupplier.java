@@ -11,6 +11,10 @@ public class OrderSupplier {
     public OrderSupplier() {
     }
 
+    public OrderSupplier(int id) {
+        this.id = id;
+    }
+
     public OrderSupplier(int id, Supplier supplierId, Date date) {
         this.id = id;
         this.supplierId = supplierId;

@@ -69,7 +69,7 @@
                 </div>
                 <div class="header-right">
                     <span>${account.getUsername()}</span>
-                    <a href="Logout">
+                    <a href="logout">
                         <i class="fa-solid fa-right-from-bracket"></i>
                     </a>
                 </div>
