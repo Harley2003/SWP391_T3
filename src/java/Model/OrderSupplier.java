@@ -1,28 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Model;
 
 import java.util.Date;
 
-/**
- *
- * @author nguye
- */
 public class OrderSupplier {
 
     private int id;
-    private Supplier supplierID;
-    private Date receiveDate;
+    private Supplier supplierId;
+    private Date date;
 
     public OrderSupplier() {
     }
 
-    public OrderSupplier(int id, Supplier supplierID, Date receiveDate) {
+    public OrderSupplier(int id, Supplier supplierId, Date date) {
         this.id = id;
-        this.supplierID = supplierID;
-        this.receiveDate = receiveDate;
+        this.supplierId = supplierId;
+        this.date = date;
     }
 
     public int getId() {
@@ -33,20 +25,19 @@ public class OrderSupplier {
         this.id = id;
     }
 
-    public Supplier getSupplierID() {
-        return supplierID;
+    public Supplier getSupplierId() {
+        return supplierId;
     }
 
-    public void setSupplierID(Supplier supplierID) {
-        this.supplierID = supplierID;
+    public void setSupplierId(Supplier supplierId) {
+        this.supplierId = supplierId;
     }
 
-    public Date getReceiveDate() {
-        return receiveDate;
+    public Date getDate() {
+        return date;
     }
 
-    public void setReceiveDate(Date receiveDate) {
-        this.receiveDate = receiveDate;
+    public void setDate(Date date) {
+        this.date = date;
     }
-
 }

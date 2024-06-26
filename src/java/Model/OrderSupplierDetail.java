@@ -1,28 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Model;
 
-/**
- *
- * @author nguye
- */
 public class OrderSupplierDetail {
 
     private int id;
-    private OrderSupplier orderSupplierID;
-    private int productID;
+    private OrderSupplier orderSupplierId;
+    private Product productId;
     private int quantity;
-    private double price;
+    private int price;
 
     public OrderSupplierDetail() {
     }
 
-    public OrderSupplierDetail(int id, OrderSupplier orderSupplierID, int productID, int quantity, double price) {
+    public OrderSupplierDetail(int id, OrderSupplier orderSupplierId, Product productId, int quantity, int price) {
         this.id = id;
-        this.orderSupplierID = orderSupplierID;
-        this.productID = productID;
+        this.orderSupplierId = orderSupplierId;
+        this.productId = productId;
         this.quantity = quantity;
         this.price = price;
     }
@@ -35,20 +27,20 @@ public class OrderSupplierDetail {
         this.id = id;
     }
 
-    public OrderSupplier getOrderSupplierID() {
-        return orderSupplierID;
+    public OrderSupplier getOrderSupplierId() {
+        return orderSupplierId;
     }
 
-    public void setOrderSupplierID(OrderSupplier orderSupplierID) {
-        this.orderSupplierID = orderSupplierID;
+    public void setOrderSupplierId(OrderSupplier orderSupplierId) {
+        this.orderSupplierId = orderSupplierId;
     }
 
-    public int getProductID() {
-        return productID;
+    public Product getProductId() {
+        return productId;
     }
 
-    public void setProductID(int productID) {
-        this.productID = productID;
+    public void setProductId(Product productId) {
+        this.productId = productId;
     }
 
     public int getQuantity() {
@@ -59,12 +51,11 @@ public class OrderSupplierDetail {
         this.quantity = quantity;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
-
 }

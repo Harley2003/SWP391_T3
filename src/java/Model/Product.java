@@ -1,70 +1,67 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Model;
 
-/**
- *
- * @author nguye
- */
 public class Product {
 
-    private int id;
-    private String name;
-    private Category categoryID;
-    private double capitalPrice;
-    private double price;
+    private String productID;
+    private String productName;
+    private float price;
+    private float sale_price;
+    private Category category;
 
     public Product() {
     }
 
-    public Product(int id, String name, Category categoryID, double capitalPrice, double price) {
-        this.id = id;
-        this.name = name;
-        this.categoryID = categoryID;
-        this.capitalPrice = capitalPrice;
+    public Product(String productID, String productName) {
+        this.productID = productID;
+        this.productName = productName;
+    }
+
+    public Product(String productID, String productName, float price, float sale_price, Category category) {
+        this.productID = productID;
+        this.productName = productName;
         this.price = price;
+        this.sale_price = sale_price;
+        this.category = category;
     }
 
-    public int getId() {
-        return id;
+    public String getProductID() {
+        return productID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setProductID(String productID) {
+        this.productID = productID;
     }
 
-    public String getName() {
-        return name;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public Category getCategoryID() {
-        return categoryID;
-    }
-
-    public void setCategoryID(Category categoryID) {
-        this.categoryID = categoryID;
-    }
-
-    public double getCapitalPrice() {
-        return capitalPrice;
-    }
-
-    public void setCapitalPrice(double capitalPrice) {
-        this.capitalPrice = capitalPrice;
-    }
-
-    public double getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(float price) {
         this.price = price;
+    }
+
+    public float getSale_price() {
+        return sale_price;
+    }
+
+    public void setSale_price(float sale_price) {
+        this.sale_price = sale_price;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
 }

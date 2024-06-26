@@ -8,70 +8,49 @@ import java.util.Date;
 
 /**
  *
- * @author nguye
+ * @author ADMIN
  */
-public class UserInfo {
-
-    private int id;
-    private String firstName;
-    private String lastName;
-    private Date dateOfBirth;
-    private boolean gender;
+public class UserInfo {  
+    private String name; 
+    private Date date;
+    private int gender;
     private String phone;
     private String address;
-    private User userID;
+    private String email;
 
     public UserInfo() {
     }
-
-    public UserInfo(int id, String firstName, String lastName, Date dateOfBirth, boolean gender, String phone, String address, User userID) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.dateOfBirth = dateOfBirth;
+ 
+    public UserInfo(String name, Date date, int gender, String phone, String address, String email) {
+        this.name = name;
+        this.date = date;
         this.gender = gender;
         this.phone = phone;
         this.address = address;
-        this.userID = userID;
+        this.email = email;
+    }
+    
+    public String getName() {
+        return name;
     }
 
-    public int getId() {
-        return id;
+    public void setName(String name) {
+        this.name = name;
+    } 
+
+    public Date getDate() {
+        return date;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public boolean isGender() {
+    public int getGender() {
         return gender;
     }
 
-    public void setGender(boolean gender) {
+    public void setGender(int gender) {
         this.gender = gender;
     }
 
@@ -91,12 +70,13 @@ public class UserInfo {
         this.address = address;
     }
 
-    public User getUserID() {
-        return userID;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUserID(User userID) {
-        this.userID = userID;
+    public void setEmail(String email) {
+        this.email = email;
     }
-
+    
+    
 }
