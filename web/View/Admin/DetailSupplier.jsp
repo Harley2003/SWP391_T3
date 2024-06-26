@@ -1,6 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.List" %>
 <%@page import="Model.OrderSupplier" %>
+<%@page import="Model.Product" %>
+<%@page import="Model.Category" %>
 <%@page import="Model.OrderSupplierDetail" %>
 <!DOCTYPE html>
 <html lang="vi">
@@ -61,31 +63,62 @@
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="addOrderHistoryModalLabel">Thêm Lịch sử đặt hàng</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
+                                            <h5 class="modal-title" id="addOrderHistoryModalLabel" style="color: black;">Thêm Lịch sử đặt hàng</h5>
                                         </div>
                                         <div class="modal-body">
-                                            <form id="addOrderHistoryForm">
+                                            <form id="addOrderHistoryForm" action="suppliermanager?type=history" method="post">
                                                 <div class="form-group">
                                                     <label for="productName" class="required-label">Tên sản phẩm</label>
-                                                    <input type="text" class="form-control" id="productName" required>
+                                                    <div class="input-group">
+                                                        <select class="form-control select-input" id="productNameSelect" name="productNameSelect" required>
+                                                            <option value="">Chọn sản phẩm</option>
+                                                            <% 
+                                                               List<Product> listProduct = (List<Product>) request.getAttribute("listProduct");
+                                                               if (listProduct != null && !listProduct.isEmpty()) {
+                                                                    for (Product p : listProduct) { %>
+                                                            <option value="<%= p.getProductID()%>"><%= p.getProductName()%></option>
+                                                            <%  } } %>
+                                                        </select>
+                                                        <input type="text" class="form-control input-input" id="productNameInput" name="productNameInput" style="display: none; height: 45px;">
+                                                        <div class="input-group-append">
+                                                            <button class="btn btn-outline-secondary toggle-input" type="button" style="height: 45px;"><i class="fa-solid fa-rotate"></i></button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="quantity" class="required-label">Số lượng nhập</label>
-                                                    <input type="number" class="form-control" id="quantity" required>
+                                                    <input type="number" class="form-control" id="quantity" name="quantity" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="price" class="required-label">Giá nhập</label>
-                                                    <input type="number" class="form-control" id="price" required>
+                                                    <input type="number" class="form-control" id="price" name="price" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="category" class="required-label">Danh mục</label>
+                                                    <div class="input-group">
+                                                        <select class="form-control select-input" id="categorySelect" name="categorySelect" required>
+                                                            <option value="">Chọn danh mục</option>
+                                                            <%
+                                                              List<Category> listCategory = (List<Category>) request.getAttribute("listCategory");
+                                                              if (listCategory != null && !listCategory.isEmpty()) {
+                                                                for (Category c : listCategory) { %>
+                                                            <option value="<%= c.getCategoryID()%>"><%= c.getCategoryName()%></option>
+                                                            <%  } } %>
+                                                        </select>
+                                                        <input type="text" class="form-control input-input" id="categoryInput" name="categoryInput" style="display: none;">
+                                                        <div class="input-group-append">
+                                                            <button class="btn btn-outline-secondary toggle-input" type="button" style="height: 45px;"><i class="fa-solid fa-rotate"></i></button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="date" class="required-label">Ngày nhập</label>
-                                                    <input type="date" class="form-control" id="date" required>
+                                                    <input type="date" class="form-control" id="date" name="date" required>
                                                 </div>
-                                                <button type="submit" class="btn btn-primary">Thêm</button>
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                                <div class="form-group">
+                                                    <button type="submit" class="btn btn-warning">Thêm</button>
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                                </div>
                                             </form>
                                         </div>
                                     </div>
@@ -113,7 +146,8 @@
                                     <tbody>
                                         <% List<OrderSupplierDetail> listOrderSupplierDetail = (List<OrderSupplierDetail>) request.getAttribute("listOrderSupplierDetail");
                                            if (listOrderSupplierDetail != null && !listOrderSupplierDetail.isEmpty()) {
-                                               for (OrderSupplierDetail osd : listOrderSupplierDetail) { %>
+                                               for (OrderSupplierDetail osd : listOrderSupplierDetail) { 
+                                        %>
                                         <tr>
                                             <td>OS<%= osd.getOrderSupplierId().getId()%></td>
                                             <td><%= osd.getProductId().getProductName()%></td>
@@ -169,6 +203,31 @@
                                         }
                                     });
                                 }
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var toggleButtons = document.querySelectorAll('.toggle-input');
+                toggleButtons.forEach(function (button) {
+                    button.addEventListener('click', function () {
+                        var selectInput = this.closest('.input-group').querySelector('.select-input');
+                        var textInput = this.closest('.input-group').querySelector('.input-input');
+
+                        if (selectInput.style.display !== 'none') {
+                            selectInput.style.display = 'none';
+                            selectInput.removeAttribute('required');
+                            textInput.style.display = 'block';
+                            textInput.setAttribute('required', 'required');
+                            textInput.style.borderRadius = '5px 0 0 5px';
+                            textInput.focus();
+                        } else {
+                            selectInput.style.display = 'block';
+                            selectInput.setAttribute('required', 'required');
+                            textInput.style.display = 'none';
+                            textInput.removeAttribute('required');
+                        }
+                    });
+                });
+            });
         </script>
     </body>
 </html>

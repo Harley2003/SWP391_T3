@@ -49,22 +49,26 @@
                     <div class="tile">
                         <h3 class="tile-title">Tạo mới nhà cung cấp</h3>
                         <div class="tile-body">
-                            <form class="row" action="addsupplier" method="post">
+                            <form class="row" action="addsupplier" method="post" name="supplierForm" onsubmit="return validateForm()">
                                 <div class="form-group col-md-3">
                                     <label class="control-label required-label">Tên nhà cung cấp</label>
                                     <input class="form-control" type="text" required name="nameSupplier">
+                                    <div id="nameSupplierError" class="error-message"></div>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label class="control-label required-label">Số điện thoại</label>
-                                    <input class="form-control" type="text" required name="phoneSupplier" >                       
+                                    <input class="form-control" type="text" required name="phoneSupplier">
+                                    <div id="phoneSupplierError" class="error-message"></div>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label class="control-label required-label">Địa chỉ</label>
-                                    <input class="form-control" type="text" required name="addressSupplier" >
+                                    <input class="form-control" type="text" required name="addressSupplier">
+                                    <div id="addressSupplierError" class="error-message"></div>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label class="control-label">Email</label>
-                                    <input class="form-control" type="email" name="emailSupplier" >
+                                    <input class="form-control" type="email" name="emailSupplier">
+                                    <div id="emailSupplierError" class="error-message"></div>
                                 </div>
                                 <div class="btn-action">
                                     <button class="btn btn-save" type="submit">Lưu lại</button>
@@ -90,5 +94,56 @@
         <!-- Data table plugin-->
         <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+        <script>
+                                        function validateForm() {
+                                            var name = document.forms["supplierForm"]["nameSupplier"].value.trim();
+                                            var phone = document.forms["supplierForm"]["phoneSupplier"].value.trim();
+                                            var address = document.forms["supplierForm"]["addressSupplier"].value.trim();
+                                            var email = document.forms["supplierForm"]["emailSupplier"].value.trim();
+
+                                            var nameRegex = /^[A-Za-z\s'-]+$/;
+                                            var phoneRegex = /^\d{10}$/;
+                                            var addressRegex = /.+/;
+                                            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                                            var isValid = true;
+
+                                            // Reset error messages
+                                            document.getElementById("nameSupplierError").textContent = "";
+                                            document.getElementById("phoneSupplierError").textContent = "";
+                                            document.getElementById("addressSupplierError").textContent = "";
+                                            document.getElementById("emailSupplierError").textContent = "";
+
+                                            // Validate name
+                                            if (!nameRegex.test(name)) {
+                                                document.getElementById("nameSupplierError").textContent = "Tên nhà cung cấp không hợp lệ.";
+                                                document.getElementById("nameSupplierError").style.color = "red";
+                                                isValid = false;
+                                            }
+
+                                            // Validate phone
+                                            if (!phoneRegex.test(phone)) {
+                                                document.getElementById("phoneSupplierError").textContent = "Số điện thoại không hợp lệ. Vui lòng nhập 10 chữ số.";
+                                                document.getElementById("phoneSupplierError").style.color = "red";
+                                                isValid = false;
+                                            }
+
+                                            // Validate address
+                                            if (!addressRegex.test(address)) {
+                                                document.getElementById("addressSupplierError").textContent = "Địa chỉ không hợp lệ.";
+                                                document.getElementById("addressSupplierError").style.color = "red";
+                                                isValid = false;
+                                            }
+
+                                            // Validate email
+                                            if (email !== "" && !emailRegex.test(email)) {
+                                                document.getElementById("emailSupplierError").textContent = "Email không hợp lệ.";
+                                                document.getElementById("emailSupplierError").style.color = "red";
+                                                isValid = false;
+                                            }
+
+                                            return isValid;
+                                        }
+        </script>
     </body>
 </html>

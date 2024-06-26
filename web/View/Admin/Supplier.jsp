@@ -126,7 +126,7 @@
                                                         <input type="email" class="form-control" id="email" name="emailEdit" value="<%= s.getEmail() %>">
                                                     </div>
                                                     <div class="btn-action">
-                                                        <button class="btn btn-primary" type="submit">Lưu thay đổi</button>
+                                                        <button class="btn btn-warning" type="submit">Lưu thay đổi</button>
                                                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy bỏ</button>
                                                     </div>
                                                 </form>

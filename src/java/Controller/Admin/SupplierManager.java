@@ -1,8 +1,12 @@
 package Controller.Admin;
 
+import DAL.CategoryDAO;
+import DAL.ProductDAO;
 import DAL.SupplierDAO;
 //import Model.OrderSupplier;
 import Model.Supplier;
+import Model.Category;
+import Model.Product;
 import Model.OrderSupplierDetail;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 //import jakarta.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Random;
 
 public class SupplierManager extends HttpServlet {
 
@@ -36,6 +41,8 @@ public class SupplierManager extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         SupplierDAO dao = new SupplierDAO();
+        ProductDAO dao2 = new ProductDAO();
+        CategoryDAO dao3 = new CategoryDAO();
         String type = request.getParameter("type");
 
         if (type == null) {
@@ -54,8 +61,12 @@ public class SupplierManager extends HttpServlet {
                     int idOrderSupplier = Integer.parseInt(idOrderSupplier_param);
                     String supplierName = dao.getNameSupplierById(idOrderSupplier);
                     List<OrderSupplierDetail> listOrderSupplierDetail = dao.getOrderSupplierDetailsBySupplierId(idOrderSupplier);
+                    List<Product> listProduct = dao2.getNameProduct();
+                    List<Category> listCategory = dao3.getNameCategory();
                     request.setAttribute("supplierName", supplierName);
                     request.setAttribute("listOrderSupplierDetail", listOrderSupplierDetail);
+                    request.setAttribute("listProduct", listProduct);
+                    request.setAttribute("listCategory", listCategory);
                     request.getRequestDispatcher("View/Admin/DetailSupplier.jsp").forward(request, response);
                 }
                 case "delete" -> {
@@ -128,9 +139,41 @@ public class SupplierManager extends HttpServlet {
                 request.getRequestDispatcher("View/Admin/Supplier.jsp").forward(request, response);
             }
 
+            case "history" -> {
+            }
+
             default ->
                 throw new AssertionError();
         }
+    }
+
+    public static String generateProductCode() {
+        String letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String digits = "0123456789";
+        StringBuilder productCode = new StringBuilder();
+
+        Random random = new Random();
+
+        // Thêm ký tự 'P'
+        productCode.append('P');
+
+        // Thêm 3 chữ số ngẫu nhiên
+        for (int i = 0; i < 3; i++) {
+            int index = random.nextInt(digits.length());
+            productCode.append(digits.charAt(index));
+        }
+
+        // Thêm 5 ký tự chữ cái hoặc số ngẫu nhiên
+        for (int i = 0; i < 5; i++) {
+            int index = random.nextInt(letters.length() + digits.length());
+            if (index < letters.length()) {
+                productCode.append(letters.charAt(index));
+            } else {
+                productCode.append(digits.charAt(index - letters.length()));
+            }
+        }
+
+        return productCode.toString();
     }
 
     @Override

@@ -193,7 +193,7 @@ public class SupplierDAO extends DBContext {
                     OrderSupplier orderSupplier = new OrderSupplier();
                     orderSupplier.setId(orderSupplierIdResult);
                     orderSupplier.setDate(date);
-                    orderSupplier.setSupplierId(supplier);  // Set supplier here
+                    orderSupplier.setSupplierId(supplier);
 
                     OrderSupplierDetail orderDetail = new OrderSupplierDetail();
                     orderDetail.setId(orderDetailIdResult);
