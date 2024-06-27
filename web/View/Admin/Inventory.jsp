@@ -132,7 +132,7 @@
                                                             </div> 
                                                             <div class="form-group  col-md-6" >
                                                                 <button class="btn btn-save" type="submit">Update</button>
-                                                                <a class="btn btn-cancel"  href="productmanager">Hủy bỏ</a> 
+                                                                <a class="btn btn-cancel"  href="inventory">Hủy bỏ</a> 
                                                             </div>
                                                         </div>
                                                     </form>  

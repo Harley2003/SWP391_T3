@@ -6,12 +6,15 @@
 package Controller;
 
 import DAL.ProductDAO;
+import Model.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  *
@@ -44,8 +47,7 @@ public class HomeSale extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        request.setAttribute("listProduct", dao.getProduct());
+    throws ServletException, IOException {  
         request.getRequestDispatcher("View/HomeSale.jsp").forward(request, response);
     } 
 
@@ -58,8 +60,7 @@ public class HomeSale extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        processRequest(request, response);
+    throws ServletException, IOException { 
     }
 
     /** 

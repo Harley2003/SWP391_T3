@@ -76,13 +76,12 @@
                                     </tr>
                                 </thead>
                                 <tbody> 
-                                    <c:forEach items="${listProduct}" var="p">
+                                    <c:forEach items="${customerList}" var="c">
                                         <tr>
-                                            <td>${p.getProductID()}</td>
-                                            <td>${p.getProductName()}</td>
-                                            <td>${p.getPrice()}</td>
-                                            <td>${p.getSale_price()}</td>
-                                            <td>${p.getCategory().getCategoryName()}</td> 
+                                            <td>${c.getId()}</td>
+                                            <td>${c.getName()}</td>
+                                            <td>${c.getPhoneNumber()}</td>
+                                            <td>${c.getPoint()}</td> 
                                             <td>
                                                 <form id="dialogForm" method="post"> 
                                                 <button class="btn btn-primary btn-sm edit" type="button"
@@ -96,7 +95,7 @@
                                             </td>
                                         </tr> 
                                         <!--Modal Edit-->
-                                        <div class="modal fade" id="Edit${p.getProductID()}">
+<!--                                        <div class="modal fade" id="Edit${p.getProductID()}">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">  
                                                     <form method="POST" action="staffmanager?action=edit&uID=${p.getProductID()}">
@@ -130,7 +129,7 @@
                                                     </form>  
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>-->
                                         <!--/Modal Edit-->
                                     </c:forEach>
                                 </tbody>
@@ -172,8 +171,8 @@
         <!-- Page specific javascripts-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
         <!-- Data table plugin-->
-        <script type="text/javascript" src="admin/js/plugins/jquery.dataTables.min.js"></script>
-        <script type="text/javascript" src="admin/js/plugins/dataTables.bootstrap.min.js"></script>
+        <script type="text/javascript" src="View/Admin/js/plugins/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="View/Admin/js/plugins/dataTables.bootstrap.min.js"></script>
         <script type="text/javascript">$('#sampleTable').DataTable();</script> 
     </body>
 

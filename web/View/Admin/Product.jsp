@@ -169,18 +169,18 @@
         </script>        
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src="admin/js/jquery-3.2.1.min.js"></script>
-        <script src="admin/js/popper.min.js"></script>
-        <script src="admin/js/bootstrap.min.js"></script>
+        <script src="View/Admin/js/jquery-3.2.1.min.js"></script>
+        <script src="View/Admin/js/popper.min.js"></script>
+        <script src="View/Admin/js/bootstrap.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script src="admin/js/main.js"></script>
+        <script src="View/Admin/js/main.js"></script>
         <!-- The javascript plugin to display page loading on top-->
         <script src="admin/js/plugins/pace.min.js"></script>
         <!-- Page specific javascripts-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
         <!-- Data table plugin-->
-        <script type="text/javascript" src="admin/js/plugins/jquery.dataTables.min.js"></script>
-        <script type="text/javascript" src="admin/js/plugins/dataTables.bootstrap.min.js"></script>
+        <script type="text/javascript" src="View/Admin/js/plugins/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="View/Admin/js/plugins/dataTables.bootstrap.min.js"></script>
         <script type="text/javascript">$('#sampleTable').DataTable();</script> 
     </body>
 

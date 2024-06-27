@@ -30,6 +30,7 @@ public class Logout extends HttpServlet {
     throws ServletException, IOException {
         HttpSession session = request.getSession();
         if (session.getAttribute("account") != null) {
+            session.removeAttribute("productOrder");
             session.removeAttribute("acc"); 
         }
         response.sendRedirect("login");
