@@ -24,32 +24,34 @@
             <ul class="app-nav"> 
                 <!-- User Menu-->
                 <li>
-                   <a class="app-nav__item" href="logout"><i class='bx bx-log-out bx-rotate-180'></i></a> 
+
+                    <a class="app-nav__item" href="logout"><i class='bx bx-log-out bx-rotate-180'></i></a> 
                 </li>
             </ul>
         </header>
         <!-- Sidebar menu-->
         <jsp:include page="SidebarMenu.jsp"></jsp:include>
-        
-        <main class="app-content">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="app-title">
-                        <ul class="app-breadcrumb breadcrumb">
-                            <li class="breadcrumb-item"><a href="#"><b>Control Panel</b></a></li>
-                        </ul> 
+
+
+            <main class="app-content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="app-title">
+                            <ul class="app-breadcrumb breadcrumb">
+                                <li class="breadcrumb-item"><a href="#"><b>Control Panel</b></a></li>
+                            </ul> 
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 col-lg-12">
-                    <div class="row">
-                        <!-- col-6 -->
-                        <div class="col-md-3">
-                            <div class="widget-small primary coloured-icon"><i class='icon bx bx-user fa-3x'></i>
-                                <div class="info">
-                                    <h4>Tổng khách hàng</h4>
-                                    <p><b>${requestScope.customerList.size()} khách hàng</b></p> 
+                <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                        <div class="row">
+                            <!-- col-6 -->
+                            <div class="col-md-3">
+                                <div class="widget-small primary coloured-icon"><i class='icon bx bx-user fa-3x'></i>
+                                    <div class="info">
+                                        <h4>Tổng khách hàng</h4>
+                                        <p><b>${requestScope.customerList.size()} khách hàng</b></p> 
                                 </div>
                             </div>
                         </div>
@@ -86,26 +88,27 @@
                 </div>  
             </div>               
         </main>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"> </script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
         <script type="text/javascript">
-            document.addEventListener("DOMContentLoaded", function() {
-            var chart = document.getElementById("totalRevenue").getContext("2d");
-            var myChart = new Chart(chart, {
-            type: "bar",
-            data: {
-            labels: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", 
-                     "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"],
-            datasets: [{
-                label: "Doanh thu các tháng",
-                backgroundColor: "blue",
-                data: [${requestScope.t1}, ${requestScope.t2}, ${requestScope.t3}, ${requestScope.t4}, 
-                       ${requestScope.t5}, ${requestScope.t6}, ${requestScope.t7}, ${requestScope.t8},
-                       ${requestScope.t9}, ${requestScope.t10}, ${requestScope.t11}, ${requestScope.t12}],
-                }]
-            },
-            options: {}
-        }); 
-        });
+            document.addEventListener("DOMContentLoaded", function () {
+                var chart = document.getElementById("totalRevenue").getContext("2d");
+                var myChart = new Chart(chart, {
+                    type: "bar",
+                    data: {
+                        labels: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6",
+                            "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"],
+                        datasets: [{
+                                label: "Doanh thu các tháng",
+                                backgroundColor: "blue",
+                                data: [${requestScope.t1}, ${requestScope.t2}, ${requestScope.t3}, ${requestScope.t4},
+            ${requestScope.t5}, ${requestScope.t6}, ${requestScope.t7}, ${requestScope.t8},
+            ${requestScope.t9}, ${requestScope.t10}, ${requestScope.t11}, ${requestScope.t12}],
+                            }]
+                    },
+                    options: {}
+                });
+            });
         </script>
         <script src="admin/js/jquery-3.2.1.min.js"></script> 
         <script src="admin/js/popper.min.js"></script>

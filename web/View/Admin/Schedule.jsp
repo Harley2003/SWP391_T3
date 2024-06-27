@@ -73,33 +73,51 @@
                                     <c:forEach items="${scheduleList}" var="c">
                                         <tr class="item-log">
                                             <td>${c.getInfo().getName()}</td>
-                                            <td class="add-schedule"></td>
-                                            <td class="add-schedule"></td>
-                                            <td class="add-schedule"></td>
-                                            <td class="add-schedule"></td>
-                                            <td class="add-schedule"></td>
-                                            <td class="add-schedule"></td>
-                                            <td class="add-schedule"></td>   
+                                            <td class="add-schedule" value="${c.getUserID()}/t2"></td>
+                                            <td class="add-schedule" value="${c.getUserID()}/t3"></td>
+                                            <td class="add-schedule" value="${c.getUserID()}/t4"></td>
+                                            <td class="add-schedule" value="${c.getUserID()}/t5"></td>
+                                            <td class="add-schedule" value="${c.getUserID()}/t6"></td>
+                                            <td class="add-schedule" value="${c.getUserID()}/t7"></td>
+                                            <td class="add-schedule" value="${c.getUserID()}/cn"></td>   
                                         </tr>
                                     </c:forEach> 
                                 </tbody>
 
                             </table>  
                             <div id="setWorkingTime">
-                                <input type="checkbox" name="checkboxTime" > Ca sáng 
-                                <input type="checkbox" name="checkboxTime" > Ca chiều  
-                                <input type="checkbox" name="checkboxTime" > Ca tối  
-                                <span ><button id="addNewWorkingTime">Thêm mới ca làm việc</button></span>
-                                <span class="closeWorkingTime">&times;</span> 
+                                <form method="post" id="setWorkingTimeForm">
+                                    <table id="addInTable">
+                                        <c:forEach items="${WorkSessionList}" var="c">
+                                            <tr>
+                                                <td> <input type="checkbox" name="checkboxTime" class="checkboxTime" value="${c.getWorkSessionId()} "></td>
+                                                <td>${c.getWorkSessionName()} ${c.getStart_time()}-${c.getEnd_time()}</td>
+                                            </tr>                              
+                                        </c:forEach>
+                                    </table>
+                                    <span ><button id="addNewWorkingTime">Thêm mới ca làm việc</button></span>
+                                    <span ><button id="set">Chọn</button></span>
+                                    <span class="closeWorkingTime">&times;</span> 
+                                </form>
                             </div>
                             <div id="addWorkingTime">
                                 <span class="CloseAddWorkingTime">&times;</span> 
                                 <form action="schedule" method="post" class="form-container">
-                                    <label>Bắt đầu từ :</label>
-                                    <input type="time" required="" id="starttime" name="start_time">
-                                    <label>Kết thúc vào :</label>
-                                    <input type="time" required="" id="endtime" name="end_time">
-                                    <button id="Add" >Submit</button>
+                                    <table>
+                                        <tr>  
+                                            <td><label>Bắt đầu từ :</label></td>
+                                            <td><input type="time" required="" id="starttime" name="start_time"></td>
+                                        </tr>
+                                        <tr>
+                                            <td> <label>Kết thúc vào :</label> </td>
+                                            <td> <input type="time" required="" id="endtime" name="end_time"> </td>
+                                        </tr>
+                                        <tr>   
+                                            <td> Tên ca : </td>
+                                            <td><input type="text" required="" id="sessionWork"></td>
+                                        </tr>
+                                        <button id="Add" >Submit</button>
+                                    </table>
                                 </form>
                             </div>
                         </div> 
@@ -113,70 +131,138 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script>
+        let checkboxTimeArray = [];
+        let setBox = "";
         document.addEventListener("DOMContentLoaded", function () {
 
             const addSchedule = document.querySelectorAll(".add-schedule");
             addSchedule.forEach(function (cell) {
                 cell.addEventListener("click", function () {
+                    setBox = cell.getAttribute("value");
                     const popup = document.querySelector("#setWorkingTime");
                     popup.style.display = "block";
                 });
             });
-        });
-        const close = document.querySelector(".closeWorkingTime");
-        close.addEventListener("click", function () {
-            const popup = document.querySelector("#setWorkingTime");
-            popup.style.display = "none";
-        });
-        const starttime = document.querySelector("#starttime");
-        const endtime = document.querySelector("#endtime");
-        starttime.addEventListener("input", CompareTime);
-        endtime.addEventListener("input", CompareTime);
-        let submit = document.querySelector("#Add");
-        function  CompareTime() {
-            let getStartTime = starttime.value;
-            let getEndTime = endtime.value;
-            
-            if (getStartTime >= getEndTime || getStartTime==="" || getEndTime=="") {
-                submit.disabled = true;
-            } else  {
-                submit.disabled = false;
-            }
-        }
-        
 
-            const addNewWorkingTime = document.querySelector("#addNewWorkingTime"); 
-            addNewWorkingTime.addEventListener("click",function () {
-               const  addWorkingTime = document.querySelector("#addWorkingTime");
-               addWorkingTime.style.display="block";
+            const close = document.querySelector(".closeWorkingTime");
+            close.addEventListener("click", function () {
+                const popup = document.querySelector("#setWorkingTime");
+                popup.style.display = "none";
             });
-       
-        
-        const CloseAddWorkingTime = document.querySelector(".CloseAddWorkingTime");
-        CloseAddWorkingTime.addEventListener("click",function() {
-              const  addWorkingTime = document.querySelector("#addWorkingTime");
-              addWorkingTime.style.display="none";
+
+            const starttime = document.querySelector("#starttime");
+            const endtime = document.querySelector("#endtime");
+            const submit = document.querySelector("#Add");
+            let sessionWork = document.querySelector("#sessionWork");
+            starttime.addEventListener("input", CompareTime);
+            endtime.addEventListener("input", CompareTime);
+            sessionWork.addEventListener("input", function (e) {
+                submit.disabled = sessionWork.value.trim() === "";
+            });
+
+            function CompareTime() {
+                let getStartTime = starttime.value;
+                let getEndTime = endtime.value;
+
+                submit.disabled = (getStartTime >= getEndTime || getStartTime === "" || getEndTime === "" || sessionWork.value.trim() === "");
+            }
+
+            const addNewWorkingTime = document.querySelector("#addNewWorkingTime");
+            addNewWorkingTime.addEventListener("click", function (event) {
+                event.preventDefault();
+                const addWorkingTime = document.querySelector("#addWorkingTime");
+                addWorkingTime.style.display = "block";
+                const popup = document.querySelector("#setWorkingTime");
+                popup.style.display = "none";
+            });
+
+            const CloseAddWorkingTime = document.querySelector(".CloseAddWorkingTime");
+            CloseAddWorkingTime.addEventListener("click", function () {
+                const addWorkingTime = document.querySelector("#addWorkingTime");
+                addWorkingTime.style.display = "none";
+                const popup = document.querySelector("#setWorkingTime");
+                popup.style.display = "block";
+            });
+
+            const addClick = document.getElementById('Add').addEventListener('click', function (event) {
+                event.preventDefault();
+                const http = new XMLHttpRequest();
+                http.open("POST", "addsessiontime?starttime=" + starttime.value + "&endtime=" + endtime.value + "&name=" + sessionWork.value, true);
+
+                http.send();
+                http.onreadystatechange = function () {
+                    if (this.readyState == 4) {
+                        const calamviec = '<tr> <td> <input type="checkbox" name="checkboxTime" > </td> <td>' + http.responseText + " </td><tr>";
+                        document.querySelector("#addInTable").innerHTML += calamviec;
+                        document.querySelector("#addWorkingTime").style.display = "none";
+                    }
+                };
+                const popup = document.querySelector("#setWorkingTime");
+                popup.style.display = "block";
+            });
+
+            // Initial check for disabled state based on empty inputs
+            submit.disabled = (starttime.value === "" || endtime.value === "" || sessionWork.value.trim() === "");
         });
-        
-   const addClick= document.getElementById('Add').addEventListener('click', function(event) {
-      event.preventDefault();
-     const  http = new XMLHttpRequest();
-     http.open("POST","schedule?starttime="+starttime.value+"&endtime="+endtime.value,true);
-    
-     http.send();
-     http.onreadystatechange =function () {
-         if(this.readyState==4) {
-             const calamviec ='<input type="checkbox" name="checkboxTime" >'+http.responseText;
-             document.querySelector("#setWorkingTime").insertAdjacentHTML("afterbegin",calamviec);
-             document.querySelector("#addWorkingTime").style.display="none";      
-         }
-     };
-    });
-    let addClickRemove=document.getElementById('Add');
-    if(starttime.value === "" || endtime.value === "") {
-       document.querySelector("#Add").disabled=true;
-     }
-     console.log(starttime.value);
+
+
+        const setSessionWork = document.querySelector("#set");
+        setSessionWork.addEventListener("click", function (event) {
+            event.preventDefault();
+            const http = new XMLHttpRequest();
+            console.log(setBox);
+            console.log(checkboxTimeArray);
+            http.open("POST", "setworksession?setsessionon=" + setBox + "&setsession=" + checkboxTimeArray, true);
+            http.send();
+            http.onreadystatechange = function () {
+                if (this.readyState === 4) {
+                    const row = document.querySelectorAll(".add-schedule");
+                    row.forEach(function (cell) {
+                        if (cell.getAttribute("value") === setBox) {
+                            cell.innerHTML += http.responseText;
+                        }
+                    });
+                }
+            };
+
+        });
+
+        const checkboxTime = document.querySelectorAll(".checkboxTime");
+        checkboxTime.forEach(function (checkbox) {
+            checkbox.addEventListener('click', function () {
+
+                const value = checkbox.getAttribute("value");
+                if (checkbox.checked) {
+                    if (!checkboxTimeArray.includes(value)) {
+                        checkboxTimeArray.push(value);
+                    }
+                } else {
+                    const index = checkboxTimeArray.indexOf(value);
+                    if (index !== -1) {
+                        checkboxTimeArray.splice(index, 1);
+                    }
+                }
+                if (checkboxTimeArray.length === 0) {
+                    setSessionWork.disabled = true;
+                } else {
+                    setSessionWork.disabled = false;
+                }
+
+
+            });
+
+        });
+
+        function checkBoxChecked() {
+            let isTrue = true;
+            const checkboxTime = document.querySelectorAll(".checkboxTime");
+            checkboxTime.forEach(function (item) {
+                if (item.checked) {
+                    isTrue = false;
+                }
+            });
+            return isTrue;
+        }
 
 
     </script>
@@ -200,9 +286,9 @@
             left: 50%;
             transform: translate(-50%, -50%);
             width: 500px;
-            height: 200px;
+            height: 700px;
             padding: 20px;
-            background-color: white;
+            background-color: #FFE9D0;
             border: 1px solid #ccc;
             z-index: 2; /* Đảm bảo popup hiển thị trên cùng dấu cộng */
             text-align: center;
@@ -215,13 +301,10 @@
             cursor: pointer;
         }
         .form-container {
-            display: flex;
-            align-items: center;
+
         }
 
-        .form-container label {
-            margin-right: 10px;
-        }
+
         #setWorkingTime {
             display: none;
             position: fixed;
@@ -229,13 +312,13 @@
             left: 50%;
             transform: translate(-50%, -50%);
             width: 500px;
-            height: 200px;
+            height: 700px;
             padding: 20px;
-            background-color: white;
+            background-color: #FFE9D0;
             border: 1px solid #ccc;
             z-index: 2; /* Đảm bảo popup hiển thị trên cùng dấu cộng */
             text-align: center;
         }
-        
+
     </style>
 </html>

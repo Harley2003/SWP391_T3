@@ -4,20 +4,20 @@
  */
 package Controller.Admin;
 
-import DAL.ScheduleDAO;
-import DAL.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import DAL.*;
+import Model.*;
 
 /**
  *
  * @author sinan
  */
-public class Schedule extends HttpServlet {
+public class AddNewSessionTime extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,21 +30,18 @@ public class Schedule extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Schedule</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Schedule at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+
     }
 
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     UserDAO dao;
     ScheduleDAO scheduleDAO;
 
@@ -61,7 +58,6 @@ public class Schedule extends HttpServlet {
         request.getRequestDispatcher("View/Admin/Schedule.jsp").forward(request, response);
     }
 
-
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -73,7 +69,15 @@ public class Schedule extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        String starttime = request.getParameter("starttime");
+        String endtime = request.getParameter("endtime");
+        String workSession = request.getParameter("name");
+        System.out.println(starttime);
+        System.out.println(endtime);
+        System.out.println(workSession);
+        System.out.println(scheduleDAO.InsertIntoWorkSession(workSession, starttime, endtime)); 
+        response.getWriter().write(workSession+" "+ starttime + "-" + endtime);
     }
 
     /**

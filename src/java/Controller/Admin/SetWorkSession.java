@@ -4,19 +4,21 @@
  */
 package Controller.Admin;
 
-import DAL.SystemLogDAO;
+import DAL.ScheduleDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author sinan
  */
-public class SystemLog extends HttpServlet {
+public class SetWorkSession extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,10 +37,10 @@ public class SystemLog extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SystemLog</title>");            
+            out.println("<title>Servlet SetWorkSession</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SystemLog at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet SetWorkSession at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -53,12 +55,10 @@ public class SystemLog extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    public SystemLogDAO dao = new SystemLogDAO();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setAttribute("systemLogList", dao.getAllSystemLog());
-        request.getRequestDispatcher("View/Admin/SystemLog.jsp").forward(request, response);
+
     }
 
     /**
@@ -69,10 +69,43 @@ public class SystemLog extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    public ScheduleDAO dao = new ScheduleDAO();
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        String setSession = request.getParameter("setsessionon");
+        String setSessionArray = request.getParameter("setsession");
+        List<String> list = new ArrayList<>();
+        if (setSessionArray != null) {
+            if (!setSessionArray.contains(",")) {
+                 int number = Integer.parseInt(setSessionArray.trim());
+                 String name = dao.getWorkSessionByID(number).getWorkSessionName();
+                 String startTime =dao.subTime(dao.getWorkSessionByID(number).getStart_time());
+                 String endTime =dao.subTime(dao.getWorkSessionByID(number).getEnd_time());
+                list.add(name+" "+startTime+"-"+endTime);
+            } else {
+                int size = setSessionArray.split(",").length;
+                for (int i = 0; i < size; i++) {
+                    int number = Integer.parseInt(setSessionArray.split(",")[i].trim());
+                    String name = dao.getWorkSessionByID(number)
+                            .getWorkSessionName();
+                    String startTime =dao.subTime(dao.getWorkSessionByID(number).getStart_time());
+                    String endTime = dao.subTime(dao.getWorkSessionByID(number).getEnd_time());
+                    list.add(name+" "+startTime+"-"+endTime);
+                
+                }
+            }
+        }
+        int size = list.size();
+        for (int i = 0; i < size; i++) {
+            System.out.println(list.get(i));
+            response.getWriter().write(
+                    "<div>" + list.get(i)
+                            +"</div>"
+                    );
+        }
     }
 
     /**

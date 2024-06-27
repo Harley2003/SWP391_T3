@@ -15,7 +15,7 @@ public class User {
     private int status; 
     private Role role; 
     private UserInfo info;
-
+    private ScheduleLog log;
     public User() {
     }
 
@@ -34,6 +34,26 @@ public class User {
         this.role = role;
         this.info = info;
     }
+
+    public ScheduleLog getLog() {
+        return log;
+    }
+
+    public void setLog(ScheduleLog log) {
+        this.log = log;
+    }
+
+    public User(int userID, String username, String password, int status, Role role, UserInfo info, ScheduleLog log) {
+        this.userID = userID;
+        this.username = username;
+        this.password = password;
+        this.status = status;
+        this.role = role;
+        this.info = info;
+        this.log = log;
+    }
+    
+
     public User(int userID, String username, String password, int status) {
         this.userID = userID;
         this.username = username;
