@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 **/nbproject/private/
 **/nbproject/Makefile-*.mk
 **/nbproject/Package-*.bash
@@ -7,3 +8,15 @@ dist/
 nbdist/
 .nb-gradle/
 nbproject/
+=======
+**/nbproject/private/*
+**/nbproject/Makefile-*.mk
+**/nbproject/Package-*.bash
+build
+nbbuild
+dist
+nbdist
+.nb-gradle
+nbproject
+web/lib/*
+>>>>>>> 56ff34345e508b347e6bd5495dec2ff0040630e1

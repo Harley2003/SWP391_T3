@@ -95,7 +95,7 @@
                                             </tr>                              
                                         </c:forEach>
                                     </table>
-                                    <span ><button id="addNewWorkingTime">Thêm mới ca làm việc</button></span>
+                                    <span ><button id="addNewWorkingTime">Thêm mới  làm việc</button></span>
                                     <span ><button id="set">Chọn</button></span>
                                     <span class="closeWorkingTime">&times;</span> 
                                 </form>
@@ -207,8 +207,14 @@
 
 
         const setSessionWork = document.querySelector("#set");
+        if (checkBoxChecked() == true) {
+            setSessionWork.disabled = true;
+        }
         setSessionWork.addEventListener("click", function (event) {
             event.preventDefault();
+            if (checkBoxChecked === true) {
+                setSessionWork.disabled = true;
+            }
             const http = new XMLHttpRequest();
             console.log(setBox);
             console.log(checkboxTimeArray);
@@ -220,12 +226,22 @@
                     row.forEach(function (cell) {
                         if (cell.getAttribute("value") === setBox) {
                             cell.innerHTML += http.responseText;
+                            const popup = document.querySelector("#setWorkingTime");
+                            popup.style.display = "none";
+                            const checkboxTime = document.querySelectorAll(".checkboxTime");
+                            checkboxTime.forEach(function (item) {
+                                if (item.checked) {
+                                    item.checked = false;
+                                }
+                            });
                         }
+
                     });
                 }
             };
 
         });
+
 
         const checkboxTime = document.querySelectorAll(".checkboxTime");
         checkboxTime.forEach(function (checkbox) {

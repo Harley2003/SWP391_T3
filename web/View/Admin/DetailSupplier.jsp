@@ -94,24 +94,6 @@
                                                     <input type="number" class="form-control" id="price" name="price" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="category" class="required-label">Danh mục</label>
-                                                    <div class="input-group">
-                                                        <select class="form-control select-input" id="categorySelect" name="categorySelect" required>
-                                                            <option value="">Chọn danh mục</option>
-                                                            <%
-                                                              List<Category> listCategory = (List<Category>) request.getAttribute("listCategory");
-                                                              if (listCategory != null && !listCategory.isEmpty()) {
-                                                                for (Category c : listCategory) { %>
-                                                            <option value="<%= c.getCategoryID()%>"><%= c.getCategoryName()%></option>
-                                                            <%  } } %>
-                                                        </select>
-                                                        <input type="text" class="form-control input-input" id="categoryInput" name="categoryInput" style="display: none;">
-                                                        <div class="input-group-append">
-                                                            <button class="btn btn-outline-secondary toggle-input" type="button" style="height: 45px;"><i class="fa-solid fa-rotate"></i></button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
                                                     <label for="date" class="required-label">Ngày nhập</label>
                                                     <input type="date" class="form-control" id="date" name="date" required>
                                                 </div>

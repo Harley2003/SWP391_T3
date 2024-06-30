@@ -1,3 +1,8 @@
+<%-- 
+    Document   : SidebarMenu
+    Created on : Jun 1, 2024, 10:23:35 AM
+    Author     : ADMIN
+--%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -17,8 +22,8 @@
             </div>
             <hr>
             <ul class="app-menu">
-
-                    <a class="app-menu__item active" href="dashboard" data-menu="control"><i class="app-menu__icon bx bxs-dashboard"></i>
+                <li>  
+                    <a class="app-menu__item active" href="dashboard" data-menu="control"><i class="app-menu__icon bx bxs-dashboard"></i></i>
                         <span class="app-menu__label">
                             Bảng điều khiển
                         </span>
@@ -73,36 +78,35 @@
                     </a>
                 </li> 
                 <li>
-                    <a class="app-menu__item" href="schedule" data-menu="log"><i class='app-menu__icon bx bxs-notepad'></i>
-                        <span class="app-menu__label">
-                            Xếp lịch nhân viên
-                         </span>
-                    </a>
-                </li> 
-                  <li>
                     <a class="app-menu__item" href="log" data-menu="log"><i class='app-menu__icon bx bxs-notepad'></i>
                         <span class="app-menu__label">
                             Hoạt động gần đây  
                         </span>
                     </a>
                 </li> 
+                 <li>
+                    <a class="app-menu__item" href="schedule" data-menu="schedule"><i class='app-menu__icon bx bxs-notepad'></i>
+                        <span class="app-menu__label">
+                          Sắp xếp lịch làm việc
+                        </span>
+                    </a>
+                </li> 
             </ul>
         </aside>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const menuItems = document.querySelectorAll('.app-menu__item');
-                const activeMenu = localStorage.getItem('activeMenu');
-                if (activeMenu) {
-                    document.querySelector(`[data-menu="${activeMenu}"]`).classList.add('active');
-                }
-                menuItems.forEach(item => {
-                    item.addEventListener('click', () => {
-                        menuItems.forEach(i => i.classList.remove('active'));
-                        localStorage.setItem('activeMenu', item.getAttribute('data-menu'));
-                    });
-                });
+        <script> 
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuItems = document.querySelectorAll('.app-menu__item'); 
+            const activeMenu = localStorage.getItem('activeMenu');
+            if(activeMenu){
+                document.querySelector(`[data-menu="${activeMenu}"]`).classList.add('active');
+            } 
+            menuItems.forEach(item => {
+                item.addEventListener('click', () => { 
+                    menuItems.forEach(i => i.classList.remove('active'));  
+                    localStorage.setItem('activeMenu', item.getAttribute('data-menu'));
+                 });
             });
+        });
         </script>
     </body> 
 </html>

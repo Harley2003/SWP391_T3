@@ -116,60 +116,69 @@
                                                     <form method="POST" action="staffmanager?action=edit&uID=${u.getUserID()}">
                                                         <div class="modal-body">
                                                             <h3 style="margin: 15px 0 15px 0; text-align: center" class="tile-title">Chỉnh Sửa Thông Tin Nhân Viên</h3> 
-                                                            <div class="form-group col-md-6"> 
-                                                                <label class="control-label">Họ</label>
-                                                                <input class="form-control" name="firstname" type="text" value="${u.getInfo().getName().split(" ")[0]}">  
-                                                            </div>
-                                                            <div class="form-group col-md-6">
-                                                                <label class="control-label">Tên</label>
-                                                                <input class="form-control" name="lastname" type="text" value="${u.getInfo().getName().split(" ")[1]}"> 
-                                                            </div>
-                                                            <div class="form-group  col-md-6">
-                                                                <label class="control-label">Password</label>
-                                                                <input class="form-control" name="password" type="password" value="${u.getPassword()}"> 
-                                                            </div>
-                                                            <div class="form-group  col-md-6">
-                                                                 <label class="control-label">Ngày Sinh</label>
-                                                                 <input class="form-control" name="date" type="date" value="${u.getInfo().getDate()}">
+                                                            <div class="row">
+                                                                <div class="form-group col-md-6"> 
+                                                                    <label class="control-label">Họ</label>
+                                                                    <input class="form-control" name="firstname" type="text" value="${u.getInfo().getName().split(" ")[0]}">  
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                    <label class="control-label">Tên</label>
+                                                                    <input class="form-control" name="lastname" type="text" value="${u.getInfo().getName().split(" ")[1]}"> 
+                                                                </div> 
                                                             </div> 
-                                                             
-                                                            <div class="form-group col-md-6">
-                                                                <label class="control-label">Giới tính</label>
-                                                                <select class="form-control" name="gender">
-                                                                    <option ${u.getInfo().getGender() == 1 ? "selected":""} value="1">Nam</option>
-                                                                    <option ${u.getInfo().getGender() == 0 ? "selected":""} value="0">Nữ</option>
-                                                                </select>   
+                                                            <div class="row">
+                                                                <div class="form-group  col-md-6">
+                                                                    <label class="control-label">Password</label>
+                                                                    <input class="form-control" name="password" type="password" value="${u.getPassword()}"> 
+                                                                </div>
+                                                                <div class="form-group  col-md-6">
+                                                                    <label class="control-label">Ngày Sinh</label>
+                                                                    <input class="form-control" name="date" type="date" value="${u.getInfo().getDate()}">
+                                                                </div>
                                                             </div>
-                                                            <div class="form-group  col-md-6">
-                                                                <label class="control-label">Số điện thoại</label>
-                                                                <input class="form-control" name="phone" type="text" value="${u.getInfo().getPhone()}"> 
-                                                            </div>
-                                                            <div class="form-group  col-md-6">
-                                                                <label class="control-label">Địa chỉ</label>
-                                                                <input class="form-control" name="address" type="text" value="${u.getInfo().getAddress()}">
-                                                            </div>
-                                                            <div class="form-group  col-md-6">
-                                                                <label class="control-label">Email</label>
-                                                                <input class="form-control" name="email" type="text" value="${u.getInfo().getEmail()}">
-                                                            </div>
-                                                            <div class="form-group  col-md-6">
-                                                                <label class="control-label">Trạng thái</label>
-                                                                <select class="form-control" name="status">
-                                                                    <option ${u.getStatus() == 1 ? "selected":""} value="1">Activated</option>
-                                                                    <option ${u.getStatus() == 2 ? "selected":""} value="2">UnActivated</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="form-group  col-md-6">
-                                                                <label class="control-label">Role</label> 
-                                                                <select class="form-control" name="role">
-                                                                    <c:forEach items="${listRole}" var="r">
-                                                                        <c:if test="${r.getRoleID() != 1}">
-                                                                            <option ${r.getRoleID() == 3 ? "selected":""} value="${r.getRoleID()}">${r.getRoleName()}</option>
-                                                                        </c:if>
-                                                                    </c:forEach> 
-                                                            </select>
+                                                            <div class="row">
+                                                                <div class="form-group col-md-6">
+                                                                    <label class="control-label">Giới tính</label>
+                                                                    <select class="form-control" name="gender">
+                                                                        <option ${u.getInfo().getGender() == 1 ? "selected":""} value="1">Nam</option>
+                                                                        <option ${u.getInfo().getGender() == 0 ? "selected":""} value="0">Nữ</option>
+                                                                    </select>   
+                                                                </div>
+                                                                <div class="form-group  col-md-6">
+                                                                    <label class="control-label">Số điện thoại</label>
+                                                                    <input class="form-control" name="phone" type="text" value="${u.getInfo().getPhone()}"> 
+                                                                </div>
                                                             </div> 
-                                                            <div class="form-group  col-md-6">
+                                                            <div class="row">
+                                                                <div class="form-group  col-md-6">
+                                                                    <label class="control-label">Địa chỉ</label>
+                                                                    <input class="form-control" name="address" type="text" value="${u.getInfo().getAddress()}">
+                                                                </div>
+                                                                <div class="form-group  col-md-6">
+                                                                    <label class="control-label">Email</label>
+                                                                    <input class="form-control" name="email" type="text" value="${u.getInfo().getEmail()}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="form-group  col-md-6">
+                                                                    <label class="control-label">Trạng thái</label>
+                                                                    <select class="form-control" name="status">
+                                                                        <option ${u.getStatus() == 1 ? "selected":""} value="1">Activated</option>
+                                                                        <option ${u.getStatus() == 2 ? "selected":""} value="2">UnActivated</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group  col-md-6">
+                                                                    <label class="control-label">Role</label> 
+                                                                    <select class="form-control" name="role">
+                                                                        <c:forEach items="${listRole}" var="r">
+                                                                            <c:if test="${r.getRoleID() != 1}">
+                                                                                <option ${r.getRoleID() == 3 ? "selected":""} value="${r.getRoleID()}">${r.getRoleName()}</option>
+                                                                            </c:if>
+                                                                        </c:forEach> 
+                                                                    </select>
+                                                                </div> 
+                                                            </div>
+                                                            <div>
                                                                 <button class="btn btn-save" type="submit">Update</button>
                                                                 <a class="btn btn-cancel"  href="staffmanager">Hủy bỏ</a> 
                                                             </div>
@@ -219,8 +228,8 @@
         <!-- Page specific javascripts-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
         <!-- Data table plugin-->
-        <script type="text/javascript" src="admin/js/plugins/jquery.dataTables.min.js"></script>
-        <script type="text/javascript" src="admin/js/plugins/dataTables.bootstrap.min.js"></script>
+        <script type="text/javascript" src="View/Admin/js/plugins/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="View/Admin/js/plugins/dataTables.bootstrap.min.js"></script>
         <script type="text/javascript">$('#sampleTable').DataTable();</script> 
     </body>
 

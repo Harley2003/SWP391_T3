@@ -1,7 +1,14 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package Model;
 
+/**
+ *
+ * @author ADMIN
+ */
 public class Product {
-
     private String productID;
     private String productName;
     private float price;
@@ -11,11 +18,21 @@ public class Product {
     public Product() {
     }
 
+    public Product(String productID) {
+        this.productID = productID;
+    } 
     public Product(String productID, String productName) {
         this.productID = productID;
         this.productName = productName;
     }
 
+    public Product(String productID, String productName, float sale_price) {
+        this.productID = productID;
+        this.productName = productName;
+        this.sale_price = sale_price;
+    }
+
+    
     public Product(String productID, String productName, float price, float sale_price, Category category) {
         this.productID = productID;
         this.productName = productName;
@@ -63,5 +80,6 @@ public class Product {
     public void setCategory(Category category) {
         this.category = category;
     }
-
+    
+    
 }

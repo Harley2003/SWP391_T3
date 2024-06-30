@@ -3,22 +3,29 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Controller.Admin;
+package Controller;
 
-import DAL.ProductDAO;
+import DAL.CustomerDAO; 
+import Model.Customer;
+import Model.Product;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  *
  * @author ADMIN
  */
-public class Product extends HttpServlet {
+@WebServlet(name="CustomerSearch", urlPatterns={"/CustomerSearch"})
+public class CustomerSearch extends HttpServlet {
    
+    private CustomerDAO dao = new CustomerDAO();
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -26,12 +33,21 @@ public class Product extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    ProductDAO dao;
-    public void init(){
-        dao = new ProductDAO();
-    }
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException { 
+    throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet CustomerSearch</title>");  
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet CustomerSearch at " + request.getContextPath () + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -45,9 +61,12 @@ public class Product extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.setAttribute("listCategory", dao.getCategory());
-        request.setAttribute("listProduct", dao.getProduct());
-        request.getRequestDispatcher("View/Admin/Product.jsp").forward(request, response);
+        String textSearch = request.getParameter("textSearch");
+        List<Customer> list = dao.searchCustomerByPhone(textSearch); 
+        String json = new Gson().toJson(list);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(json);
     } 
 
     /** 
