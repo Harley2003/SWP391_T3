@@ -15,6 +15,16 @@ public class WeekOfYear {
     private String start_date;
     private String end_date;
 
+    public WeekOfYear(int id, int year, int week_number, String start_date, String end_date) {
+        this.id = id;
+        this.year = year;
+        this.week_number = week_number;
+        this.start_date = start_date;
+        this.end_date = end_date;
+    }
+
+    
+    
     public int getId() {
         return id;
     }
@@ -39,7 +49,7 @@ public class WeekOfYear {
         this.week_number = week_number;
     }
 
-    public String getStart_date() {
+    public String getStartdate() {
         return start_date;
     }
 
@@ -47,7 +57,7 @@ public class WeekOfYear {
         this.start_date = start_date;
     }
 
-    public String getEnd_date() {
+    public String getEnddate() {
         return end_date;
     }
 

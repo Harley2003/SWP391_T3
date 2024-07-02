@@ -4,6 +4,7 @@ import Model.Role;
 import Model.ScheduleLog;
 import Model.User;
 import Model.UserInfo;
+import Model.WeekOfYear;
 import java.util.List;
 import Model.WorkSession;
 import java.util.ArrayList;
@@ -18,20 +19,21 @@ public class ScheduleDAO extends DBContext {
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 list.add(new WorkSession(rs.getInt("WorkSessionId"), rs.getString("WorkSessionName"),
-                         subTime(rs.getString("start_time")),subTime( rs.getString("end_time"))));
+                        subTime(rs.getString("start_time")), subTime(rs.getString("end_time"))));
             }
         } catch (Exception e) {
             System.out.println(e);
         }
         return list;
-    } 
-    public boolean InsertIntoWorkSession(String name,String start_time,String end_time) {
+    }
+
+    public boolean InsertIntoWorkSession(String name, String start_time, String end_time) {
         String sql = "INSERT INTO WorkSession VALUES(?,CAST(? as time),Cast(? as time))";
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
-           stm.setString(1, name);
-           stm.setString(2, start_time);
-           stm.setString(3, end_time);
-           return   stm.executeUpdate() >0;
+            stm.setString(1, name);
+            stm.setString(2, start_time);
+            stm.setString(3, end_time);
+            return stm.executeUpdate() > 0;
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -40,7 +42,11 @@ public class ScheduleDAO extends DBContext {
 
     public static void main(String[] args) {
         ScheduleDAO dao = new ScheduleDAO();
-       
+           for (ScheduleLog i : dao.getAllScheduleLog()) {
+               System.out.println(i.getDateId().getId());
+        }
+        
+
     }
 
     public String subTime(String time) {
@@ -49,13 +55,13 @@ public class ScheduleDAO extends DBContext {
         String trimmedTime = timeString.substring(0, indexOfDot);
         return trimmedTime;
     }
-    
-    public boolean InsertIntoScheduleLog(int staffid,String worksessionid) {
-        String sql  = "Insert Into Schedule_Log VALUES(?,?)";
+
+    public boolean InsertIntoScheduleLog(int staffid, String worksessionid) {
+        String sql = "Insert Into Schedule_Log VALUES(?,?)";
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
-           stm.setInt(1, staffid);
-           stm.setString(2, worksessionid);
-           return   stm.executeUpdate() >0;
+            stm.setInt(1, staffid);
+            stm.setString(2, worksessionid);
+            return stm.executeUpdate() > 0;
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -107,21 +113,91 @@ public class ScheduleDAO extends DBContext {
 //          }
 //          return null;
 //      }
+
     public WorkSession getWorkSessionByID(int id) {
         String sql = "Select * From WorkSession WHERE WorkSessionID =?";
-        try(PreparedStatement stm = connection.prepareStatement(sql)){
-              stm.setInt(1, id);
-              ResultSet rs = stm.executeQuery();
-              if(rs.next()) {
-                  return new WorkSession(id,
-                          rs.getString("WorkSessionName"),
-                          rs.getString("start_time"), rs.getString("end_time"));
-              }
-          }catch(Exception e) {
-              System.out.println(e);
-          }
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return new WorkSession(id,
+                        rs.getString("WorkSessionName"),
+                        rs.getString("start_time"), rs.getString("end_time"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         return null;
     }
-      
-}
 
+    public List<WeekOfYear> getAllWeekOfYear() {
+        List<WeekOfYear> list = new ArrayList<>();
+        String sql = "Select * From WeeksOfYear";
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                list.add(new WeekOfYear(rs.getInt("id"),
+                        rs.getInt("Year"),
+                        rs.getInt("week_number"),
+                        rs.getString("start_date"),
+                        rs.getString("end_date")));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
+    public WeekOfYear getWeekOfYearbyID(int id) {
+        String sql = "SELECT * FROM WeeksOfYear where id =? ";
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return new WeekOfYear(id, rs.getInt("year"),
+                        rs.getInt("week_number"),
+                        rs.getString("start_date"),
+                        rs.getString("end_date"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public List<ScheduleLog> getAllScheduleLog() {
+        List<ScheduleLog> list = new ArrayList<>();
+        String sql = "SELECT * FROM Schedule_Log";
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                WeekOfYear week = getWeekOfYearbyID(rs.getInt("dateid"));
+                WorkSession session = getWorkSessionByID(rs.getInt("WorkSessionId"));
+                list.add(new ScheduleLog(rs.getInt("staff_id"),
+                        session, week,
+                        rs.getInt("DayOfWeek")));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
+    public WorkSession getWorkSessionById(int id) {
+        String sql = "SELECT * FROM WorkSession where WorkSessionId =? ";
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return new WorkSession(id,
+                        rs.getString("WorkSessionName"),
+                        rs.getString("start_time"),
+                        rs.getString("end_time"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+}

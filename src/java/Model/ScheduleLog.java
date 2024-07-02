@@ -10,13 +10,19 @@ package Model;
  */
 public class ScheduleLog {
     private int staffID;
-    private int WorkSessionID;
-    private int dateId;
-    public ScheduleLog(int staffID, int WorkSessionID) {
+    private WorkSession WorkSessionID;
+    private WeekOfYear dateId;
+    private int dayOfWeek;
+   
+
+    public ScheduleLog(int staffID, WorkSession WorkSessionID, WeekOfYear dateId, int dayOfWeek) {
         this.staffID = staffID;
         this.WorkSessionID = WorkSessionID;
+        this.dateId = dateId;
+        this.dayOfWeek = dayOfWeek;
     }
-
+    
+    
     public int getStaffID() {
         return staffID;
     }
@@ -25,21 +31,30 @@ public class ScheduleLog {
         this.staffID = staffID;
     }
 
-    public int getWorkSessionID() {
+    public WorkSession getWorkSessionID() {
         return WorkSessionID;
     }
 
-    public void setWorkSessionID(int WorkSessionID) {
+    public void setWorkSessionID(WorkSession WorkSessionID) {
         this.WorkSessionID = WorkSessionID;
     }
 
-    public int getDateId() {
+    public WeekOfYear getDateId() {
         return dateId;
     }
 
-    public void setDateId(int dateId) {
+    public void setDateId(WeekOfYear dateId) {
         this.dateId = dateId;
     }
+
+    public int getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public void setDayOfWeek(int dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
+    
     
     
 }

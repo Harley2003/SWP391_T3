@@ -22,6 +22,10 @@
         <servlet-class>Controller.Login</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>AddNewSessionTime</servlet-name>
+        <servlet-class>Controller.Admin.AddNewSessionTime</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>HomeSale</servlet-name>
         <servlet-class>Controller.HomeSale</servlet-class>
     </servlet>
@@ -156,6 +160,10 @@
     <servlet-mapping>
         <servlet-name>Inventory</servlet-name>
         <url-pattern>/inventory</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddNewSessionTime</servlet-name>
+        <url-pattern>/addsessiontime</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Order</servlet-name>

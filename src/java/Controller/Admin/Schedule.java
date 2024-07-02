@@ -6,6 +6,7 @@ package Controller.Admin;
 
 import DAL.ScheduleDAO;
 import DAL.UserDAO;
+import Model.ScheduleLog;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -36,7 +37,7 @@ public class Schedule extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Schedule</title>");            
+            out.println("<title>Servlet Schedule</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet Schedule at " + request.getContextPath() + "</h1>");
@@ -56,11 +57,12 @@ public class Schedule extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setAttribute("workSessionList", scheduleDAO.getAllScheduleLog());
+        request.setAttribute("weekList", scheduleDAO.getAllWeekOfYear());
         request.setAttribute("WorkSessionList", scheduleDAO.getAllWorkSession());
         request.setAttribute("scheduleList", dao.getUserInfo());
         request.getRequestDispatcher("View/Admin/Schedule.jsp").forward(request, response);
     }
-
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -73,7 +75,22 @@ public class Schedule extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+//        processRequest(request, response);
+        int count = 0;
+        int size = scheduleDAO.getAllScheduleLog().size();
+        response.getWriter().write("[");
+        for (ScheduleLog i : scheduleDAO.getAllScheduleLog()) {
+            response.getWriter().write("{\"userid\": \"" + i.getStaffID() + "\","
+                    + "\"dateid\": \"" + i.getDateId().getId() + "\","
+                    + "\"dayOfWeek\": \"" + i.getDayOfWeek() + "\","
+                    + "\"Info\": \"" +i.getWorkSessionID().getWorkSessionName()+ scheduleDAO.subTime(i.getWorkSessionID().getStart_time())
+                    + "-" + scheduleDAO.subTime(i.getWorkSessionID().getEnd_time()) + "\"}");
+            if (count != size - 1) {
+                response.getWriter().write(",");
+            }
+            count++;
+        }
+        response.getWriter().write("]");
     }
 
     /**

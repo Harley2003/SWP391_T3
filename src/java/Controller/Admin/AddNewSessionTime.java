@@ -53,6 +53,7 @@ public class AddNewSessionTime extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         request.setAttribute("WorkSessionList", scheduleDAO.getAllWorkSession());
         request.setAttribute("scheduleList", dao.getUserInfo());
         request.getRequestDispatcher("View/Admin/Schedule.jsp").forward(request, response);

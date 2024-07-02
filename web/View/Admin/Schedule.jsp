@@ -56,30 +56,38 @@
                                     </div> 
 
                                 </div>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Nhân viên</th>
-                                            <th>Thứ 2 </th>
-                                            <th>Thứ 3</th>
-                                            <th>Thứ 4</th>
-                                            <th>Thứ 5</th>
-                                            <th>Thứ 6</th>
-                                            <th>Thứ 7</th>
-                                            <th>Chủ nhật</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                                <button id="prevButton">Prev</button>
+                                <select id="weekSelect">
+                                <c:forEach items="${weekList}" var="c">
+                                    <option value="${c.getId()}">${c.getStartdate()} - ${c.getEnddate()}</option>
+                                </c:forEach>
+                            </select>
+                            <button id="nextButton">Next</button>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Nhân viên</th>
+                                        <th>Thứ 2 </th>
+                                        <th>Thứ 3</th>
+                                        <th>Thứ 4</th>
+                                        <th>Thứ 5</th>
+                                        <th>Thứ 6</th>
+                                        <th>Thứ 7</th>
+                                        <th>Chủ nhật</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
                                     <c:forEach items="${scheduleList}" var="c">
-                                        <tr class="item-log">
+                                        <tr class="item-log" id="${c.getUserID()}">
                                             <td>${c.getInfo().getName()}</td>
-                                            <td class="add-schedule" value="${c.getUserID()}/t2"></td>
-                                            <td class="add-schedule" value="${c.getUserID()}/t3"></td>
-                                            <td class="add-schedule" value="${c.getUserID()}/t4"></td>
-                                            <td class="add-schedule" value="${c.getUserID()}/t5"></td>
-                                            <td class="add-schedule" value="${c.getUserID()}/t6"></td>
-                                            <td class="add-schedule" value="${c.getUserID()}/t7"></td>
-                                            <td class="add-schedule" value="${c.getUserID()}/cn"></td>   
+                                            <td class="add-schedule" id="1" value="${c.getUserID()}/t2"></td>
+                                            <td class="add-schedule" id="2" value="${c.getUserID()}/t3"></td>
+                                            <td class="add-schedule" id="3" value="${c.getUserID()}/t4"></td>
+                                            <td class="add-schedule" id="4" value="${c.getUserID()}/t5"></td>
+                                            <td class="add-schedule" id="5" value="${c.getUserID()}/t6"></td>
+                                            <td class="add-schedule" id="6" value="${c.getUserID()}/t7"></td>
+                                            <td class="add-schedule" id="7" value="${c.getUserID()}/cn"></td>   
                                         </tr>
                                     </c:forEach> 
                                 </tbody>
@@ -133,6 +141,45 @@
     <script>
         let checkboxTimeArray = [];
         let setBox = "";
+        let responseString = "";
+        let obj = "";
+        const userRow = document.querySelectorAll(".item-log");
+//         userRow.forEach(function(item){
+//            const day = Array.from(item.children);
+//            console.log(day);
+//            day.forEach(function(dayofWeek) {
+//                console.log(dayofWeek.getAttribute("id"));
+//            });
+//        });
+             
+        function  insertIntoCell( userId, dayOfWeek,info) {
+            userRow.forEach(function(item){
+            if(item.getAttribute("id")==userId ) {
+                const  a =Array.from(item.children);
+                a.forEach( function(day) {
+                    if(day.getAttribute("id")==dayOfWeek) {
+                        day.innerHTML += info+"<br/>";
+                    }
+                });
+            }
+        });
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            const http = new XMLHttpRequest();
+            http.open("POST", "schedule", true);
+            http.send();
+            http.onreadystatechange = function () {
+                if (this.readyState === 4) {
+                    responseString = http.responseText;
+                    obj = JSON.parse(responseString);
+                    obj.forEach(function (item) {
+                        insertIntoCell(item.userid,item.dayOfWeek,item.Info);
+                      
+                    });
+                }
+            };
+        });
+
         document.addEventListener("DOMContentLoaded", function () {
 
             const addSchedule = document.querySelectorAll(".add-schedule");
@@ -268,6 +315,8 @@
             });
 
         });
+
+
 
         function checkBoxChecked() {
             let isTrue = true;
