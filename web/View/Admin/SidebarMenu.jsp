@@ -84,6 +84,13 @@
                         </span>
                     </a>
                 </li> 
+                 <li>
+                    <a class="app-menu__item" href="schedule" data-menu="schedule"><i class='app-menu__icon bx bxs-notepad'></i>
+                        <span class="app-menu__label">
+                          Sắp xếp lịch làm việc
+                        </span>
+                    </a>
+                </li> 
             </ul>
         </aside>
         <script> 

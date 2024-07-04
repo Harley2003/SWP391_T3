@@ -49,7 +49,7 @@ public class AddProduct extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         request.setAttribute("listCategory", dao.getCategory());
-        request.setAttribute("listSupplier", supplier.getSupplier());
+        request.setAttribute("listSupplier", supplier.getInfoSupplier()); 
         request.getRequestDispatcher("View/Admin/AddProduct.jsp").forward(request, response);
     } 
 

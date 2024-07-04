@@ -1,8 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
-
 package Controller.Admin;
 
 import DAL.SupplierDAO;
@@ -12,78 +7,46 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 
-/**
- *
- * @author ADMIN
- */
 public class Supplier extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    SupplierDAO dao;
-    public void init(){
-        dao = new SupplierDAO();
-    }
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException { 
-    } 
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
-     * Handles the HTTP <code>GET</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet Suppiler</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet Suppiler at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        request.setAttribute("listSupplier", dao.getSupplier());
+            throws ServletException, IOException {
+//        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        SupplierDAO dao = new SupplierDAO();
+        List<Model.Supplier> suppliers = dao.getInfoSupplier();
+        request.setAttribute("listSuppliers", suppliers);
         request.getRequestDispatcher("View/Admin/Supplier.jsp").forward(request, response);
-    } 
-
-    /** 
-     * Handles the HTTP <code>POST</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        String action = request.getParameter("action");
-        String msg = "";
-        switch (action) {
-            case "add":
-                String name = request.getParameter("name");
-                String phone = request.getParameter("phone");
-                String address = request.getParameter("address");
-                String email = request.getParameter("email");
-                if(dao.addSupplier(name, phone, address, email)) msg = "Thêm nhà cung cấp thành công !";
-                else msg = "Thêm nhà cung cấp thất bại !";
-                break;
-            default:
-                throw new AssertionError();
-        }
-        request.setAttribute("message", msg);
-        doGet(request, response);
     }
 
-    /** 
-     * Returns a short description of the servlet.
-     * @return a String containing servlet description
-     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+//        processRequest(request, response);
+    }
+
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 
 }
