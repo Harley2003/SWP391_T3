@@ -42,7 +42,8 @@
                         <li class="breadcrumb-item"><a href="log">System Log</a></li>
 
                     </ul> 
-
+                    <button id="clickme">Xóa</button>
+                    <button id="deleteChecked">Xóa</button>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
@@ -56,13 +57,13 @@
                                     </div> 
 
                                 </div>
-                                <button id="prevButton">Prev</button>
+
                                 <select id="weekSelect">
                                 <c:forEach items="${weekList}" var="c">
-                                    <option value="${c.getId()}">${c.getStartdate()} - ${c.getEnddate()}</option>
+                                    <option value="${c.getId()}">${c.getStartdate()} to ${c.getEnddate()}</option>
                                 </c:forEach>
                             </select>
-                            <button id="nextButton">Next</button>
+
                             <table>
                                 <thead>
                                     <tr>
@@ -81,13 +82,13 @@
                                     <c:forEach items="${scheduleList}" var="c">
                                         <tr class="item-log" id="${c.getUserID()}">
                                             <td>${c.getInfo().getName()}</td>
-                                            <td class="add-schedule" id="1" value="${c.getUserID()}/t2"></td>
-                                            <td class="add-schedule" id="2" value="${c.getUserID()}/t3"></td>
-                                            <td class="add-schedule" id="3" value="${c.getUserID()}/t4"></td>
-                                            <td class="add-schedule" id="4" value="${c.getUserID()}/t5"></td>
-                                            <td class="add-schedule" id="5" value="${c.getUserID()}/t6"></td>
-                                            <td class="add-schedule" id="6" value="${c.getUserID()}/t7"></td>
-                                            <td class="add-schedule" id="7" value="${c.getUserID()}/cn"></td>   
+                                            <td class="add-schedule" id="1" value="${c.getUserID()}/1"></td>
+                                            <td class="add-schedule" id="2" value="${c.getUserID()}/2"></td>
+                                            <td class="add-schedule" id="3" value="${c.getUserID()}/3"></td>
+                                            <td class="add-schedule" id="4" value="${c.getUserID()}/4"></td>
+                                            <td class="add-schedule" id="5" value="${c.getUserID()}/5"></td>
+                                            <td class="add-schedule" id="6" value="${c.getUserID()}/6"></td>
+                                            <td class="add-schedule" id="7" value="${c.getUserID()}/7"></td>   
                                         </tr>
                                     </c:forEach> 
                                 </tbody>
@@ -125,6 +126,7 @@
                                             <td><input type="text" required="" id="sessionWork"></td>
                                         </tr>
                                         <button id="Add" >Submit</button>
+
                                     </table>
                                 </form>
                             </div>
@@ -143,7 +145,38 @@
         let setBox = "";
         let responseString = "";
         let obj = "";
-        const userRow = document.querySelectorAll(".item-log");
+        let getDateId = "";
+        let userid = "";
+        let dayofWeek = "";
+        let checkedCheckboxes = [];
+       const deleteChecked =  document.querySelector("#deleteChecked");
+       deleteChecked.disabled=true;
+        //console.log(getCurrentOption);
+//        const clickme = document.querySelector("#clickme");
+//        clickme.addEventListener("click", function () {
+//            const item = document.querySelectorAll(".add-schedule");
+//
+//            // Nếu nút "Hủy" đang hiển thị
+//            if (clickme.innerHTML === "Hủy") {
+//                item.forEach(function (i) {
+//                    // Xóa bỏ checkbox trong các ô đã thêm checkbox
+//                    const checkbox = i.querySelector("input[type='checkbox']");
+//                    if (checkbox) {
+//                        checkbox.remove();
+//                    }
+//                });
+//                clickme.innerHTML = "Thêm checkbox";
+//            } else {
+//                item.forEach(function (i) {
+//                    if (!i.innerHTML == "") {
+//                        // Thêm checkbox vào ô nếu chưa có
+//                        i.innerHTML += "<input type='checkbox'>";
+//                    }
+//                });
+//                clickme.innerHTML = "Hủy";
+//            }
+//        });
+
 //         userRow.forEach(function(item){
 //            const day = Array.from(item.children);
 //            console.log(day);
@@ -151,43 +184,146 @@
 //                console.log(dayofWeek.getAttribute("id"));
 //            });
 //        });
-             
-        function  insertIntoCell( userId, dayOfWeek,info) {
-            userRow.forEach(function(item){
-            if(item.getAttribute("id")==userId ) {
-                const  a =Array.from(item.children);
-                a.forEach( function(day) {
-                    if(day.getAttribute("id")==dayOfWeek) {
-                        day.innerHTML += info+"<br/>";
-                    }
-                });
-            }
-        });
+        const userRow = document.querySelectorAll(".item-log");
+        function  insertIntoCell(dateid, userId, dayOfWeek, info) {
+            let dateidValue = document.querySelector("#weekSelect").value;
+            userRow.forEach(function (item) {
+                if (item.getAttribute("id") === userId) {
+                    const  a = Array.from(item.children);
+                    a.forEach(function (day) {
+                        if (day.getAttribute("id") === dayOfWeek && dateid == dateidValue) {
+                            day.innerHTML += info + "</br>";
+                        }
+                    });
+                }
+            });
         }
         document.addEventListener("DOMContentLoaded", function () {
+            let dateid = document.querySelector("#weekSelect");
+            let options = dateid.options;
+            let getCurrentOption = "";
+            Array.from(options).forEach(function (item) {
+                let subString = item.textContent.split("to");
+                let dateStart = new Date(subString[0]);
+                let dateEnd = new Date(subString[1]);
+                let currentDate = new Date();
+                if (dateStart <= currentDate && currentDate <= dateEnd) {
+                    getCurrentOption = item;
+                    return;
+                }
+            });
+            getCurrentOption.selected = true;
+            let dateValue = dateid.value;
+            getDateId = dateValue;
+            dateid.addEventListener("change", function (e) {
+                dateValue = dateid.value;
+                getDateId = dateValue;
+                clearAllRow();
+                getAllSchedule(dateValue);
+            });
+            clearAllRow();
+            getAllSchedule(dateValue);
+            const clickme = document.querySelector("#clickme");
+            clickme.addEventListener("click", function () {
+                
+                const item = document.querySelectorAll(".add-schedule");
+                if (clickme.innerHTML === "Hủy") {
+                    item.forEach(function (i) {
+                        const checkbox = i.querySelector("input[type='checkbox']");
+                        if (checkbox) {
+                            checkbox.remove();
+                        }
+                    });
+                    clickme.innerHTML = "Delete";
+                    document.querySelector("#deleteChecked").style.display = "none";
+
+                } else {
+                    item.forEach(function (i) {
+                        if (!i.innerHTML == "") {
+
+                            i.innerHTML += '<input type="checkbox" name="deleteCheckBox" />';
+                        }
+                    });
+                    const checkBoxChecked = document.querySelectorAll('input[type="checkbox"][name="deleteCheckBox"]');
+
+                    checkBoxChecked.forEach(function (checkbox) {
+                        checkbox.addEventListener("change", function () {                          
+                            if (checkbox.checked) {
+                                if (!checkedCheckboxes.includes(checkbox)) {
+                                    checkedCheckboxes.push(checkbox.parentNode.getAttribute("value"));
+                                }
+                            } else {
+                                const index = checkedCheckboxes.indexOf(checkbox.parentNode.getAttribute("value"));
+                                if (index !== -1) {
+                                    checkedCheckboxes.splice(index, 1);
+                                }
+                            }
+                             if(checkedCheckboxes.length!=0) {
+                                console.log(checkedCheckboxes);
+                                deleteChecked.disabled=false;
+                            }else{
+                                 console.log(checkedCheckboxes);
+                                 deleteChecked.disabled=true;
+                            }
+                        });
+                    });
+                    clickme.innerHTML = "Hủy";
+                    document.querySelector("#deleteChecked").style.display = "block";
+                }
+            });
+        });
+        const deleted = document.querySelector("#deleteChecked");
+        deleted.addEventListener("click",function () {
+ 
+
+           const http = new XMLHttpRequest();
+           http.open("POST","deleteschedule?dateid="+getDateId+"&info="+checkedCheckboxes,true);
+           http.send();
+           http.onreadystatechange=function () {
+                 if(this.readyState === 4) {
+               location.reload();
+           }
+           };
+         
+        });
+
+
+        function clearAllRow() {
+            let listRow = document.querySelectorAll(".add-schedule");
+            listRow.forEach(function (item) {
+                item.innerHTML = "";
+            });
+        }
+
+        function getAllSchedule(date) {
             const http = new XMLHttpRequest();
-            http.open("POST", "schedule", true);
+            http.open("POST", "schedule?dateid=" + date, true);
             http.send();
             http.onreadystatechange = function () {
                 if (this.readyState === 4) {
                     responseString = http.responseText;
                     obj = JSON.parse(responseString);
+                    console.log(obj);
                     obj.forEach(function (item) {
-                        insertIntoCell(item.userid,item.dayOfWeek,item.Info);
-                      
+                        insertIntoCell(item.dateid, item.userid, item.dayOfWeek, item.Info);
                     });
                 }
             };
-        });
+        }
 
         document.addEventListener("DOMContentLoaded", function () {
-
             const addSchedule = document.querySelectorAll(".add-schedule");
             addSchedule.forEach(function (cell) {
-                cell.addEventListener("click", function () {
+                cell.addEventListener("click", function (e) {
                     setBox = cell.getAttribute("value");
-                    const popup = document.querySelector("#setWorkingTime");
-                    popup.style.display = "block";
+                    e.stopPropagation();
+                    if (!e.target.matches('input[type="checkbox"]')) {
+                        const subString = setBox.split("/");
+                        userid = subString[0];
+                        dayofWeek = subString[1];
+                        const popup = document.querySelector("#setWorkingTime");
+                        popup.style.display = "block";
+                    }
                 });
             });
 
@@ -239,16 +375,17 @@
                 http.send();
                 http.onreadystatechange = function () {
                     if (this.readyState == 4) {
-                        const calamviec = '<tr> <td> <input type="checkbox" name="checkboxTime" > </td> <td>' + http.responseText + " </td><tr>";
+                        const calamviec = http.responseText;   //'<tr> <td> <input type="checkbox" name="checkboxTime" > </td> <td>' + http.responseText + " </td><tr>";
                         document.querySelector("#addInTable").innerHTML += calamviec;
                         document.querySelector("#addWorkingTime").style.display = "none";
+                        location.reload();
                     }
                 };
                 const popup = document.querySelector("#setWorkingTime");
                 popup.style.display = "block";
             });
 
-            // Initial check for disabled state based on empty inputs
+
             submit.disabled = (starttime.value === "" || endtime.value === "" || sessionWork.value.trim() === "");
         });
 
@@ -265,25 +402,26 @@
             const http = new XMLHttpRequest();
             console.log(setBox);
             console.log(checkboxTimeArray);
-            http.open("POST", "setworksession?setsessionon=" + setBox + "&setsession=" + checkboxTimeArray, true);
+            http.open("POST", "setworksession?dateid=" + getDateId + "&userid=" + userid + "&dayofWeek=" + dayofWeek + "&setsession=" + checkboxTimeArray, true);
             http.send();
             http.onreadystatechange = function () {
                 if (this.readyState === 4) {
-                    const row = document.querySelectorAll(".add-schedule");
-                    row.forEach(function (cell) {
-                        if (cell.getAttribute("value") === setBox) {
-                            cell.innerHTML += http.responseText;
-                            const popup = document.querySelector("#setWorkingTime");
-                            popup.style.display = "none";
-                            const checkboxTime = document.querySelectorAll(".checkboxTime");
-                            checkboxTime.forEach(function (item) {
-                                if (item.checked) {
-                                    item.checked = false;
-                                }
-                            });
-                        }
-
-                    });
+//                    const row = document.querySelectorAll(".add-schedule");
+//                    row.forEach(function (cell) {
+//                        if (cell.getAttribute("value") === setBox) {
+//                            cell.innerHTML += http.responseText;
+//                            const popup = document.querySelector("#setWorkingTime");
+//                            popup.style.display = "none";
+//                            const checkboxTime = document.querySelectorAll(".checkboxTime");
+//                            checkboxTime.forEach(function (item) {
+//                                if (item.checked) {
+//                                    item.checked = false;
+//                                }
+//                            });
+//                        }
+//
+//                    });
+                    location.reload();
                 }
             };
 
@@ -365,8 +503,8 @@
             padding: 10px;
             cursor: pointer;
         }
-        .form-container {
-
+        #deleteChecked{
+            display: none;
         }
 
 

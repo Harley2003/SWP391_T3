@@ -5,20 +5,20 @@
 package Controller.Admin;
 
 import DAL.ScheduleDAO;
-import DAL.UserDAO;
-import Model.ScheduleLog;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author sinan
  */
-public class Schedule extends HttpServlet {
+public class DeleteSchedule extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,31 +37,28 @@ public class Schedule extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Schedule</title>");
+            out.println("<title>Servlet DeleteSchedule</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Schedule at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet DeleteSchedule at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
     }
 
-    UserDAO dao;
-    ScheduleDAO scheduleDAO;
-
-    public void init() {
-        dao = new UserDAO();
-        scheduleDAO = new ScheduleDAO();
-    }
-
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        request.setAttribute("weekList", scheduleDAO.getAllWeekOfYear());
-        request.setAttribute("WorkSessionList", scheduleDAO.getAllWorkSession());
-        request.setAttribute("scheduleList", dao.getUserInfo());
-        request.getRequestDispatcher("View/Admin/Schedule.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -72,26 +69,30 @@ public class Schedule extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private ScheduleDAO dao;
+    public void init() {
+     dao = new ScheduleDAO();
+    }
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        processRequest(request, response);
-        int dateid = Integer.parseInt(request.getParameter("dateid"));
-        int count = 0;
-        int size = scheduleDAO.getAllScheduleLogByDateID(dateid).size();
-        response.getWriter().write("[");
-        for (ScheduleLog i : scheduleDAO.getAllScheduleLogByDateID(dateid)) {
-            response.getWriter().write("{\"userid\": \"" + i.getStaffID() + "\","
-                    + "\"dateid\": \"" + i.getDateId().getId() + "\","
-                    + "\"dayOfWeek\": \"" + i.getDayOfWeek() + "\","
-                    + "\"Info\": \"" + i.getWorkSessionID().getWorkSessionName() + scheduleDAO.subTime(i.getWorkSessionID().getStart_time())
-                    + "-" + scheduleDAO.subTime(i.getWorkSessionID().getEnd_time()) + "\"}");
-            if (count != size - 1) {
-                response.getWriter().write(",");
-            }
-            count++;
-        }
-        response.getWriter().write("]");
+       String dateid =request.getParameter("dateid");
+       int dateNumber = Integer.parseInt(dateid);
+       String info = request.getParameter("info");
+       if(!info.contains(",")) {
+           String [] arr = info.split("/");
+           dao.deleteSchedule(dateNumber, Integer.parseInt(arr[0].trim()),
+                   Integer.parseInt(arr[1].trim()));
+       }else {
+            String [] arr = info.split(",");
+            for (String i : arr) {
+               String [] smallArr = i.split("/");
+                dao.deleteSchedule(dateNumber, Integer.parseInt(smallArr[0].trim()),
+                   Integer.parseInt(smallArr[1].trim())); 
+           }
+       }
+        
     }
 
     /**

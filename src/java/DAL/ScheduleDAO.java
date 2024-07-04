@@ -41,11 +41,6 @@ public class ScheduleDAO extends DBContext {
     }
 
     public static void main(String[] args) {
-        ScheduleDAO dao = new ScheduleDAO();
-           for (ScheduleLog i : dao.getAllScheduleLog()) {
-               System.out.println(i.getDateId().getId());
-        }
-        
 
     }
 
@@ -56,11 +51,13 @@ public class ScheduleDAO extends DBContext {
         return trimmedTime;
     }
 
-    public boolean InsertIntoScheduleLog(int staffid, String worksessionid) {
-        String sql = "Insert Into Schedule_Log VALUES(?,?)";
+    public boolean InsertIntoScheduleLog(int staffid, int worksessionid, int dateid, int dayofWeek) {
+        String sql = "Insert Into Schedule_Log VALUES(?,?,?,?)";
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.setInt(1, staffid);
-            stm.setString(2, worksessionid);
+            stm.setInt(2, worksessionid);
+            stm.setInt(3, dateid);
+            stm.setInt(4, dayofWeek);
             return stm.executeUpdate() > 0;
         } catch (Exception e) {
             System.out.println(e);
@@ -165,10 +162,11 @@ public class ScheduleDAO extends DBContext {
         return null;
     }
 
-    public List<ScheduleLog> getAllScheduleLog() {
+    public List<ScheduleLog> getAllScheduleLogByDateID(int dateid) {
         List<ScheduleLog> list = new ArrayList<>();
-        String sql = "SELECT * FROM Schedule_Log";
+        String sql = "SELECT * FROM Schedule_Log where dateid=?";
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setInt(1, dateid);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 WeekOfYear week = getWeekOfYearbyID(rs.getInt("dateid"));
@@ -200,4 +198,16 @@ public class ScheduleDAO extends DBContext {
         return null;
     }
 
+    public boolean deleteSchedule(int dateid, int userid, int day) {
+        String sql = "DELETE Schedule_log WHERE dateid=? AND staff_id=? AND DayOfWeek =? ";
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setInt(1, dateid);
+            stm.setInt(2, userid);
+            stm.setInt(3, day);
+            return  stm.executeUpdate()>0;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
+    }
 }

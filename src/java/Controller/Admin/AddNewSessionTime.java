@@ -70,15 +70,16 @@ public class AddNewSessionTime extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");       
         String starttime = request.getParameter("starttime");
         String endtime = request.getParameter("endtime");
-        String workSession = request.getParameter("name");
+        String workSession = request.getParameter("name");    
         System.out.println(starttime);
         System.out.println(endtime);
         System.out.println(workSession);
         System.out.println(scheduleDAO.InsertIntoWorkSession(workSession, starttime, endtime)); 
-        response.getWriter().write(workSession+" "+ starttime + "-" + endtime);
+//      response.getWriter().write("<td> <input type=\"checkbox\" name=\"checkboxTime\" class=\"checkboxTime\" value=\""+starttime+" \"></td>\n" +
+//"                                                <td>${c.getWorkSessionName()} ${c.getStart_time()}-${c.getEnd_time()}</td>");
     }
 
     /**

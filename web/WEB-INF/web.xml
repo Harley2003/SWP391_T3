@@ -85,6 +85,10 @@
         <servlet-name>Inventory</servlet-name>
         <servlet-class>Controller.Admin.Inventory</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeleteSchedule</servlet-name>
+        <servlet-class>Controller.Admin.DeleteSchedule</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SystemLog</servlet-name>
         <url-pattern>/log</url-pattern>
@@ -176,6 +180,10 @@
     <servlet-mapping>
         <servlet-name>SaleController</servlet-name>
         <url-pattern>/salecontroller</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteSchedule</servlet-name>
+        <url-pattern>/deleteschedule</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>login</welcome-file>

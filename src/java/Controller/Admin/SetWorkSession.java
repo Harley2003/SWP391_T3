@@ -75,36 +75,32 @@ public class SetWorkSession extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String setSession = request.getParameter("setsessionon");
-        String setSessionArray = request.getParameter("setsession");
-        List<String> list = new ArrayList<>();
+        String dateid = request.getParameter("dateid");
+        String userid = request.getParameter("userid");
+        String dayOfWeek = request.getParameter("dayofWeek");
+        String setSessionArray = request.getParameter("setsession");     
+        int date = Integer.parseInt(dateid.trim());
+        int user = Integer.parseInt(userid.trim());
+        int day = Integer.parseInt(dayOfWeek.trim());
+        
+        List<Integer> list = new ArrayList<>();
         if (setSessionArray != null) {
             if (!setSessionArray.contains(",")) {
-                 int number = Integer.parseInt(setSessionArray.trim());
-                 String name = dao.getWorkSessionByID(number).getWorkSessionName();
-                 String startTime =dao.subTime(dao.getWorkSessionByID(number).getStart_time());
-                 String endTime =dao.subTime(dao.getWorkSessionByID(number).getEnd_time());
-                list.add(name+" "+startTime+"-"+endTime);
+                list.add(Integer.parseInt(setSessionArray.trim()));
             } else {
                 int size = setSessionArray.split(",").length;
                 for (int i = 0; i < size; i++) {
-                    int number = Integer.parseInt(setSessionArray.split(",")[i].trim());
-                    String name = dao.getWorkSessionByID(number)
-                            .getWorkSessionName();
-                    String startTime =dao.subTime(dao.getWorkSessionByID(number).getStart_time());
-                    String endTime = dao.subTime(dao.getWorkSessionByID(number).getEnd_time());
-                    list.add(name+" "+startTime+"-"+endTime);
-                
+                    list.add(Integer.parseInt(setSessionArray.split(",")[i].trim()));
                 }
             }
         }
         int size = list.size();
         for (int i = 0; i < size; i++) {
-            System.out.println(list.get(i));
+            dao.InsertIntoScheduleLog(user, list.get(i), date, day);
             response.getWriter().write(
                     "<div>" + list.get(i)
-                            +"</div>"
-                    );
+                    + "</div>"
+            );
         }
     }
 
