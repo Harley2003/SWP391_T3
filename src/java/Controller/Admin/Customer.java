@@ -5,8 +5,8 @@
 
 package Controller.Admin;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+import DAL.CustomerDAO;
+import java.io.IOException; 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,9 +25,9 @@ public class Customer extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    Customer dao;
+    CustomerDAO dao;
     public void init(){
-        dao = new Customer();
+        dao = new CustomerDAO();
     }
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException { 
@@ -44,6 +44,7 @@ public class Customer extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        request.setAttribute("customerList", dao.getCustomer());
         request.getRequestDispatcher("View/Admin/CustomerManager.jsp").forward(request, response);
     } 
 

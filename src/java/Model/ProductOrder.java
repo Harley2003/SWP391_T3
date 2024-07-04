@@ -8,34 +8,17 @@ package Model;
  *
  * @author ADMIN
  */
-public class Product {
+public class ProductOrder {
     private String productID;
     private String productName;
     private float price;
-    private float sale_price;
-    private Category category;
+    private int quantity;
 
-    public Product() {
-    }
-
-    public Product(String productID, String productName) {
-        this.productID = productID;
-        this.productName = productName;
-    }
-
-    public Product(String productID, String productName, float sale_price) {
-        this.productID = productID;
-        this.productName = productName;
-        this.sale_price = sale_price;
-    }
-
-    
-    public Product(String productID, String productName, float price, float sale_price, Category category) {
+    public ProductOrder(String productID, String productName, float price, int quantity) {
         this.productID = productID;
         this.productName = productName;
         this.price = price;
-        this.sale_price = sale_price;
-        this.category = category;
+        this.quantity = quantity;
     }
 
     public String getProductID() {
@@ -62,21 +45,17 @@ public class Product {
         this.price = price;
     }
 
-    public float getSale_price() {
-        return sale_price;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setSale_price(float sale_price) {
-        this.sale_price = sale_price;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
-    public Category getCategory() {
-        return category;
+    public ProductOrder() {
     }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
+    
     
     
 }

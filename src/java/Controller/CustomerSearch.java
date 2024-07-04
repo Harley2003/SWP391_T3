@@ -3,22 +3,29 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Controller.Admin;
+package Controller;
 
-import DAL.ProductDAO;
-import DAL.SupplierDAO;
+import DAL.CustomerDAO; 
+import Model.Customer;
+import Model.Product;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  *
  * @author ADMIN
  */
-public class AddProduct extends HttpServlet { 
+@WebServlet(name="CustomerSearch", urlPatterns={"/CustomerSearch"})
+public class CustomerSearch extends HttpServlet {
+   
+    private CustomerDAO dao = new CustomerDAO();
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -26,15 +33,21 @@ public class AddProduct extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    ProductDAO dao;
-    SupplierDAO supplier;
-    public void init(){
-        dao = new ProductDAO();
-        supplier = new SupplierDAO();
-    }
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException { 
+    throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet CustomerSearch</title>");  
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet CustomerSearch at " + request.getContextPath () + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -48,9 +61,12 @@ public class AddProduct extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.setAttribute("listCategory", dao.getCategory());
-        request.setAttribute("listSupplier", supplier.getSupplier());
-        request.getRequestDispatcher("View/Admin/AddProduct.jsp").forward(request, response);
+        String textSearch = request.getParameter("textSearch");
+        List<Customer> list = dao.searchCustomerByPhone(textSearch); 
+        String json = new Gson().toJson(list);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(json);
     } 
 
     /** 
@@ -63,31 +79,7 @@ public class AddProduct extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String type = request.getParameter("type");
-        String message = "";
-        switch (type) {
-            case "category" -> {
-                String categoryName = request.getParameter("categoryName");
-                if(dao.addCategory(categoryName)) message = "Thêm danh mục thành công!";
-                else message = "Lỗi thêm danh mục!";
-            }
-            case "product" -> {
-                String productName = request.getParameter("name");
-                int quantity = Integer.parseInt(request.getParameter("quantity"));
-                String receiveDate = request.getParameter("receiveDate");
-                String expriedDate = request.getParameter("expriedDate");
-                float price = Float.parseFloat(request.getParameter("price"));
-                float salePrice = Float.parseFloat(request.getParameter("salePrice"));
-                int categoryID = Integer.parseInt(request.getParameter("category"));
-                int supplierID = Integer.parseInt(request.getParameter("supplierID"));
-                if(dao.addProductInventory(productName, quantity, receiveDate, expriedDate, price, salePrice, categoryID, supplierID, 1))
-                    message = "Thêm sản phẩm thành công !";
-                else message = "Thêm sản phẩm thất bại !";
-            }
-            default -> throw new AssertionError();
-        }
-        request.setAttribute("message", message);
-        doGet(request, response);
+        processRequest(request, response);
     }
 
     /** 

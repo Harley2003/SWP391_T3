@@ -35,11 +35,13 @@ public class ProductDAO extends DBContext{
                                      rs.getFloat(4), 
                                               category));
             }
+            return list;
         } catch (SQLException e) {
             System.out.println(e);
         }
-        return list;
-    }   
+        return null;
+    }  
+    
     public List<Category> getCategory(){
         List<Category> list = new ArrayList<>();
         String sql = "select id, name from Category";
@@ -49,10 +51,11 @@ public class ProductDAO extends DBContext{
             while (rs.next()) {  
                 list.add(new Category(rs.getInt(1), rs.getString(2)));
             }
+            return list;
         } catch (SQLException e) {
             System.out.println(e);
         }
-        return list;
+        return null;
     } 
     
     public boolean addCategory(String categoryName){
@@ -67,24 +70,7 @@ public class ProductDAO extends DBContext{
         }
         return false;
     } 
-    public boolean addProduct(String name, float price, float salePrice, int categoryID){
-        RandomCode code = new RandomCode(); 
-        String sql = "INSERT INTO Product VALUES(?,?,?,?,?)";
-        try {
-            PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1, code.generateCode()); 
-            stm.setString(2, name);
-            stm.setFloat(3, price);
-            stm.setFloat(4, salePrice);
-            stm.setInt(5, categoryID);
-            stm.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        return false;
-    }
-    
+     
     public boolean isExistProduct(String productName){
         String sql = "select P.id from Product P where P.name LIKE ?";
         try {
@@ -99,6 +85,75 @@ public class ProductDAO extends DBContext{
         }
         return false;
     }
+    public boolean addProductInventory(String name, int quantity, String receiveDate, String expriedDate,float price, float salePrice, int categoryID, int supplierID, int status){
+        RandomCode code = new RandomCode(); 
+        String sql = "INSERT INTO Inventory VALUES(?,?,?,?,?,?)";
+        try {
+            String id = code.generateCode();
+            if(addProduct(id, name, price, salePrice, categoryID)){
+                PreparedStatement stm = connection.prepareStatement(sql);
+                stm.setString(1, id);
+                stm.setInt(2, quantity); 
+                stm.setString(3, receiveDate);
+                stm.setString(4, expriedDate); 
+                stm.setInt(5, supplierID);
+                stm.setInt(6, status);
+                stm.executeUpdate();
+                return true;
+            } 
+            return false;
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return false;
+    } 
+    public boolean addProduct(String id, String name, float price, float salePrice, int categoryID){ 
+        String sql = "INSERT INTO Product VALUES(?,?,?,?,?)";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, id); 
+            stm.setString(2, name);
+            stm.setFloat(3, price);
+            stm.setFloat(4, salePrice);
+            stm.setInt(5, categoryID);
+            stm.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+    
+    public List<Product> searchProductByName(String pName) {
+        List<Product> list = new ArrayList<>();
+        String sql = "select P.id, P.name, P.sale_price from Product P where P.name LIKE ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, "%" + pName + "%");
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) { 
+                list.add(new Product(rs.getString(1), rs.getString(2), rs.getFloat(3)));
+            }
+            return list;
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+    public Product getProduct(String pID) {
+        String sql = "select P.id, P.name, P.sale_price from Product P where P.id = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, pID);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) { 
+                return new Product(rs.getString(1), rs.getString(2), rs.getFloat(3));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
     
     public List<Inventory> getProductInventory() {
         List<Inventory> list = new ArrayList<>();
@@ -109,8 +164,7 @@ public class ProductDAO extends DBContext{
             ResultSet rs = stm.executeQuery();
             while (rs.next()) { 
                 Product p = new Product(rs.getString(1), rs.getString(2));
-                Supplier s = new Supplier(rs.getString(3)); 
-                
+                Supplier s = new Supplier(rs.getString(3));  
                 list.add(new Inventory(p, 
                                        rs.getInt(4), 
                                        rs.getDate(5), 
@@ -118,9 +172,10 @@ public class ProductDAO extends DBContext{
                                        s,
                                        rs.getInt(7)));
             }
+            return list;
         } catch (SQLException e) {
             System.out.println(e);
         }
-        return list;
+        return null;
     }
 }

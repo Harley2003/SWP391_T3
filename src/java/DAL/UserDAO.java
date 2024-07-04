@@ -11,8 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
-import java.sql.Date;
+import java.util.List; 
 
 /**
  *
@@ -58,9 +57,9 @@ public class UserDAO extends DBContext {
             while(rs.next()){  
                 Role role = new Role();
                 return new User(rs.getInt(1), 
-                                     rs.getString(2), 
-                                     rs.getString(3),
-                                     role);
+                              rs.getString(2), 
+                              rs.getString(3),
+                                      role);
             }
         } catch (SQLException e) {
         } 
@@ -213,5 +212,5 @@ public class UserDAO extends DBContext {
         } catch (Exception e) {
         }
         return false;
-    }
+    } 
 }
