@@ -16,6 +16,9 @@
         <url-pattern>/addstaff</url-pattern>
         <url-pattern>/staffmanager</url-pattern>
         <url-pattern>/authentication</url-pattern>
+        <url-pattern>/supplier</url-pattern>
+        <url-pattern>/addsupplier</url-pattern>
+        <url-pattern>/suppliermanager</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>Login</servlet-name>
@@ -89,6 +92,7 @@
         <servlet-name>DeleteSchedule</servlet-name>
         <servlet-class>Controller.Admin.DeleteSchedule</servlet-class>
     </servlet>
+    
     <servlet-mapping>
         <servlet-name>SystemLog</servlet-name>
         <url-pattern>/log</url-pattern>
@@ -108,6 +112,14 @@
     <servlet>
         <servlet-name>Supplier</servlet-name>
         <servlet-class>Controller.Admin.Supplier</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddSupplier</servlet-name>
+        <servlet-class>Controller.Admin.AddSupplier</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SupplierManager</servlet-name>
+        <servlet-class>Controller.Admin.SupplierManager</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SaleController</servlet-name>
@@ -184,6 +196,14 @@
     <servlet-mapping>
         <servlet-name>DeleteSchedule</servlet-name>
         <url-pattern>/deleteschedule</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddSupplier</servlet-name>
+        <url-pattern>/addsupplier</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SupplierManager</servlet-name>
+        <url-pattern>/suppliermanager</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>login</welcome-file>
