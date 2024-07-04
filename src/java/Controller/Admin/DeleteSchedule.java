@@ -2,50 +2,54 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+package Controller.Admin;
 
-package Controller;
-
+import DAL.ScheduleDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
- * @author ADMIN
+ * @author sinan
  */
-public class AuthenEmail extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+public class DeleteSchedule extends HttpServlet {
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AuthenEmail</title>");  
+            out.println("<title>Servlet DeleteSchedule</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AuthenEmail at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet DeleteSchedule at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    } 
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -53,41 +57,47 @@ public class AuthenEmail extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        request.getRequestDispatcher("View/AuthenEmail.jsp").forward(request, response);
-    } 
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private ScheduleDAO dao;
+    public void init() {
+     dao = new ScheduleDAO();
+    }
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException { 
-        String message = "";
-        String otpInput = request.getParameter("otpInput"); 
-        HttpSession session = request.getSession();
-        Object otpObj = session.getAttribute("otp"); 
-        if (otpObj == null) {
-            request.setAttribute("message","OTP not found or invalid");
-            request.getRequestDispatcher("View/AuthenEmail.jsp").forward(request, response);
-            return;
-        }
-        String otpCode = String.valueOf(otpObj); 
-        if(otpInput.equals(otpCode)){
-            response.sendRedirect("changepassword");
-        }
-        else{
-            request.setAttribute("message", "Mã OTP không chính xác, vui lòng thử lại!");
-            request.getRequestDispatcher("View/AuthenEmail.jsp").forward(request, response);
-        }
+            throws ServletException, IOException {
+       String dateid =request.getParameter("dateid");
+       int dateNumber = Integer.parseInt(dateid);
+       String info = request.getParameter("info");
+       if(!info.contains(",")) {
+           String [] arr = info.split("/");
+           dao.deleteSchedule(dateNumber, Integer.parseInt(arr[0].trim()),
+                   Integer.parseInt(arr[1].trim()));
+       }else {
+            String [] arr = info.split(",");
+            for (String i : arr) {
+               String [] smallArr = i.split("/");
+                dao.deleteSchedule(dateNumber, Integer.parseInt(smallArr[0].trim()),
+                   Integer.parseInt(smallArr[1].trim())); 
+           }
+       }
+        
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

@@ -70,6 +70,18 @@
                                     <input class="form-control" name="name" type="text" placeholder="Nhập tên sản phẩm" required>
                                 </div>
                                 <div class="form-group col-md-3">
+                                    <label class="control-label">Số lượng</label>
+                                    <input class="form-control" name="quantity" type="number" placeholder="Nhập số lượng" required>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="control-label">Ngày Nhập</label>
+                                    <input class="form-control" name="receiveDate" type="date" placeholder="Ngày nhập hàng" required>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="control-label">Hạn sử dụng</label>
+                                    <input class="form-control" name="expriedDate" type="date" placeholder="Nhập hạn sử dụng" required>
+                                </div>
+                                <div class="form-group col-md-3">
                                     <label class="control-label">Giá gốc</label>
                                     <input class="form-control" name="price" type="number" placeholder="Nhập giá gốc" required>
                                 </div>
@@ -85,10 +97,18 @@
                                     </c:forEach> 
                                     </select> 
                                 </div> 
+                                <div class="form-group col-md-3">
+                                    <label class="control-label">Nhà cung cấp</label>
+                                    <select class="form-control" name="supplierID"> 
+                                    <c:forEach items="${listSupplier}" var="s">
+                                        <option value="${s.getId()}">${s.getName()}</option>
+                                    </c:forEach> 
+                                    </select> 
+                                </div> 
                                 <div class="form-group col-md-6">
                                     <button id="submitForm" class="btn btn-save" type="submit">Lưu</button>
                                     &nbsp;
-                                    <a class="btn btn-cancel" href="productmanager">Quay lại</a>
+                                    <a class="btn btn-cancel" href="inventory">Quay lại</a>
                                 </div>
                             </form> 
                         </div> 

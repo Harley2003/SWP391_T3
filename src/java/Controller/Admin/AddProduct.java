@@ -6,6 +6,7 @@
 package Controller.Admin;
 
 import DAL.ProductDAO;
+import DAL.SupplierDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -26,8 +27,10 @@ public class AddProduct extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     ProductDAO dao;
+    SupplierDAO supplier;
     public void init(){
         dao = new ProductDAO();
+        supplier = new SupplierDAO();
     }
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -45,7 +48,7 @@ public class AddProduct extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.setAttribute("listCategory", dao.getCategory());
+        request.setAttribute("listCategory", dao.getCategory()); 
         request.getRequestDispatcher("View/Admin/AddProduct.jsp").forward(request, response);
     } 
 
@@ -69,10 +72,14 @@ public class AddProduct extends HttpServlet {
             }
             case "product" -> {
                 String productName = request.getParameter("name");
+                int quantity = Integer.parseInt(request.getParameter("quantity"));
+                String receiveDate = request.getParameter("receiveDate");
+                String expriedDate = request.getParameter("expriedDate");
                 float price = Float.parseFloat(request.getParameter("price"));
                 float salePrice = Float.parseFloat(request.getParameter("salePrice"));
                 int categoryID = Integer.parseInt(request.getParameter("category"));
-                if(dao.addProduct(productName, price, salePrice, categoryID))
+                int supplierID = Integer.parseInt(request.getParameter("supplierID"));
+                if(dao.addProductInventory(productName, quantity, receiveDate, expriedDate, price, salePrice, categoryID, supplierID, 1))
                     message = "Thêm sản phẩm thành công !";
                 else message = "Thêm sản phẩm thất bại !";
             }

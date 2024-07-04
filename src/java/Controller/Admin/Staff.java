@@ -64,7 +64,7 @@ public class Staff extends HttpServlet {
         String message = "";
         int userID = Integer.parseInt(request.getParameter("uID"));
         switch (action) {
-            case "edit": 
+            case "edit" -> { 
                 String password = encode.EncodePassword(request.getParameter("password"));
                 String firstName = request.getParameter("firstname");
                 String lastName = request.getParameter("lastname"); 
@@ -75,16 +75,15 @@ public class Staff extends HttpServlet {
                 String email = request.getParameter("email");
                 int status = Integer.parseInt(request.getParameter("status"));
                 int roleID = Integer.parseInt(request.getParameter("role"));
-                if(dao.updateUser(userID, password, status, roleID, firstName, lastName, date, gender, phone, address, email)) 
+                if(dao.updateUser(userID, password, status, roleID, firstName, lastName, date, gender, phone, address, email))
                     message = "Cập nhật thông tin nhân viên thành công!"; 
                 else message = "Cập nhật thông tin thất bại!";
-                break;
-            case "delete":
+            }
+            case "delete" -> {
                 if(dao.deleteUser(userID)) message = "Xóa nhân viên thành công!"; 
                 else message = "Xóa nhân viên thất bại!";
-                break;
-            default:
-                throw new AssertionError();
+            }
+            default -> throw new AssertionError();
         } 
         request.setAttribute("message", message);
         doGet(request, response);
