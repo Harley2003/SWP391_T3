@@ -48,7 +48,8 @@ public class AddProduct extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.setAttribute("listCategory", dao.getCategory()); 
+        request.setAttribute("listCategory", dao.getCategory());
+        request.setAttribute("listSupplier", supplier.getInfoSupplier()); 
         request.getRequestDispatcher("View/Admin/AddProduct.jsp").forward(request, response);
     } 
 
