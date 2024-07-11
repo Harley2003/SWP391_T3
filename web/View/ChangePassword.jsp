@@ -1,9 +1,3 @@
-<%-- 
-    Document   : ChangePassword
-    Created on : May 23, 2024, 8:58:50 AM
-    Author     : ADMIN
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

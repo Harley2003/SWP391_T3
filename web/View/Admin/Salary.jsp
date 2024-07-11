@@ -1,9 +1,3 @@
-<%-- 
-    Document   : Salary
-    Created on : Jun 5, 2024, 1:57:16 AM
-    Author     : ADMIN
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

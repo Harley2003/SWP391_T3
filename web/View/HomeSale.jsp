@@ -15,71 +15,71 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"> 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css"> 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> 
-        
+
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">  
         <link rel="stylesheet" href="View/CSS/staff.css">
-        <style> 
-        #customerResult { 
-            position: absolute;
-            top: 24%; 
-            left: 1470px;
-            right: 0;
-            width: 300px;
-            background-color: #fff;
-            z-index: 1000;
-            max-height: 400px;
-            overflow-y: auto;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-        #results {
-            border: 1px solid #ccc;
-            position: absolute;
-            top: 100%;
-            width: 500px;
-            left: 0;
-            right: 0;
-            background-color: #fff;
-            z-index: 1000;
-            max-height: 400px;
-            overflow-y: auto;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-        .result-item {
-            display: flex;
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-            cursor: pointer;
-        }
-        .result-item:last-child {
-            border-bottom: none;
-        }
-        .result-item:hover {
-            background-color: #f1f1f1;
-        }
-        .modal-body .center-bill {
-    display: flex;
-    justify-content: space-between;
-}
+        <style>
+            #customerResult {
+                position: absolute;
+                top: 24%;
+                left: 1470px;
+                right: 0;
+                width: 300px;
+                background-color: #fff;
+                z-index: 1000;
+                max-height: 400px;
+                overflow-y: auto;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            }
+            #results {
+                border: 1px solid #ccc;
+                position: absolute;
+                top: 100%;
+                width: 480px;
+                left: 10px;
+                right: 0;
+                background-color: #fff;
+                z-index: 1000;
+                max-height: 300px;
+                overflow-y: auto;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            }
+            .result-item {
+                display: flex;
+                padding: 10px;
+                border-bottom: 1px solid #ddd;
+                cursor: pointer;
+            }
+            .result-item:last-child {
+                border-bottom: none;
+            }
+            .result-item:hover {
+                background-color: #f1f1f1;
+            }
+            .modal-body .center-bill {
+                display: flex;
+                justify-content: space-between;
+            }
 
-.modal-body .total-bill {
-    margin-top: 5px;
-    font-size: large;
-}
+            .modal-body .total-bill {
+                margin-top: 5px;
+                font-size: large;
+            }
 
-table, thead, tbody {
-    font-family: Arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
+            table, thead, tbody {
+                font-family: Arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
 
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
-    </style>
+            td, th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+        </style>
     </head>
-    
+
     <body>
         <!-- HEADER -->
         <div class="background-header">
@@ -87,16 +87,16 @@ td, th {
                 <div class="header-left">
                     <input type="search" id="handleTextSearch" placeholder="Tìm hàng hóa">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                        <div id="results"></div> 
-<!--                    <div class="background-bill">
-                        <div class="bill">
-                            <b>Hóa đơn 1</b>
-                            <i class="fa-regular fa-circle-xmark"></i>
-                        </div>
-                        <div class="horver-icon">
-                            <i class="fa-regular fa-circle-xmark"></i>
-                        </div>
-                    </div>-->
+                    <div id="results"></div> 
+                    <!--                    <div class="background-bill">
+                                            <div class="bill">
+                                                <b>Hóa đơn 1</b>
+                                                <i class="fa-regular fa-circle-xmark"></i>
+                                            </div>
+                                            <div class="horver-icon">
+                                                <i class="fa-regular fa-circle-xmark"></i>
+                                            </div>
+                                        </div>-->
                 </div>
                 <div class="header-right">
                     <span>${account.getUsername()}</span>
@@ -111,51 +111,51 @@ td, th {
             <div class="main-left">
                 <div class="scroll-item"> 
                     <c:forEach items="${productOrder}" varStatus="pIndex" var="p">  
-                    <div class="list-item">
-                        <div class="item-left"> 
-                            <span>${pIndex.index + 1}</span> 
-                            <a href="#" onclick="handleDelete('${p.getProductID()}', event)" >
-                                <i class="fa-regular fa-trash-can"></i>
-                            </a> 
-                            <div class="item-content">
-                                <div class="item-container">
-                                    <div class="item-info">
-                                        <div class="item-info-top">
-                                            <span>${p.getProductID()}</span>
-                                            <span>${p.getProductName()}</span>
-                                        </div>
-                                        <div class="item-info-botto"> 
-                                            <div class="quantity"> 
-                                                <button class="quantity-item-minus" id="sub" onclick="handleQuantity('sub', '${p.getProductID()}', event)">-</button>
-                                                <span></span>
-                                                <input type="text" required min="1" id="quantity${p.getProductID()}" value=${p.getQuantity()} onchange="handleChange('${p.getProductID()}')"/>
-                                                <button class="quantity-item-plus" id="add" onclick="handleQuantity('add', '${p.getProductID()}', event)">+</button> 
-                                            </div> 
-                                            <div class="item-space"></div>
-                                            <div class="item-price">
-                                                <div class="sale">
-                                                    <span id="price${p.getProductID()}"><fmt:formatNumber>${p.getPrice()}</fmt:formatNumber></span>
-                                                    <hr>
-                                                </div>
-                                                <div class="totalSale">
-                                                    <span id="getTotalPrice${p.getProductID()}"><fmt:formatNumber>${p.getPrice() * p.getQuantity() }</fmt:formatNumber></span>
-                                                    <hr>
+                        <div class="list-item">
+                            <div class="item-left"> 
+                                <span>${pIndex.index + 1}</span> 
+                                <a href="#" onclick="handleDelete('${p.getProductID()}', event)" >
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </a> 
+                                <div class="item-content">
+                                    <div class="item-container">
+                                        <div class="item-info">
+                                            <div class="item-info-top">
+                                                <span>${p.getProductID()}</span>
+                                                <span>${p.getProductName()}</span>
+                                            </div>
+                                            <div class="item-info-botto"> 
+                                                <div class="quantity"> 
+                                                    <button class="quantity-item-minus" id="sub" onclick="handleQuantity('sub', '${p.getProductID()}', event)">-</button>
+                                                    <span></span>
+                                                    <input type="text" required min="1" id="quantity${p.getProductID()}" value=${p.getQuantity()} onchange="handleChange('${p.getProductID()}')"/>
+                                                    <button class="quantity-item-plus" id="add" onclick="handleQuantity('add', '${p.getProductID()}', event)">+</button> 
+                                                </div> 
+                                                <div class="item-space"></div>
+                                                <div class="item-price">
+                                                    <div class="sale">
+                                                        <span id="price${p.getProductID()}"><fmt:formatNumber>${p.getPrice()}</fmt:formatNumber></span>
+                                                            <hr>
+                                                        </div>
+                                                        <div class="totalSale">
+                                                            <span id="getTotalPrice${p.getProductID()}"><fmt:formatNumber>${p.getPrice() * p.getQuantity() }</fmt:formatNumber></span>
+                                                            <hr>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <!--                        <div class="item-action">
+                                                            <a href>
+                                                                <i class="fa-solid fa-plus"></i>
+                                                            </a>
+                                                            <a href>
+                                                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                                                            </a>
+                                                        </div>-->
                             </div>
-                        </div>
-<!--                        <div class="item-action">
-                            <a href>
-                                <i class="fa-solid fa-plus"></i>
-                            </a>
-                            <a href>
-                                <i class="fa-solid fa-ellipsis-vertical"></i>
-                            </a>
-                        </div>-->
-                    </div>
                     </c:forEach>
                 </div> 
             </div> 
@@ -244,16 +244,16 @@ td, th {
                         </div>
                         <div class="modal-footer">
                             <button id="submitForm" class="btn btn-success" data-toggle="modal"
-                            data-target="#modalPay" data-dismiss="modal" type="submit">Hoàn tất</button>
+                                    data-target="#modalPay" data-dismiss="modal" type="submit">Hoàn tất</button>
                             &nbsp;
-                            <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                            <button class="btn btn-danger" data-dismiss="modal">Hủy</button>
                         </div>
                     </div>
                 </div>
             </div> 
         </div>  
         <div class="modal fade" id="modalPay" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header" style="display: flex; justify-content: center;">
@@ -281,13 +281,13 @@ td, th {
                                 </thead>
                                 <tbody>
                                     <c:forEach items="${productOrder}" varStatus="pIndex" var="p">  
-                                    <tr>
-                                        <td>${pIndex.index+1}</td>
-                                        <td>${p.getProductName()}</td>
-                                        <td>${p.getQuantity()}</td>
-                                        <td><span><fmt:formatNumber>${p.getPrice()}</fmt:formatNumber></span></td>
-                                        <td><span><fmt:formatNumber>${p.getPrice() * p.getQuantity() }</fmt:formatNumber></span></td>
-                                    </tr> 
+                                        <tr>
+                                            <td>${pIndex.index+1}</td>
+                                            <td>${p.getProductName()}</td>
+                                            <td>${p.getQuantity()}</td>
+                                            <td><span><fmt:formatNumber>${p.getPrice()}</fmt:formatNumber></span></td>
+                                            <td><span><fmt:formatNumber>${p.getPrice() * p.getQuantity() }</fmt:formatNumber></span></td>
+                                            </tr> 
                                     </c:forEach>
                                 </tbody> 
                             </table>
@@ -305,7 +305,7 @@ td, th {
                             <span id="billrefund"></span>
                         </div><br>
                         <span style="display: flex; justify-content: center;"><i>Cảm ơn đã mua hàng. Hẹn gặp lại !</i></span>
-                        </div>
+                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary">In ra</button>
                         <button type="button" class="btn btn-secondary"
@@ -316,196 +316,195 @@ td, th {
         </div>
         <script src="View/JS/getdate.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> 
-        <script> 
-            document.addEventListener('DOMContentLoaded', function (){
-                getTotalPay();
-            })
-            function getQrCode(){ 
-                var total_pay = document.getElementById('total-pay'); 
-                const Bank_ID = "MB";
-                const Account_ID = "0352986307";  
-                const amount = formatNumber(total_pay.value);
-                const decription = "Thanh toán đơn hàng";
-                const accountName = "Dao Trong Khoi";
-                var qr = document.getElementById('qrcode'); 
-                var info = document.getElementById('info');
-                var total = document.getElementById('showtotal');
-                info.textContent = "Scan QR To Pay";  
-                total.textContent = "Tổng số tiền cần thanh toán: " + formatInput(amount);
-                qr.src = "https://img.vietqr.io/image/" + Bank_ID + "-" + Account_ID + "-compact.png?amount=" + amount + "&addInfo="+decription+ "&accountName=" +accountName;
-                qr.style.display = 'block';
-                var payBill = document.getElementById('billpay');
-                var refundBill = document.getElementById('billrefund');
-                var cusPay = document.getElementById('payed-money').value;
-                var refund = document.getElementById('refund-money').value;
-                
-                var totalPay = document.getElementById('total-pay').value;
-                var totalBill = document.getElementById('totalBill'); 
-                payBill.textContent = cusPay;
-                refundBill.textContent = refund === "" ? 0 : refund;
-                totalBill.style.fontWeight = 'bold'; 
-                totalBill.textContent = totalPay; 
-            }  
-            document.getElementById('discount').addEventListener('input', function (){
-                var discount = document.getElementById('discount').value;
-                var total_pay = document.getElementById('total-pay'); 
-                var payed = document.getElementById('payed-money');
-                var totalOrder = document.getElementById('total-order'); 
-                var totalValue =  formatNumber(totalOrder.value);  
-                if(discount > 0){
-                    total_pay.value = formatInput((totalValue - (totalValue / 100 * discount))); 
-                    payed.value = formatInput((totalValue - (totalValue / 100 * discount))); 
-                }
-                else{
-                    total_pay.value = totalValue;
-                }
-            }) 
-            document.getElementById('payed-money').addEventListener('input', function(){
-                var payedInput = document.getElementById('payed-money');
-                var value = payedInput.value.replace(/\D/g, '');
-                value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); 
-                payedInput.value = value;
-                handleRefund();
-            })
-            function handleRefund(){
-                var payed_input = document.getElementById('payed-money'); 
-                var payedValue = formatNumber(payed_input.value); 
-                var refund_money = document.getElementById('refund-money');
-                var total_pay = document.getElementById('total-pay');
-                var refundValue = 0;    
-                var totalVlue = formatNumber(total_pay.value);  
-                if(payedValue - totalVlue >= 0){
-                    refundValue = payedValue - totalVlue; 
-                }  
-                refund_money.value = refundValue == 0 ? 0 : formatInput(refundValue);
-            }
-            function formatInput(value){ 
-                value = value.toString().replace(/\D/g, ''); 
-                return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-            }
-            function formatNumber(input){ 
-                return input.replace(/\D/g, '');
-            }
-            function handleHint(price){
-                var payed_input = document.getElementById('payed-money'); 
-                payed_input.value = price; 
-                handleRefund();
-            } 
-            function getTotalPay(){
-                var total = 0;
-                var productItems = document.querySelectorAll('.totalSale span'); 
-                var totalOrder = document.getElementById('total-order');
-                var totalPay = document.getElementById('total-pay');
-                var payedmoney = document.getElementById('payed-money');  
-                productItems.forEach((productItem) => { 
-                    var value = formatNumber(productItem.textContent);
-                    total += parseFloat(value); 
-                });   
-                 
-                totalOrder.value = formatInput(total); 
-                totalPay.value = formatInput(total); 
-                payedmoney.value = formatInput(total); 
-            }
-            function handleChange(pID){  
-                var quantity = document.getElementById('quantity' + pID).value; 
-                var formQuantity = document.createElement("form");
-                formQuantity.method = "POST";
-                formQuantity.action = "salecontroller?type=" + quantity + "&pID=" + pID;  
-                document.body.appendChild(formQuantity); 
-                formQuantity.submit();   
-            }
-            function handleQuantity(type, pID, event){  
-                event.preventDefault();   
-                var formQuantity = document.createElement("form");
-                formQuantity.method = "POST";
-                formQuantity.action = "salecontroller?type=" + type + "&pID=" + pID;  
-                document.body.appendChild(formQuantity); 
-                formQuantity.submit();   
-            } 
-            function getCustomer(){
-                var checked = document.getElementById('checkedCustomer');
-                var customerName = document.getElementById('nameCustomer');
-                return checked.checked ? checked.value : customerName.value;  
-            } 
-            function getQuantity(pID){
-                var quantity = document.getElementById('quantity' + pID);
-                return quantity.value;
-            }
-            function handleDelete(pID, event){ 
-                event.preventDefault(); 
-                var formDelete = document.createElement('form');
-                formDelete.method = 'POST';
-                formDelete.action = "salecontroller?type=delete&pID=" + pID; 
-                document.body.appendChild(formDelete); 
-                formDelete.submit();  
-            }
-            function handleSubmit(id){    
-                var form = document.getElementById('formSubmit'); 
-                form.action = "salecontroller?type=order&pID=" + id;
-                form.submit();  
-            }
-            document.getElementById('phoneNumber').addEventListener('input', function(){
-                var text = document.getElementById('phoneNumber');  
-                var inputName = document.getElementById('nameCustomer');
-                $.ajax({
-                    url: 'CustomerSearch',
-                    type: 'GET',
-                    data: {
-                        textSearch: text.value
-                    },   
-                    success: function(response) { 
-                        $('#customerResult').empty();
-                        if (response.length > 0) {
-                            response.forEach(function(customer) { 
-                                var items =  $(
-                                  '<div class="result-item"><form id="formSubmit" method="post"><div class="item-name">' +
-                                        customer.name   +
-                                   '</div></form></div>'
-                                );
-                                items.on('click', function (){  
-                                    text.value = customer.phoneNumber;
-                                    inputName.value = customer.name;
-                                    $('#customerResult').empty();
+        <script>
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    getTotalPay();
+                                })
+                                function getQrCode() {
+                                    var total_pay = document.getElementById('total-pay');
+                                    const Bank_ID = "MB";
+                                    const Account_ID = "0352986307";
+                                    const amount = formatNumber(total_pay.value);
+                                    const decription = "Thanh toán đơn hàng";
+                                    const accountName = "Dao Trong Khoi";
+                                    var qr = document.getElementById('qrcode');
+                                    var info = document.getElementById('info');
+                                    var total = document.getElementById('showtotal');
+                                    info.textContent = "Scan QR To Pay";
+                                    total.textContent = "Tổng số tiền cần thanh toán: " + formatInput(amount);
+                                    qr.src = "https://img.vietqr.io/image/" + Bank_ID + "-" + Account_ID + "-compact.png?amount=" + amount + "&addInfo=" + decription + "&accountName=" + accountName;
+                                    qr.style.display = 'block';
+                                    var payBill = document.getElementById('billpay');
+                                    var refundBill = document.getElementById('billrefund');
+                                    var cusPay = document.getElementById('payed-money').value;
+                                    var refund = document.getElementById('refund-money').value;
+
+                                    var totalPay = document.getElementById('total-pay').value;
+                                    var totalBill = document.getElementById('totalBill');
+                                    payBill.textContent = cusPay;
+                                    refundBill.textContent = refund === "" ? 0 : refund;
+                                    totalBill.style.fontWeight = 'bold';
+                                    totalBill.textContent = totalPay;
+                                }
+                                document.getElementById('discount').addEventListener('input', function () {
+                                    var discount = document.getElementById('discount').value;
+                                    var total_pay = document.getElementById('total-pay');
+                                    var payed = document.getElementById('payed-money');
+                                    var totalOrder = document.getElementById('total-order');
+                                    var totalValue = formatNumber(totalOrder.value);
+                                    if (discount > 0) {
+                                        total_pay.value = formatInput((totalValue - (totalValue / 100 * discount)));
+                                        payed.value = formatInput((totalValue - (totalValue / 100 * discount)));
+                                    } else {
+                                        total_pay.value = totalValue;
+                                    }
+                                })
+                                document.getElementById('payed-money').addEventListener('input', function () {
+                                    var payedInput = document.getElementById('payed-money');
+                                    var value = payedInput.value.replace(/\D/g, '');
+                                    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                                    payedInput.value = value;
+                                    handleRefund();
+                                })
+                                function handleRefund() {
+                                    var payed_input = document.getElementById('payed-money');
+                                    var payedValue = formatNumber(payed_input.value);
+                                    var refund_money = document.getElementById('refund-money');
+                                    var total_pay = document.getElementById('total-pay');
+                                    var refundValue = 0;
+                                    var totalVlue = formatNumber(total_pay.value);
+                                    if (payedValue - totalVlue >= 0) {
+                                        refundValue = payedValue - totalVlue;
+                                    }
+                                    refund_money.value = refundValue == 0 ? 0 : formatInput(refundValue);
+                                }
+                                function formatInput(value) {
+                                    value = value.toString().replace(/\D/g, '');
+                                    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                                }
+                                function formatNumber(input) {
+                                    return input.replace(/\D/g, '');
+                                }
+                                function handleHint(price) {
+                                    var payed_input = document.getElementById('payed-money');
+                                    payed_input.value = price;
+                                    handleRefund();
+                                }
+                                function getTotalPay() {
+                                    var total = 0;
+                                    var productItems = document.querySelectorAll('.totalSale span');
+                                    var totalOrder = document.getElementById('total-order');
+                                    var totalPay = document.getElementById('total-pay');
+                                    var payedmoney = document.getElementById('payed-money');
+                                    productItems.forEach((productItem) => {
+                                        var value = formatNumber(productItem.textContent);
+                                        total += parseFloat(value);
+                                    });
+
+                                    totalOrder.value = formatInput(total);
+                                    totalPay.value = formatInput(total);
+                                    payedmoney.value = formatInput(total);
+                                }
+                                function handleChange(pID) {
+                                    var quantity = document.getElementById('quantity' + pID).value;
+                                    var formQuantity = document.createElement("form");
+                                    formQuantity.method = "POST";
+                                    formQuantity.action = "salecontroller?type=" + quantity + "&pID=" + pID;
+                                    document.body.appendChild(formQuantity);
+                                    formQuantity.submit();
+                                }
+                                function handleQuantity(type, pID, event) {
+                                    event.preventDefault();
+                                    var formQuantity = document.createElement("form");
+                                    formQuantity.method = "POST";
+                                    formQuantity.action = "salecontroller?type=" + type + "&pID=" + pID;
+                                    document.body.appendChild(formQuantity);
+                                    formQuantity.submit();
+                                }
+                                function getCustomer() {
+                                    var checked = document.getElementById('checkedCustomer');
+                                    var customerName = document.getElementById('nameCustomer');
+                                    return checked.checked ? checked.value : customerName.value;
+                                }
+                                function getQuantity(pID) {
+                                    var quantity = document.getElementById('quantity' + pID);
+                                    return quantity.value;
+                                }
+                                function handleDelete(pID, event) {
+                                    event.preventDefault();
+                                    var formDelete = document.createElement('form');
+                                    formDelete.method = 'POST';
+                                    formDelete.action = "salecontroller?type=delete&pID=" + pID;
+                                    document.body.appendChild(formDelete);
+                                    formDelete.submit();
+                                }
+                                function handleSubmit(id) {
+                                    var form = document.getElementById('formSubmit');
+                                    form.action = "salecontroller?type=order&pID=" + id;
+                                    form.submit();
+                                }
+                                document.getElementById('phoneNumber').addEventListener('input', function () {
+                                    var text = document.getElementById('phoneNumber');
+                                    var inputName = document.getElementById('nameCustomer');
+                                    $.ajax({
+                                        url: 'CustomerSearch',
+                                        type: 'GET',
+                                        data: {
+                                            textSearch: text.value
+                                        },
+                                        success: function (response) {
+                                            $('#customerResult').empty();
+                                            if (response.length > 0) {
+                                                response.forEach(function (customer) {
+                                                    var items = $(
+                                                            '<div class="result-item"><form id="formSubmit" method="post"><div class="item-name">' +
+                                                            customer.name +
+                                                            '</div></form></div>'
+                                                            );
+                                                    items.on('click', function () {
+                                                        text.value = customer.phoneNumber;
+                                                        inputName.value = customer.name;
+                                                        $('#customerResult').empty();
+                                                    });
+                                                    $('#customerResult').append(items);
+                                                });
+                                            } else {
+                                                $('#customerResult').empty();
+                                            }
+                                        }
+                                    });
                                 });
-                                $('#customerResult').append(items); 
-                            });
-                        } else {
-                            $('#customerResult').empty(); 
-                        }
-                    }
-                });
-            }); 
-            document.getElementById('handleTextSearch').addEventListener('input', function(){  
-                var text = document.getElementById('handleTextSearch');   
-                $.ajax({
-                    url: 'salecontroller',
-                    type: 'GET',
-                    data: {
-                        textSearch: text.value
-                    },   
-                    success: function(response) { 
-                        $('#results').empty();
-                        if (response.length > 0) {
-                            response.forEach(function(product) { 
-                               var items =  $(
-                                  '<div class="result-item"><form id="formSubmit" method="post"><div class="item-name" id="handleitemselected">' +
-                                        product.productName +
-                                   '</div></form></div>'
-                                );
-                                items.on('click', function (){ 
-                                    handleSubmit(product.productID);
-                                    text.value = "";
-                                    $('#results').empty();
+                                document.getElementById('handleTextSearch').addEventListener('input', function () {
+                                    var text = document.getElementById('handleTextSearch');
+                                    $.ajax({
+                                        url: 'salecontroller',
+                                        type: 'GET',
+                                        data: {
+                                            textSearch: text.value
+                                        },
+                                        success: function (response) {
+                                            $('#results').empty();
+                                            if (response.length > 0) {
+                                                response.forEach(function (product) {
+                                                    var items = $(
+                                                            '<div class="result-item"><form id="formSubmit" method="post"><div class="item-name" id="handleitemselected">' +
+                                                            product.productName +
+                                                            '</div></form></div>'
+                                                            );
+                                                    items.on('click', function () {
+                                                        handleSubmit(product.productID);
+                                                        text.value = "";
+                                                        $('#results').empty();
+                                                    });
+                                                    $('#results').append(items);
+                                                });
+                                            } else {
+                                                $('#results').empty();
+                                                $('#results').append('<div class="result-item">Không tìm thấy sản phẩm.</div>');
+                                            }
+                                        }
+                                    });
                                 });
-                                $('#results').append(items); 
-                            });
-                        } else {
-                            $('#results').empty();
-                            $('#results').append('<div class="result-item">Không tìm thấy sản phẩm.</div>');
-                        }
-                    }
-                });
-            }); 
         </script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>

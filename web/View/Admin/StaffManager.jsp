@@ -1,8 +1,3 @@
-<%-- 
-    Document   : Staff
-    Created on : May 30, 2024, 11:09:14 AM
-    Author     : ADMIN
---%>  
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -63,18 +58,13 @@
                                         Tạo mới nhân viên
                                     </a>
                                 </div>
-                                <div class="col-sm-2">
-                                    <a class="btn btn-add btn-sm" href title="In"><i class="fas fa-file-excel"></i> 
-                                        Xuất Excel
-                                    </a>
-                                </div>
                             </div>  
                             <table class="table table-hover table-bordered js-copytextarea" cellpadding="0" cellspacing="0" border="0"
                                    id="sampleTable">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Username</th>
+                                        <th>Tài khoản</th>
                                         <th>Họ tên</th>
                                         <th>Ngày sinh</th>
                                         <th>Giới tính</th>
@@ -128,7 +118,7 @@
                                                             </div> 
                                                             <div class="row">
                                                                 <div class="form-group  col-md-6">
-                                                                    <label class="control-label">Password</label>
+                                                                    <label class="control-label">Mật khẩu</label>
                                                                     <input class="form-control" name="password" type="password" value="${u.getPassword()}"> 
                                                                 </div>
                                                                 <div class="form-group  col-md-6">
@@ -168,7 +158,7 @@
                                                                     </select>
                                                                 </div>
                                                                 <div class="form-group  col-md-6">
-                                                                    <label class="control-label">Role</label> 
+                                                                    <label class="control-label">Vai trò</label> 
                                                                     <select class="form-control" name="role">
                                                                         <c:forEach items="${listRole}" var="r">
                                                                             <c:if test="${r.getRoleID() != 1}">
@@ -179,7 +169,7 @@
                                                                 </div> 
                                                             </div>
                                                             <div>
-                                                                <button class="btn btn-save" type="submit">Update</button>
+                                                                <button class="btn btn-save" type="submit">Cập nhật</button>
                                                                 <a class="btn btn-cancel"  href="staffmanager">Hủy bỏ</a> 
                                                             </div>
                                                         </div>

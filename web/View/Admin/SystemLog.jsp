@@ -1,9 +1,3 @@
-<%-- 
-    Document   : AddStaff
-    Created on : Jun 2, 2024, 3:13:09 AM
-    Author     : ADMIN
---%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -39,10 +33,8 @@
             <main class="app-content"> 
                 <div class="app-title">
                     <ul class="app-breadcrumb breadcrumb">
-                        <li class="breadcrumb-item"><a href="log">System Log</a></li>
-
+                        <li class="breadcrumb-item"><a href="log">Nhật ký hệ thống</a></li>
                     </ul> 
-
                 </div>
                 <div class="row">
                     <div class="col-md-12">
@@ -50,16 +42,12 @@
                             <div class="tile-body">
                                 <div class="row element-button">
                                     <div class="col-sm-6"> 
-
                                         <strong>Hoạt động gần đây</strong>    
-
                                     </div> 
-
                                 </div>
                                 <table>
                                     <thead>
                                         <tr>
-
                                             <th>Account</th>
                                             <th>Date</th>
                                             <th>Action</th>                                           
@@ -74,7 +62,6 @@
                                         </tr>
                                     </c:forEach> 
                                 </tbody>
-
                             </table>  
                             <ul class="listPage"> </ul>
                         </div> 
@@ -82,7 +69,6 @@
                 </div>
             </div>
         </main> 
-
     </body>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

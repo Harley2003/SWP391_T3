@@ -16,11 +16,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.sql.SQLException;
 import java.util.Date;
 //import jakarta.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Random;
+import utils.RandomCode;
 
 public class SupplierManager extends HttpServlet {
 
@@ -143,14 +142,67 @@ public class SupplierManager extends HttpServlet {
                 request.getRequestDispatcher("View/Admin/Supplier.jsp").forward(request, response);
             }
 
+//            case "history" -> {
+//                String nameSupplier = (String) sessionName.getAttribute("supplierName");
+//                int idSupplier = dao.getIdbyNameSupplier(nameSupplier);
+//                String productId = request.getParameter("productNameSelect");
+//                String productName = request.getParameter("productNameInput");
+//                int quantity = Integer.parseInt(request.getParameter("quantity"));
+//                int price = Integer.parseInt(request.getParameter("price"));
+//                Date date = java.sql.Date.valueOf(request.getParameter("date"));
+//                int orderSupplierId = dao.getLastIdOrderSupplier() + 1;
+//                Supplier supplier = new Supplier();
+//                supplier.setId(idSupplier);
+//
+//                OrderSupplier orderSupplier = new OrderSupplier();
+//                orderSupplier.setId(orderSupplierId);
+//                orderSupplier.setSupplierId(supplier);
+//                orderSupplier.setDate(date);
+//
+//                Product product = new Product();
+//
+//                if (productName != null && productName.isEmpty()) {
+//                    String productID = generateProductCode();
+//                    product.setProductID(productID);
+//                    product.setProductName(productName);
+//                } else {
+//                    product.setProductID(productId);
+//                }
+//
+//                OrderSupplierDetail orderSupplierDetail = new OrderSupplierDetail();
+//                orderSupplierDetail.setOrderSupplierId(orderSupplier);
+//                orderSupplierDetail.setProductId(product);
+//                orderSupplierDetail.setQuantity(quantity);
+//                orderSupplierDetail.setPrice(price);
+//
+//                try {
+//                    dao.addHistoryOrderSupplier(orderSupplier);
+//                    orderSupplierDetail.setOrderSupplierId(orderSupplier);
+//                    dao.addHistoryOrderSupplierDetail(orderSupplierDetail);
+//
+//                    String supplierName = dao.getNameSupplierById(idSupplier);
+//                    List<OrderSupplierDetail> listOrderSupplierDetail = dao.getOrderSupplierDetailsBySupplierId(idSupplier);
+//                    List<Product> listProduct = dao2.getNameProduct();
+//                    request.setAttribute("supplierName", supplierName);
+//                    request.setAttribute("listOrderSupplierDetail", listOrderSupplierDetail);
+//                    request.setAttribute("listProduct", listProduct);
+//                    response.sendRedirect(request.getContextPath() + "/suppliermanager?type=detail&viewsupplier=" + idSupplier);
+//                } catch (IOException e) {
+//                    System.out.println(e);
+//                } catch (NumberFormatException e) {
+//                    System.out.println("Error: " + e.getMessage());
+//                }
+//            }
             case "history" -> {
                 String nameSupplier = (String) sessionName.getAttribute("supplierName");
                 int idSupplier = dao.getIdbyNameSupplier(nameSupplier);
                 String productId = request.getParameter("productNameSelect");
+                String productName = request.getParameter("productNameInput");
                 int quantity = Integer.parseInt(request.getParameter("quantity"));
                 int price = Integer.parseInt(request.getParameter("price"));
                 Date date = java.sql.Date.valueOf(request.getParameter("date"));
                 int orderSupplierId = dao.getLastIdOrderSupplier() + 1;
+
                 Supplier supplier = new Supplier();
                 supplier.setId(idSupplier);
 
@@ -160,7 +212,15 @@ public class SupplierManager extends HttpServlet {
                 orderSupplier.setDate(date);
 
                 Product product = new Product();
-                product.setProductID(productId);
+
+                if (productName != null && !productName.isEmpty()) {
+                    RandomCode getRandom = new RandomCode();
+                    String productID = getRandom.getRandomString();
+                    product.setProductID(productID);
+                    product.setProductName(productName);
+                } else {
+                    product.setProductID(productId);
+                }
 
                 OrderSupplierDetail orderSupplierDetail = new OrderSupplierDetail();
                 orderSupplierDetail.setOrderSupplierId(orderSupplier);
@@ -170,19 +230,18 @@ public class SupplierManager extends HttpServlet {
 
                 try {
                     dao.addHistoryOrderSupplier(orderSupplier);
-                    orderSupplierDetail.setOrderSupplierId(orderSupplier);
-
                     dao.addHistoryOrderSupplierDetail(orderSupplierDetail);
 
                     String supplierName = dao.getNameSupplierById(idSupplier);
                     List<OrderSupplierDetail> listOrderSupplierDetail = dao.getOrderSupplierDetailsBySupplierId(idSupplier);
                     List<Product> listProduct = dao2.getNameProduct();
+
                     request.setAttribute("supplierName", supplierName);
                     request.setAttribute("listOrderSupplierDetail", listOrderSupplierDetail);
                     request.setAttribute("listProduct", listProduct);
                     response.sendRedirect(request.getContextPath() + "/suppliermanager?type=detail&viewsupplier=" + idSupplier);
                 } catch (IOException e) {
-                    System.out.println(e);
+                    System.out.println("Error redirecting: " + e.getMessage());
                 } catch (NumberFormatException e) {
                     System.out.println("Error: " + e.getMessage());
                 }
@@ -191,35 +250,6 @@ public class SupplierManager extends HttpServlet {
             default ->
                 throw new AssertionError();
         }
-    }
-
-    public static String generateProductCode() {
-        String letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        String digits = "0123456789";
-        StringBuilder productCode = new StringBuilder();
-
-        Random random = new Random();
-
-        // Thêm ký tự 'P'
-        productCode.append('P');
-
-        // Thêm 3 chữ số ngẫu nhiên
-        for (int i = 0; i < 3; i++) {
-            int index = random.nextInt(digits.length());
-            productCode.append(digits.charAt(index));
-        }
-
-        // Thêm 5 ký tự chữ cái hoặc số ngẫu nhiên
-        for (int i = 0; i < 5; i++) {
-            int index = random.nextInt(letters.length() + digits.length());
-            if (index < letters.length()) {
-                productCode.append(letters.charAt(index));
-            } else {
-                productCode.append(digits.charAt(index - letters.length()));
-            }
-        }
-
-        return productCode.toString();
     }
 
     @Override

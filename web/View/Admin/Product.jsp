@@ -1,8 +1,3 @@
-<%-- 
-    Document   : Staff
-    Created on : May 30, 2024, 11:09:14 AM
-    Author     : ADMIN
---%>  
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -62,11 +57,6 @@
                                 <div class="col-sm-2"> 
                                     <a class="btn btn-add btn-sm" href="addproduct" title="Thêm"><i class="fas fa-plus"></i>
                                         Thêm Sản Phẩm
-                                    </a>
-                                </div>
-                                <div class="col-sm-2">
-                                    <a class="btn btn-add btn-sm" href title="In"><i class="fas fa-file-excel"></i> 
-                                        Xuất Excel
                                     </a>
                                 </div>
                             </div>  

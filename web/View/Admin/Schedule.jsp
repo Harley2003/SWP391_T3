@@ -1,9 +1,3 @@
-<%-- 
-    Document   : AddStaff
-    Created on : Jun 2, 2024, 3:13:09 AM
-    Author     : ADMIN
---%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -39,8 +33,7 @@
             <main class="app-content"> 
                 <div class="app-title">
                     <ul class="app-breadcrumb breadcrumb">
-                        <li class="breadcrumb-item"><a href="log">System Log</a></li>
-
+                        <li class="breadcrumb-item"><a href="log">Nhật ký hệ thống</a></li>
                     </ul> 
                     <button id="clickme">Xóa</button>
                     <button id="deleteChecked">Xóa</button>
@@ -51,13 +44,9 @@
                             <div class="tile-body">
                                 <div class="row element-button">
                                     <div class="col-sm-6"> 
-
                                         <strong>Hoạt động gần đây</strong>    
-
                                     </div> 
-
                                 </div>
-
                                 <select id="weekSelect">
                                 <c:forEach items="${weekList}" var="c">
                                     <option value="${c.getId()}">${c.getStartdate()} to ${c.getEnddate()}</option>
@@ -78,7 +67,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                     <c:forEach items="${scheduleList}" var="c">
                                         <tr class="item-log" id="${c.getUserID()}">
                                             <td>${c.getInfo().getName()}</td>
@@ -125,8 +113,7 @@
                                             <td> Tên ca : </td>
                                             <td><input type="text" required="" id="sessionWork"></td>
                                         </tr>
-                                        <button id="Add" >Submit</button>
-
+                                        <button id="Add" >Lưu</button>
                                     </table>
                                 </form>
                             </div>
@@ -519,9 +506,8 @@
             padding: 20px;
             background-color: #FFE9D0;
             border: 1px solid #ccc;
-            z-index: 2; /* Đảm bảo popup hiển thị trên cùng dấu cộng */
+            z-index: 2;
             text-align: center;
         }
-
     </style>
 </html>

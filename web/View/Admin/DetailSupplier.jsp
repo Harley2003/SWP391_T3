@@ -31,6 +31,10 @@
             .btn-primary, .btn-cancel {
                 margin: 5px;
             }
+            .productNameSelect option {
+                overflow-y: auto;
+                height: 100px;
+            }
         </style>
     </head>
     <body class="app sidebar-mini rtl">
@@ -172,7 +176,7 @@
                                 function confirmDelete(orderDetailSupplierId, productName, supplierId) {
                                     Swal.fire({
                                         title: 'Bạn chắc chắn muốn xóa?',
-                                        text: 'Xóa sản phẩm ' + orderDetailSupplierId + productName + ' từ nhà cung cấp vĩnh viễn!',
+                                        text: 'Xóa sản phẩm ' + productName + ' từ nhà cung cấp vĩnh viễn!',
                                         icon: 'warning',
                                         showCancelButton: true,
                                         confirmButtonColor: '#3085d6',
@@ -188,11 +192,11 @@
         </script>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                var toggleButtons = document.querySelectorAll('.toggle-input');
+                let toggleButtons = document.querySelectorAll('.toggle-input');
                 toggleButtons.forEach(function (button) {
                     button.addEventListener('click', function () {
-                        var selectInput = this.closest('.input-group').querySelector('.select-input');
-                        var textInput = this.closest('.input-group').querySelector('.input-input');
+                        let selectInput = this.closest('.input-group').querySelector('.select-input');
+                        let textInput = this.closest('.input-group').querySelector('.input-input');
 
                         if (selectInput.style.display !== 'none') {
                             selectInput.style.display = 'none';

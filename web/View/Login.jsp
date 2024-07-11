@@ -37,7 +37,7 @@
                         <a href="forgetpassword">Quên mật khẩu?</a>
                     </div>
                     <div class="button-group">
-                        <button type="submit" class="login-btn">Login</button>
+                        <button type="submit" class="login-btn">Đăng nhập</button>
                     </div> 
                 </form> 
             </div>

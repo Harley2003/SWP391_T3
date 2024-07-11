@@ -1,4 +1,3 @@
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -100,7 +99,7 @@
                 backgroundColor: "blue",
                 data: [${requestScope.t1}, ${requestScope.t2}, ${requestScope.t3}, ${requestScope.t4}, 
                        ${requestScope.t5}, ${requestScope.t6}, ${requestScope.t7}, ${requestScope.t8},
-                       ${requestScope.t9}, ${requestScope.t10}, ${requestScope.t11}, ${requestScope.t12}],
+                       ${requestScope.t9}, ${requestScope.t10}, ${requestScope.t11}, ${requestScope.t12}]
                 }]
             },
             options: {}

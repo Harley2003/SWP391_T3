@@ -1,9 +1,3 @@
-<%-- 
-    Document   : AddStaff
-    Created on : Jun 2, 2024, 3:13:09 AM
-    Author     : ADMIN
---%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -40,7 +34,7 @@
             <div class="app-title">
                 <ul class="app-breadcrumb breadcrumb">
                     <li class="breadcrumb-item"><a href="staffmanager">Danh sách nhân viên</a></li>
-                    <li class="breadcrumb-item"><a href="#">Thêm nhân viên</a></li>
+                    <li class="breadcrumb-item">Thêm nhân viên</li>
                 </ul> 
             <c:if test="${message != null}">
                 <script>
@@ -60,8 +54,8 @@
                             <form class="row" action="addstaff" method="POST"  >
                                 
                                 <div class="form-group col-md-3">
-                                    <label class="control-label">Username</label>
-                                    <input class="form-control" name="username" type="text" placeholder="Nhập username" required>
+                                    <label class="control-label">Tài khoản</label>
+                                    <input class="form-control" name="username" type="text" placeholder="Nhập tài khoản" required>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label class="control-label">Họ</label>
@@ -76,8 +70,8 @@
                                     <input class="form-control" name="date" type="date" required>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label class="control-label">Password</label>
-                                    <input class="form-control" name="password" type="password" placeholder="Nhập password" required>
+                                    <label class="control-label">Mật khẩu</label>
+                                    <input class="form-control" name="password" type="password" placeholder="Nhập mật khẩu" required>
                                 </div> 
                                 <div class="form-group col-md-3">
                                     <label class="control-label">Giới tính</label>
@@ -106,7 +100,7 @@
                                     </select> 
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label class="control-label">Role</label> 
+                                    <label class="control-label">Vai trò</label> 
                                     <select class="form-control" name="role">
                                     <c:forEach items="${listRole}" var="r">
                                         <c:if test="${r.getRoleID() != 1}">

@@ -107,27 +107,32 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <form action="suppliermanager?type=edit" method="post">
+                                                <form id="editForm<%= s.getId() %>" method="post" action="suppliermanager?type=edit" onsubmit="return validateForm('<%= s.getId() %>');">
                                                     <input type="hidden" name="idEdit" value="<%= s.getId() %>">
                                                     <div class="form-group">
                                                         <label for="name">Tên nhà cung cấp</label>
-                                                        <input type="text" class="form-control" id="name" name="nameEdit" value="<%= s.getName() %>" required>
+                                                        <input type="text" class="form-control" id="name<%= s.getId() %>" name="nameEdit" value="<%= s.getName() %>" required>
+                                                        <span id="nameEditError<%= s.getId() %>" class="error-message"></span>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="phone">Số điện thoại</label>
-                                                        <input type="text" class="form-control" id="phone" name="phoneEdit" value="<%= s.getPhone() %>" required>
+                                                        <input type="text" class="form-control" id="phone<%= s.getId() %>" name="phoneEdit" value="<%= s.getPhone() %>" required>
+                                                        <span id="phoneEditError<%= s.getId() %>" class="error-message"></span>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="address">Địa Chỉ</label>
-                                                        <input type="text" class="form-control" id="address" name="addressEdit" value="<%= s.getAddress() %>" required>
+                                                        <input type="text" class="form-control" id="address<%= s.getId() %>" name="addressEdit" value="<%= s.getAddress() %>" required>
+                                                        <span id="addressEditError<%= s.getId() %>" class="error-message"></span>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="email">Email</label>
-                                                        <input type="email" class="form-control" id="email" name="emailEdit" value="<%= s.getEmail() %>">
+                                                        <input type="email" class="form-control" id="email<%= s.getId() %>" name="emailEdit" value="<%= s.getEmail() %>">
+                                                        <span id="emailEditError<%= s.getId() %>" class="error-message"></span>
                                                     </div>
                                                     <div class="btn-action">
                                                         <button class="btn btn-warning" type="submit">Lưu thay đổi</button>
-                                                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy bỏ</button>
+<!--                                                        <button class="btn btn-secondary" type="button" data-dismiss="modal" onclick="resetErrorMessages('<%= s.getId() %>')">Hủy bỏ</button>-->
+                                                        <button class="btn btn-cancel" type="button" onclick="window.location.href = 'supplier'">Hủy bỏ</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -168,6 +173,60 @@
                         window.location.href = 'suppliermanager?type=delete&deleteSupplier=' + supplierId;
                     }
                 });
+            }
+        </script>
+        <script>
+            function validateForm(id) {
+                const name = document.getElementById("name" + id).value.trim();
+                const phone = document.getElementById("phone" + id).value.trim();
+                const address = document.getElementById("address" + id).value.trim();
+                const email = document.getElementById("email" + id).value.trim();
+
+                const nameRegex = /^[\p{L}\s']+$/u;
+                const phoneRegex = /^0\d{9,10}$/;
+                const addressRegex = /^[a-zA-Z0-9\s,./\-àáãạảăắằẵặẳâầấậẫẩèéẹẽẻêềếệễểìíịĩỉòóõọỏôồốộỗổơờớợỡởùúụũủưừứựữửỳýỵỹỷ()]+$/u;
+                const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+
+                let isValid = true;
+
+                document.getElementById("nameEditError" + id).textContent = "";
+                document.getElementById("phoneEditError" + id).textContent = "";
+                document.getElementById("addressEditError" + id).textContent = "";
+                document.getElementById("emailEditError" + id).textContent = "";
+
+                if (!nameRegex.test(name)) {
+                    document.getElementById("nameEditError" + id).textContent = "Tên nhà cung cấp không hợp lệ";
+                    document.getElementById("nameEditError" + id).style.color = "red";
+                    isValid = false;
+                }
+
+                if (!phoneRegex.test(phone)) {
+                    document.getElementById("phoneEditError" + id).textContent = "Số điện thoại không hợp lệ.";
+                    document.getElementById("phoneEditError" + id).style.color = "red";
+                    isValid = false;
+                }
+
+                if (!addressRegex.test(address)) {
+                    document.getElementById("addressEditError" + id).textContent = "Địa chỉ không hợp lệ.";
+                    document.getElementById("addressEditError" + id).style.color = "red";
+                    isValid = false;
+                }
+
+                if (email !== "" && !emailRegex.test(email)) {
+                    document.getElementById("emailEditError" + id).textContent = "Email không hợp lệ.";
+                    document.getElementById("emailEditError" + id).style.color = "red";
+                    isValid = false;
+                }
+
+                return isValid;
+            }
+        </script>
+        <script>
+            function resetErrorMessages(id) {
+                document.getElementById("nameEditError" + id).textContent = "";
+                document.getElementById("phoneEditError" + id).textContent = "";
+                document.getElementById("addressEditError" + id).textContent = "";
+                document.getElementById("emailEditError" + id).textContent = "";
             }
         </script>
     </body>

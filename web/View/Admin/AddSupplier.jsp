@@ -13,8 +13,8 @@
     </head>
     <body class="app sidebar-mini rtl">
         <% 
-       String message = (String) request.getAttribute("message");
-       if (message != null && !message.isEmpty()) { 
+        String message = (String) request.getAttribute("message");
+        if (message != null && !message.isEmpty()) { 
         %>
         <script>
             Swal.fire({
@@ -53,26 +53,26 @@
                                 <div class="form-group col-md-3">
                                     <label class="control-label required-label">Tên nhà cung cấp</label>
                                     <input class="form-control" type="text" required name="nameSupplier">
-                                    <div id="nameSupplierError" class="error-message"></div>
+                                    <span id="nameSupplierError" class="error-message"></span>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label class="control-label required-label">Số điện thoại</label>
                                     <input class="form-control" type="text" required name="phoneSupplier">
-                                    <div id="phoneSupplierError" class="error-message"></div>
+                                    <span id="phoneSupplierError" class="error-message"></span>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label class="control-label required-label">Địa chỉ</label>
                                     <input class="form-control" type="text" required name="addressSupplier">
-                                    <div id="addressSupplierError" class="error-message"></div>
+                                    <span id="addressSupplierError" class="error-message"></span>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label class="control-label">Email</label>
                                     <input class="form-control" type="email" name="emailSupplier">
-                                    <div id="emailSupplierError" class="error-message"></div>
+                                    <span id="emailSupplierError" class="error-message"></span>
                                 </div>
                                 <div class="btn-action">
                                     <button class="btn btn-save" type="submit">Lưu lại</button>
-                                    <button class="btn btn-cancel" type="button" onclick="window.location.href = 'supplier'">Hủy bỏ</button>
+                                    <button class="btn btn-cancel" type="button" onclick="window.location.href = 'supplier'">Quay lại</button>
                                 </div>
                             </form>
                         </div>
@@ -96,46 +96,41 @@
         <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
         <script>
                                         function validateForm() {
-                                            var name = document.forms["supplierForm"]["nameSupplier"].value.trim();
-                                            var phone = document.forms["supplierForm"]["phoneSupplier"].value.trim();
-                                            var address = document.forms["supplierForm"]["addressSupplier"].value.trim();
-                                            var email = document.forms["supplierForm"]["emailSupplier"].value.trim();
+                                            const name = document.forms["supplierForm"]["nameSupplier"].value.trim();
+                                            const phone = document.forms["supplierForm"]["phoneSupplier"].value.trim();
+                                            const address = document.forms["supplierForm"]["addressSupplier"].value.trim();
+                                            const email = document.forms["supplierForm"]["emailSupplier"].value.trim();
 
-                                            var nameRegex = /^[A-Za-z\s'-]+$/;
-                                            var phoneRegex = /^\d{10}$/;
-                                            var addressRegex = /.+/;
-                                            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                                            const nameRegex = /^[\p{L}\s']+$/u;
+                                            const phoneRegex = /^0\d{9,10}$/;
+                                            const addressRegex = /^[a-zA-Z0-9\s,./\-àáãạảăắằẵặẳâầấậẫẩèéẹẽẻêềếệễểìíịĩỉòóõọỏôồốộỗổơờớợỡởùúụũủưừứựữửỳýỵỹỷ()]+$/u;
+                                            const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
-                                            var isValid = true;
+                                            let isValid = true;
 
-                                            // Reset error messages
                                             document.getElementById("nameSupplierError").textContent = "";
                                             document.getElementById("phoneSupplierError").textContent = "";
                                             document.getElementById("addressSupplierError").textContent = "";
                                             document.getElementById("emailSupplierError").textContent = "";
 
-                                            // Validate name
                                             if (!nameRegex.test(name)) {
                                                 document.getElementById("nameSupplierError").textContent = "Tên nhà cung cấp không hợp lệ.";
                                                 document.getElementById("nameSupplierError").style.color = "red";
                                                 isValid = false;
                                             }
 
-                                            // Validate phone
                                             if (!phoneRegex.test(phone)) {
-                                                document.getElementById("phoneSupplierError").textContent = "Số điện thoại không hợp lệ. Vui lòng nhập 10 chữ số.";
+                                                document.getElementById("phoneSupplierError").textContent = "Số điện thoại không hợp lệ.";
                                                 document.getElementById("phoneSupplierError").style.color = "red";
                                                 isValid = false;
                                             }
 
-                                            // Validate address
                                             if (!addressRegex.test(address)) {
                                                 document.getElementById("addressSupplierError").textContent = "Địa chỉ không hợp lệ.";
                                                 document.getElementById("addressSupplierError").style.color = "red";
                                                 isValid = false;
                                             }
 
-                                            // Validate email
                                             if (email !== "" && !emailRegex.test(email)) {
                                                 document.getElementById("emailSupplierError").textContent = "Email không hợp lệ.";
                                                 document.getElementById("emailSupplierError").style.color = "red";

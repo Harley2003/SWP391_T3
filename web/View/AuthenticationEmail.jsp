@@ -1,9 +1,3 @@
-<%-- 
-    Document   : AuthenticationEmail
-    Created on : May 26, 2024, 10:50:06 PM
-    Author     : nguye
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

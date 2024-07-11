@@ -1,8 +1,3 @@
-<%-- 
-    Document   : Staff
-    Created on : May 30, 2024, 11:09:14 AM
-    Author     : ADMIN
---%>  
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -58,11 +53,6 @@
                     <div class="tile">
                         <div class="tile-body">
                             <div class="row element-button"> 
-                                <div class="col-sm-2">
-                                    <a class="btn btn-add btn-sm" href title="In"><i class="fas fa-file-excel"></i> 
-                                        Xuất Excel
-                                    </a>
-                                </div>
                             </div>  
                             <table class="table table-hover table-bordered js-copytextarea" cellpadding="0" cellspacing="0" border="0"
                                    id="sampleTable">

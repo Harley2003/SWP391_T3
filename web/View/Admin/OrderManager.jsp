@@ -1,9 +1,3 @@
-<%-- 
-    Document   : OrderManager
-    Created on : Jun 5, 2024, 1:56:28 AM
-    Author     : ADMIN
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
